@@ -15,8 +15,8 @@ export default {
       screens: {
         phone: { max: "640px" },
         tab: { max: "1080px" },
-        "tab-s": { max: "850px" },
-        "phone-s": { max: "450px" },
+        "tab-s": { max: "700px" },
+        "phone-s": { max: "380px" },
       },
     },
   },

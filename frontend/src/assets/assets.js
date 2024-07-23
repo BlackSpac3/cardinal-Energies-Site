@@ -1,6 +1,7 @@
 import logo from "./Logo.png";
 import header_img from "./header_img.jpg";
-import menu_icon from "./menu.png";
+import menu_icon_black from "./menu_black.png";
+import menu_icon_white from "./menu_white.png";
 import close_icon from "./close.png";
 import about_us_thumbnail1 from "./about_us_thumbnail1.jpg";
 import about_us_thumbnail2 from "./about_us_thumbnail2.jpg";
@@ -10,7 +11,8 @@ export const assets = {
   header_img,
   about_us_thumbnail1,
   about_us_thumbnail2,
-  menu_icon,
+  menu_icon_black,
+  menu_icon_white,
   close_icon,
 };
 
@@ -24,12 +26,8 @@ export const navlinks = [
     _id: "about-us",
   },
   {
-    name: "Service",
+    name: "Services",
     _id: "service",
-  },
-  {
-    name: "Project",
-    _id: "project",
   },
   {
     name: "Blog",
