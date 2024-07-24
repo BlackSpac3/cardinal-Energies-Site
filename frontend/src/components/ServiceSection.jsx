@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+
 import { fadeIn } from "../utils/motion";
 import { assets } from "../assets/assets";
 import { services } from "../constants";
@@ -8,23 +10,25 @@ const ServiceSection = () => {
     <div className="flex flex-col m-body">
       <div
         id="service-section-header"
-        className="flex justify-between w-[100%]"
+        className="flex justify-between w-[100%] items-center"
       >
         <h2 className="text-black font-semibold font-['Montserrat'] text-[36px]">
           Our Services
         </h2>
-        <div className="flex items-center gap-[10px]">
-          <p className="text-primary">View more</p>
-          <img
-            src={assets.arrow_right_icon_green}
-            alt=""
-            className="w-[26px]"
-          />
-        </div>
+        <Link to="/services">
+          <div className="flex items-center gap-[10px] cursor-pointer">
+            <p className="text-primary">View more</p>
+            <img
+              src={assets.arrow_right_icon_green}
+              alt=""
+              className="w-[26px]"
+            />
+          </div>
+        </Link>
       </div>
       <div
         id="services-section-content"
-        className="grid grid-cols-3 gap-[20px] mt-[50px]"
+        className="grid grid-cols-3 phone:grid-cols-1 gap-[20px] mt-[50px]"
       >
         {services.map((service, index) => (
           <motion.div

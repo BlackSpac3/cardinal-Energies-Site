@@ -42,7 +42,7 @@ const AboutSection = () => {
         whileInView="animate"
         viewport={{ once: true }}
         custom={1}
-        className=""
+        className="phone:hidden"
       >
         <img
           src={assets.about_us_thumbnail}
