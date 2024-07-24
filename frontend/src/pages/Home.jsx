@@ -1,11 +1,13 @@
-import About from "../components/About";
-import Header from "../components/Header";
+import AboutSection from "../components/AboutSection";
+import Hero from "../components/Hero";
+import ServiceSection from "../components/ServiceSection";
 
 const Home = () => {
   return (
     <div>
-      <Header />
-      <About />
+      <Hero />
+      <AboutSection />
+      <ServiceSection />
     </div>
   );
 };

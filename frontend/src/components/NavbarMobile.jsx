@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
 import { assets, navlinks } from "../assets/assets";
 
 const NavbarMobile = () => {
@@ -21,7 +23,9 @@ const NavbarMobile = () => {
         navbarShadow ? "shadow-md bg-white " : ""
       } flex fixed w-[100%] top-0 z-20 bg-transparent justify-between px-[5vw] py-[20px] items-center duration-[0.1s]`}
     >
-      <img src={assets.logo} alt="" className="w-[110px]" />
+      <Link to="/">
+        <img src={assets.logo} alt="" className="w-[110px]" />
+      </Link>
       <div
         className={`${
           navIsOpen ? "block right-0" : "right-[-100vw]"
@@ -36,12 +40,23 @@ const NavbarMobile = () => {
         <ul className="flex flex-col gap-[10px]">
           {navlinks.map((link, index) => (
             <>
-              <a key={index} className="text-[20px]">
+              <Link
+                to={link.path}
+                onClick={() => {
+                  setNavIsOpen(false);
+                }}
+                key={index}
+                className="text-[20px]"
+              >
                 {link.name}
-              </a>
+              </Link>
               <hr />
             </>
           ))}
+          <Link to="/contact-us" className="text-[20px]">
+            Contact Us
+          </Link>
+          <hr />
         </ul>
       </div>
 

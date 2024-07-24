@@ -5,6 +5,8 @@ import menu_icon_white from "./menu_white.png";
 import close_icon from "./close.png";
 import about_us_thumbnail1 from "./about_us_thumbnail1.jpg";
 import about_us_thumbnail2 from "./about_us_thumbnail2.jpg";
+import about_us_thumbnail from "./about_us_thumbnail.png";
+import arrow_right_icon_green from "./arrow_right_icon_green.png";
 
 export const assets = {
   logo,
@@ -14,23 +16,27 @@ export const assets = {
   menu_icon_black,
   menu_icon_white,
   close_icon,
+  about_us_thumbnail,
+  arrow_right_icon_green,
 };
 
 export const navlinks = [
   {
     name: "Home",
-    _id: "home",
+    path: "/",
   },
   {
     name: "About Us",
-    _id: "about-us",
+    path: "/about",
   },
   {
     name: "Services",
-    _id: "service",
+    path: "/services",
   },
   {
     name: "Blog",
-    _id: "blog",
+    path: "/blog",
   },
 ];
+
+export const sectionMargin = "mx-[7w]";

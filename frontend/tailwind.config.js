@@ -18,6 +18,10 @@ export default {
         "tab-s": { max: "700px" },
         "phone-s": { max: "380px" },
       },
+      margin: {
+        hero: "5vw",
+        body: "7vw",
+      },
     },
   },
   plugins: [],

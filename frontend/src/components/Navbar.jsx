@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 
 import { assets, navlinks } from "../assets/assets";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [navbarShadow, setNavbarShadow] = useState(false);
@@ -14,7 +15,7 @@ const Navbar = () => {
   };
 
   window.addEventListener("scroll", () => shadowTrigger());
-  const [activeLink, setActiveLink] = useState("home");
+  const [activeLink, setActiveLink] = useState("/");
 
   return (
     <div
@@ -22,35 +23,45 @@ const Navbar = () => {
         navbarShadow ? "shadow-md py-[15px]" : "py-[20px]"
       } flex fixed w-[100%] top-0 z-20 bg-white justify-between px-[5vw] items-center duration-[0.2s]`}
     >
-      <img src={assets.logo} alt="" className="w-[110px]" />
+      <Link to="/">
+        <img src={assets.logo} alt="" className="w-[110px]" />
+      </Link>
 
       <ul className="flex gap-[30px]">
         {navlinks.map((link, index) => (
-          <motion.a
+          <Link
+            to={link.path}
             key={index}
-            whileTap={{ scale: 0.95 }}
             onClick={() => {
-              setActiveLink(link._id);
+              setActiveLink(link.path);
             }}
-            href={`#${link._id}`}
-            className={` ${
-              activeLink === link._id
-                ? "text-primary border-b-[2px] border-primary hover:text-primary"
-                : "text-[#737373] hover:text-[#525252]"
-            }  cursor-pointer`}
           >
-            {link.name}
-          </motion.a>
+            <motion.p
+              whileTap={{ scale: 0.9 }}
+              className={` ${
+                activeLink === link.path
+                  ? "text-primary border-b-[2px] border-primary hover:text-primary"
+                  : "text-[#737373] hover:text-[#525252]"
+              }  cursor-pointer`}
+            >
+              {link.name}
+            </motion.p>
+          </Link>
         ))}
       </ul>
 
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.9 }}
-        className="bg-primary text-white px-[20px] py-[10px] rounded-full"
-      >
-        Contact Us
-      </motion.button>
+      <Link to="/contact-us">
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => {
+            setActiveLink("/contact-us");
+          }}
+          className="bg-primary text-white px-[20px] py-[10px] rounded-full"
+        >
+          Contact Us
+        </motion.button>
+      </Link>
     </div>
   );
 };

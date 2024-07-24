@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
+
 import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
 import NavbarMobile from "./components/NavbarMobile";
+
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Services from "./pages/Services";
+import Blog from "./pages/Blog";
+import ContactUs from "./pages/ContactUs";
 
 const App = () => {
   const screen_width = () => {
@@ -23,12 +30,17 @@ const App = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, isMobile);
+  }, [isMobile]);
   return (
     <div className="">
       {isMobile ? <NavbarMobile /> : <Navbar />}
-
-      <Home />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/contact-us" element={<ContactUs />} />
+      </Routes>
     </div>
   );
 };
