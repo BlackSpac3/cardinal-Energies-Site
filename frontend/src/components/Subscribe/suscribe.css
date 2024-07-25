@@ -1,0 +1,10 @@
+.bg{
+    
+    background: url('../assets/subscribe_section_bg.png');
+    background-color: rgb(57, 204, 101);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 55vh;
+    
+}

@@ -6,7 +6,7 @@ const Hero = () => {
   return (
     <div
       id="home"
-      className="relative flex h-[35vw] tab-s:h-[70vh] phone-s:h-[100vh] mt-[100px] tab-s:mt-0 mx-hero tab-s:mx-0 mb-[30px] bg-header bg-no-repeat bg-cover rounded-[30px] tab-s:rounded-none"
+      className="relative flex h-[35vw] tab-s:h-[70vh] phone-s:h-[100vh] mt-[90px]  tab-s:mt-0 mx-hero tab-s:mx-0 mb-[30px] bg-header bg-no-repeat bg-cover rounded-3xl tab-s:rounded-none"
     >
       <div
         id="header-contents"

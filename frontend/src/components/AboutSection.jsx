@@ -7,7 +7,7 @@ const AboutSection = () => {
   return (
     <div
       id="about-us-section"
-      className="grid grid-cols-[1fr_0.8fr] gap-[5%]  bg-white m-body phone:flex flex-col items-start"
+      className=" gap-[2.5%] grid grid-cols-[1.2fr_0.8fr] tab:grid-cols-1 bg-white m-body phone:flex flex-col items-end"
     >
       <motion.div
         variants={slideIn("left")}
@@ -15,11 +15,12 @@ const AboutSection = () => {
         whileInView="animate"
         viewport={{ once: true }}
         custom={1}
+        className=" mt-[30px] items-start"
       >
         <h2 className="text-black font-semibold font-['Montserrat'] text-[36px] ">
           About Us
         </h2>
-        <p className="w-[90%] mt-[15px] text-justify">
+        <p className="w-[90%] tab:w-[100%] mt-[15px] text-justify">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima quod
           amet voluptatibus deleniti aliquid dolor vitae nobis porro modi eum,
           necessitatibus fugit qui cupiditate quia. Alias, voluptatibus?
@@ -36,20 +37,22 @@ const AboutSection = () => {
           Pariatur, officia hic.
         </p>
       </motion.div>
-      <motion.div
-        variants={slideIn("right")}
-        initial="hidden"
-        whileInView="animate"
-        viewport={{ once: true }}
-        custom={1}
-        className="phone:hidden"
-      >
-        <img
-          src={assets.about_us_thumbnail}
+      <div className="h-100%">
+        <motion.img
+          variants={slideIn("right")}
+          initial="hidden"
+          whileInView="animate"
+          viewport={{ once: true }}
+          custom={1}
+          src={
+            window.innerWidth > 1000
+              ? assets.about_us_thumbnail
+              : assets.about_us_thumbnail1
+          }
           alt=""
-          className="w-[100%] h-auto  object-cover"
+          className="w-[100%] mx-auto tab:hidden   object-cover"
         />
-      </motion.div>
+      </div>
     </div>
   );
 };

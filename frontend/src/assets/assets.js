@@ -8,6 +8,15 @@ import about_us_thumbnail2 from "./about_us_thumbnail2.jpg";
 import about_us_thumbnail from "./about_us_thumbnail.png";
 import arrow_right_icon_green from "./arrow_right_icon_green.png";
 
+import source_energy_icon from "./source_energy_icon.png";
+import store_energy_icon from "./store_energy_icon.png";
+import sell_energy_icon from "./sell_energy_icon.png";
+import arrow_right_icon_black from "./arrow_right_icon_black.png";
+import arrow_right_icon_white from "./arrow_right_icon_white.png";
+import instagram_icon from "./instagram_icon.png";
+import twitter_icon from "./twitter_icon.png";
+import linkedin_icon from "./linkedin_icon.png";
+
 export const assets = {
   logo,
   header_img,
@@ -17,7 +26,18 @@ export const assets = {
   menu_icon_white,
   close_icon,
   about_us_thumbnail,
+};
+
+export const icons = {
+  source_energy_icon,
+  store_energy_icon,
+  sell_energy_icon,
+  arrow_right_icon_black,
+  arrow_right_icon_white,
   arrow_right_icon_green,
+  instagram_icon,
+  twitter_icon,
+  linkedin_icon,
 };
 
 export const navlinks = [

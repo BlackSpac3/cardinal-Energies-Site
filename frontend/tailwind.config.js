@@ -8,13 +8,14 @@ export default {
       },
       backgroundImage: {
         header: "url('/header_img.png')",
+        "newsletter-subscribe": "url('/subscribe_section_bg.png')",
       },
       colors: {
         primary: "#2fae60",
       },
       screens: {
         phone: { max: "640px" },
-        tab: { max: "1080px" },
+        tab: { max: "980px" },
         "tab-s": { max: "700px" },
         "phone-s": { max: "380px" },
       },

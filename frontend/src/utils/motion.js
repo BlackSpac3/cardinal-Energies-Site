@@ -19,7 +19,7 @@ export const fadeIn = {
     opacity: 1,
     y: 0,
     transition: {
-      type: "spring",
+      type: "ease",
       delay: 0.25 * index,
     },
   }),

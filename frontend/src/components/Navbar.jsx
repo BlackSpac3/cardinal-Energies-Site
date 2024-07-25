@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 import { assets, navlinks } from "../assets/assets";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink, useLocation, useMatch } from "react-router-dom";
 
 const Navbar = () => {
   const [navbarShadow, setNavbarShadow] = useState(false);
@@ -15,7 +15,6 @@ const Navbar = () => {
   };
 
   window.addEventListener("scroll", () => shadowTrigger());
-  const [activeLink, setActiveLink] = useState("/");
 
   return (
     <div
@@ -29,24 +28,19 @@ const Navbar = () => {
 
       <ul className="flex gap-[30px]">
         {navlinks.map((link, index) => (
-          <Link
-            to={link.path}
-            key={index}
-            onClick={() => {
-              setActiveLink(link.path);
-            }}
-          >
-            <motion.p
-              whileTap={{ scale: 0.9 }}
-              className={` ${
-                activeLink === link.path
-                  ? "text-primary border-b-[2px] border-primary hover:text-primary"
-                  : "text-[#737373] hover:text-[#525252]"
-              }  cursor-pointer`}
+          <motion.p whileTap={{ scale: 0.9 }}>
+            <NavLink
+              to={link.path}
+              key={index}
+              className={({ isActive }) => {
+                return isActive
+                  ? "text-primary border-b-[2px] border-primary hover:text-primary cursor-pointer"
+                  : "text-[#737373] hover:text-[#525252] cursor-pointer";
+              }}
             >
               {link.name}
-            </motion.p>
-          </Link>
+            </NavLink>
+          </motion.p>
         ))}
       </ul>
 
