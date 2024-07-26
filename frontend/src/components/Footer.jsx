@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <div
       id="footer"
-      className="bg-[#323232] text-[#d9d9d9] flex flex-col items-center gap-[20px] py-[20px] px-[8vw] pt-[80px] mt-[100px]"
+      className="bg-[#323232] text-[#d9d9d9] flex flex-col items-center gap-[20px] py-[20px] px-[8vw] pt-[80px] "
     >
       <div
         id="footer-content"

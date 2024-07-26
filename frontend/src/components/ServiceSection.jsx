@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { fadeIn } from "../utils/motion";
 import { assets, icons } from "../assets/assets";
 import { services } from "../constants";
+import { styles } from "../utils/styles";
 
 const ServiceSection = () => {
   return (
@@ -11,9 +12,7 @@ const ServiceSection = () => {
       <div id="service-section-header" className="">
         <div className="flex justify-between w-[100%] items-center phone:block">
           <div className="w-[60%] phone:w-full">
-            <h2 className="text-black inline font-semibold font-['Montserrat'] text-[36px]">
-              Our Services
-            </h2>
+            <h2 className={`${styles.homePageSectionTitle}`}>Our Services</h2>
             <p className="w-[100%] mt-[1vw] phone:w-full">
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est
               dolore dolor vero, beatae alias illo delectus quod et, impedit, in
@@ -25,7 +24,7 @@ const ServiceSection = () => {
             <motion.div
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className="mr-[1vw] inline-block phone:mt-3 "
+              className="mr-[3vw] inline-block phone:mr-[7vw] phone:float-end "
             >
               <div className="flex items-center gap-[10px] cursor-pointer">
                 <p className="text-black font-medium">Learn more</p>
@@ -54,7 +53,7 @@ const ServiceSection = () => {
             custom={index + 1}
             className={`${
               service.title === "Sell Energy" ? "bg-primary" : "bg-[#efefef]"
-            } relative p-[30px] rounded-3xl shadow-md phone:mt-10`}
+            } relative p-[10%] rounded-3xl shadow-md phone:mt-10`}
           >
             <motion.img
               whileHover={{ scale: 1.15 }}
@@ -66,8 +65,10 @@ const ServiceSection = () => {
                 service.title === "Sell Energy" ? "text-white" : "text-black"
               }`}
             >
-              <h2 className="text-lg font-medium mt-[15px]">{service.title}</h2>
-              <p className="text-xs mt-[5px]">{service.desc}</p>
+              <h2 className="text-lg font-medium mt-4 tab-m:mt-5 phone:mt-4">
+                {service.title}
+              </h2>
+              <p className="text-xs tab-m:line-clamp-4 mt-1">{service.desc}</p>
 
               <Link to="/services">
                 <motion.div

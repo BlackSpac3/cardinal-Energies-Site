@@ -15,3 +15,26 @@
 body {
   min-height: 100vh;
 }
+
+.slick-prev:before,
+.slick-next:before {
+  font-family: "slick";
+  font-size: 0px;
+  line-height: 1;
+  opacity: 0.55;
+  color: #2fae60;
+  /* color: #fff; */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.slick-dots li button:before {
+  color: white !important;
+}
+.slick-dots {
+  position: absolute;
+  bottom: 20px;
+  color: #fff;
+}
+.slick-dots li {
+  width: 2px !important;
+}

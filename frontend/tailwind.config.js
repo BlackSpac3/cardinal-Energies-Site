@@ -14,9 +14,10 @@ export default {
         primary: "#2fae60",
       },
       screens: {
-        phone: { max: "640px" },
-        tab: { max: "980px" },
+        tab: { max: "1080px" },
+        "tab-m": { max: "900px" },
         "tab-s": { max: "700px" },
+        phone: { max: "640px" },
         "phone-s": { max: "380px" },
       },
       margin: {
