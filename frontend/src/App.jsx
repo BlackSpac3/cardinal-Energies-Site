@@ -4,12 +4,10 @@ import { Route, Routes, useMatch, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import NavbarMobile from "./components/NavbarMobile";
 
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Services from "./pages/Services";
-import Blog from "./pages/Blog";
-import ContactUs from "./pages/ContactUs";
+import Subscribe from "./components/Suscribe";
 import Footer from "./components/Footer";
+import AnimatedRoutes from "./components/AnimatedRoutes";
+import ScrollToTop from "./components/ScrollToTop";
 
 const App = () => {
   const screen_width = () => {
@@ -36,13 +34,10 @@ const App = () => {
   return (
     <div className="">
       {isMobile ? <NavbarMobile /> : <Navbar />}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/contact-us" element={<ContactUs />} />
-      </Routes>
+      <ScrollToTop />
+      <AnimatedRoutes />
+
+      <Subscribe />
       <Footer />
     </div>
   );

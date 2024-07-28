@@ -9,6 +9,7 @@ export default {
       backgroundImage: {
         header: "url('/header_img.png')",
         "newsletter-subscribe": "url('/subscribe_section_bg.png')",
+        "section-bg-1": "url('/section_bg1.png')",
       },
       colors: {
         primary: "#2fae60",

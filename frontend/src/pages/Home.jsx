@@ -1,20 +1,29 @@
-import AboutSection from "../components/AboutSection";
-import Hero from "../components/Hero";
-import OurBlogSection from "../components/OurBlogSection";
-import OurGallerySection from "../components/OurGallerySection";
-import ServiceSection from "../components/ServiceSection";
-import Suscribe from "../components/Suscribe";
+import AboutSection from "../components/home_page_components/AboutSection";
+import Hero from "../components/home_page_components/Hero";
+import OurBlogSection from "../components/home_page_components/OurBlogSection";
+import OurGallerySection from "../components/home_page_components/OurGallerySection";
+import ServiceSection from "../components/home_page_components/ServiceSection";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Home = () => {
   return (
-    <div>
+    <motion.div
+      key={"home-page"}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.1 }}
+      exit={{
+        opacity: 0,
+        transition: { duration: 0.05 },
+      }}
+      className="mt-[90px] tab-s:mt-0"
+    >
       <Hero />
       <AboutSection />
       <ServiceSection />
       <OurBlogSection />
       <OurGallerySection />
-      <Suscribe />
-    </div>
+    </motion.div>
   );
 };
 export default Home;

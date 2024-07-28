@@ -1,4 +1,26 @@
+import Header from "../components/about_components/Header";
+import MisionVision from "../components/about_components/MisionVision";
+
+import { motion } from "framer-motion";
+
 const About = () => {
-  return <div>About</div>;
+  return (
+    <motion.div
+      key={"about-page"}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.1 }}
+      exit={{
+        opacity: 0,
+        transition: {
+          duration: 0.05,
+        },
+      }}
+      className="mt-[90px] tab-s:mt-0"
+    >
+      <Header />
+      <MisionVision />
+    </motion.div>
+  );
 };
 export default About;

@@ -1,10 +1,33 @@
-import { motion } from "framer-motion";
+import { delay, easeIn, easeInOut, easeOut, motion } from "framer-motion";
 
 import { assets, navlinks } from "../assets/assets";
 import { useState } from "react";
 import { Link, NavLink, useLocation, useMatch } from "react-router-dom";
 
 const Navbar = () => {
+  const container = {
+    show: {
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const item = {
+    hidden: {
+      scale: 0,
+      opacity: 0,
+    },
+    show: {
+      scale: 1,
+      opacity: 1,
+      ease: easeInOut,
+      transition: {
+        duration: 0.2,
+      },
+    },
+  };
+
   const [navbarShadow, setNavbarShadow] = useState(false);
   const shadowTrigger = () => {
     if (window.scrollY > 40) {
@@ -17,35 +40,59 @@ const Navbar = () => {
   window.addEventListener("scroll", () => shadowTrigger());
 
   return (
-    <div
+    <motion.div
+      variants={container}
+      initial="hidden"
+      animate="show"
       className={`${
         navbarShadow ? "shadow-md py-[15px]" : "py-[20px]"
       } flex fixed w-[100%] top-0 z-20 bg-white justify-between px-[5vw] items-center duration-[0.2s]`}
     >
       <Link to="/">
-        <img src={assets.logo} alt="" className="w-[110px]" />
+        <motion.img
+          variants={item}
+          src={assets.logo}
+          alt=""
+          className="w-[110px]"
+        />
       </Link>
 
       <ul className="flex gap-[30px]">
         {navlinks.map((link, index) => (
-          <motion.p whileTap={{ scale: 0.9 }}>
-            <NavLink
-              to={link.path}
-              key={index}
-              className={({ isActive }) => {
-                return isActive
-                  ? "text-primary border-b-[2px] border-primary hover:text-primary cursor-pointer"
-                  : "text-[#737373] hover:text-[#525252] cursor-pointer";
-              }}
-            >
-              {link.name}
-            </NavLink>
-          </motion.p>
+          <NavLink to={link.path} key={index}>
+            {({ isActive }) => (
+              <motion.div
+                variants={item}
+                whileTap={{ scale: 0.9 }}
+                className="flex flex-col items-center"
+              >
+                <p
+                  className={
+                    isActive
+                      ? "text-primary hover:text-primary cursor-pointer"
+                      : "text-[#737373] hover:text-[#525252] cursor-pointer"
+                  }
+                >
+                  {link.name}
+                </p>
+                {isActive ? (
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: "100%" }}
+                    className="w-full h-[2px] rounded-full bg-primary"
+                  ></motion.div>
+                ) : (
+                  <></>
+                )}
+              </motion.div>
+            )}
+          </NavLink>
         ))}
       </ul>
 
       <Link to="/contact-us">
         <motion.button
+          variants={item}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => {
@@ -56,7 +103,7 @@ const Navbar = () => {
           Contact Us
         </motion.button>
       </Link>
-    </div>
+    </motion.div>
   );
 };
 export default Navbar;

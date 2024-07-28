@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { assets, navlinks } from "../assets/assets";
+import { assets, icons, navlinks } from "../assets/assets";
 
 const NavbarMobile = () => {
   const [navIsOpen, setNavIsOpen] = useState(false);
@@ -33,7 +33,7 @@ const NavbarMobile = () => {
       >
         <img
           onClick={() => setNavIsOpen(false)}
-          src={assets.close_icon}
+          src={icons.close_icon}
           alt=""
           className="w-[25px] mb-[50px]"
         />
@@ -66,7 +66,7 @@ const NavbarMobile = () => {
         }}
       >
         <img
-          src={navbarShadow ? assets.menu_icon_black : assets.menu_icon_white}
+          src={navbarShadow ? icons.menu_icon_black : icons.menu_icon_white}
           className="w-[25px]"
         />
       </div>

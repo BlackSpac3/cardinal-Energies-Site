@@ -19,7 +19,7 @@ export const fadeIn = {
     opacity: 1,
     y: 0,
     transition: {
-      type: "ease",
+      ease: "easeOut",
       delay: 0.25 * index,
     },
   }),
