@@ -6,6 +6,7 @@ import { assets, icons } from "../../assets/assets";
 import { blogs } from "../../constants";
 import { styles } from "../../utils/styles";
 import MoreButton from "../MoreButton";
+import BlogCard from "../BlogCard";
 
 const OurBlogSection = () => {
   return (
@@ -27,37 +28,27 @@ const OurBlogSection = () => {
           id="services-section-content"
           className="grid grid-cols-3  phone:grid-cols-1 gap-[20px] mt-14 phone:mt-6"
         >
-          {blogs.map((blog, index) => (
-            <motion.div
-              variants={fadeIn}
-              initial="initial"
-              whileInView="animate"
-              custom={index + 5}
-              className="border-solid p-[5%] tab-m:p-[6%] border-[#e2e2e2]  border-[2px] rounded-3xl"
-            >
-              <img
-                src={assets.about_us_thumbnail1}
-                alt=""
-                className=" w-[100%] object-cover  rounded-2xl"
-              />
-              <div>
-                <h2 className="text-lg line-clamp-1 font-medium mt-[15px]">
-                  {blog.title}
-                </h2>
-                <p className="tab-m:line-clamp-3 text-sm tab-m:text-xs mt-1">
-                  {blog.desc}
-                </p>
-              </div>
-              <motion.div
-                whileTap={{ scale: 0.95 }}
-                className="cursor-pointer my-[5px]"
-              >
-                <p className="text-sm inline tab-m:text-xs text-primary pb-[2px] border-b-[1.5px] border-primary">
-                  Read more
-                </p>
-              </motion.div>
-            </motion.div>
-          ))}
+          {blogs.map((blog, index) => {
+            if (index <= 2) {
+              return (
+                <motion.div
+                  variants={fadeIn}
+                  initial="initial"
+                  whileInView="animate"
+                  viewport={{ once: true }}
+                >
+                  <BlogCard
+                    id={index}
+                    thumbnail={blog.thumbnail}
+                    title={blog.title}
+                    desc={blog.desc}
+                    date={blog.date}
+                    category={blog.category}
+                  />
+                </motion.div>
+              );
+            }
+          })}
         </motion.div>
       </div>
     </div>

@@ -1,7 +1,9 @@
+import CompanyValues from "../components/about_components/CompanyValues";
 import Header from "../components/about_components/Header";
 import MisionVision from "../components/about_components/MisionVision";
 
 import { motion } from "framer-motion";
+import Team from "../components/about_components/Team";
 
 const About = () => {
   return (
@@ -20,6 +22,8 @@ const About = () => {
     >
       <Header />
       <MisionVision />
+      <CompanyValues />
+      <Team />
     </motion.div>
   );
 };
