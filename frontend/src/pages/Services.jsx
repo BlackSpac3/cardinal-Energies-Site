@@ -7,7 +7,7 @@ import FAQs from "../components/service_components/FAQs";
 const Services = () => {
   return (
     <motion.div
-      key={"home-page"}
+      key={"services-page"}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.1 }}
@@ -17,7 +17,7 @@ const Services = () => {
           duration: 0.05,
         },
       }}
-      className="mt-[90px] tab-s:mt-0"
+      className=""
     >
       <Header />
       <ServicesSection />

@@ -22,7 +22,7 @@ export default {
         "phone-s": { max: "380px" },
       },
       margin: {
-        hero: "5vw",
+        hero: "4vw",
         body: "7vw",
       },
     },

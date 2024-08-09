@@ -1,18 +1,38 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+
 import { assets, icons } from "../assets/assets";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { UserContext } from "../context/UserContext";
+import TextEditor from "../components/TextEditor";
+import AddThumbnail from "../components/AddThumbnail";
 
 const CreateBlog = () => {
-  const inputAndLabelDivStyle = "flex flex-col gap-3";
-  const inputLabelStyle = "";
-  const inputTextAreaStyle = "p-[10px] border-[1px] rounded-md";
+  const { url, userAuth } = useContext(UserContext);
+  const inputTextAreaStyle =
+    "p-[10px] border-[1px] border-[#cccccc] rounded-md outline-none";
 
-  const [thumbnail, setThumbnail] = useState(false);
+  const [textEditorValue, setTextEditorValue] = useState();
+
+  function handleTextEditorValue(val) {
+    setTextEditorValue(val);
+  }
+
+  const [thumbnail, setThumbnail] = useState();
+
+  function handleThumbnail(val) {
+    setThumbnail(val);
+  }
+
   const [data, setData] = useState({
     title: "",
     desc: "",
-    price: "",
-    category: "Uncategorized",
+    category: "Energy",
   });
+
+  useEffect(() => {
+    console.log(textEditorValue);
+  }, [textEditorValue]);
 
   const onChangeHandler = (e) => {
     const name = e.target.name;
@@ -20,117 +40,97 @@ const CreateBlog = () => {
     setData((data) => ({ ...data, [name]: value }));
   };
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    const date = new Date();
+    const formData = new FormData();
+
+    formData.append("thumbnail", thumbnail);
+    formData.append("title", data.title);
+    formData.append("desc", data.desc);
+    formData.append("category", data.category);
+    formData.append("content", textEditorValue);
+    // formData.append("date", date.toLocaleDateString("en-GB"));
+
+    const response = await axios.post(`${url}/api/blog/add`, formData, {
+      headers: { Authorization: `Bearer ${userAuth.access_token}` },
+    });
+    if (response.data.success) {
+      setData({
+        title: "",
+        desc: "",
+        price: "",
+        category: "Energy",
+      });
+      setThumbnail(false);
+      toast.success(response.data.message);
+    } else {
+      console.log(response.data);
+      toast.error(response.data.message);
+    }
+  };
 
   return (
-    <div
+    <form
       id="create-blog"
-      className="w-[70%] ml-[max(5vw,25px)] mt-14 text-[#6d6d6d] text-base]"
+      onSubmit={onSubmitHandler}
+      className="flex flex-col w-[100%] h-[100vh]  text-base overflow-hidden"
     >
-      <form className="grid grid-cols-2 gap-10">
-        <div className="flex flex-col gap-5">
-          <div id="add-img-upload" className={inputAndLabelDivStyle}>
-            <label htmlFor="image">
-              <div className="flex flex-col place-content-center bg-[#efefef] rounded-md h-[200px] overflow-hidden cursor-pointer">
-                {thumbnail ? (
-                  <div className="relative">
-                    <img
-                      src={URL.createObjectURL(thumbnail)}
-                      className="h-full object-cover"
-                    />
-                    {/* <div className="absolute bg-white w-full h-full top-0 left-0 opacity-50">
-                      <div>
-                        <img src="" alt="" />
-                      </div>
-                    </div> */}
-                  </div>
-                ) : (
-                  <div className="flex flex-col items-center gap-3">
-                    <img
-                      src={icons.upload_img_black}
-                      alt=""
-                      className="w-[30px]"
-                    />
-                    <p>Upload Image</p>
-                  </div>
-                )}
-              </div>
-            </label>
-            <input
-              onChange={(e) => setThumbnail(e.target.files[0])}
-              type="file"
-              id="image"
-              hidden
-              required
-            />
-          </div>
-          <div
-            id="add-title"
-            className={`${inputAndLabelDivStyle} ${inputLabelStyle}`}
-          >
-            <p>Blog Title</p>
-            <input
-              onChange={onChangeHandler}
-              value={data.title}
-              type="text"
-              name="title"
-              placeholder="Type here"
-              className={inputTextAreaStyle}
-            />
-          </div>
-          <div
-            id="blog-desc"
-            className={`${inputAndLabelDivStyle} ${inputLabelStyle}`}
-          >
-            <p>Description</p>
-            <textarea
-              onChange={onChangeHandler}
-              value={data.desc}
-              name="desc"
-              placeholder="Describe blog here"
-              required
-              className={`${inputTextAreaStyle} h-full`}
-            />
-          </div>
-          <div id="add-category" className={inputAndLabelDivStyle}>
-            <p>Category</p>
-            <select
-              onChange={onChangeHandler}
-              name="category"
-              id=""
-              className={inputTextAreaStyle}
-            >
-              <option value="Uncategorized">Uncategorized</option>
-              <option value="Solar-Energy">Solar Energy</option>
-              <option value="Oil-Industry">Oil-Industry</option>
-              <option value="Sustainability">Sustainability</option>
-            </select>
-          </div>
-        </div>
-        <div>
-          <div
-            id="blog-body"
-            className={`${inputAndLabelDivStyle} ${inputLabelStyle} h-full`}
-          >
-            <p>Content</p>
-            <textarea
-              name="content"
-              placeholder="Blog Content here"
-              required
-              className={`${inputTextAreaStyle} h-full `}
-            />
-          </div>
-        </div>
+      <div className="flex justify-between items-center w-full py-3 px-[2vw] border-b-[1px] ">
+        <h2 className="text-[20px]">Create new blog</h2>
         <button
           type="submit"
-          className="bg-primary rounded-md col-span-2 text-white py-3 "
+          className="bg-primary text-white w-[100px] rounded-md col-span-2 py-2 shadow-md"
         >
           Post
         </button>
-      </form>
-    </div>
+      </div>
+      <div className="flex flex-col h-[100%] overflow-y-scroll">
+        <div className="flex flex-col h-[100%] my-5 mx-16">
+          <div className="grid grid-cols-2 gap-2">
+            <AddThumbnail setData={handleThumbnail} />
+            <div className="flex flex-col h-full">
+              <select
+                onChange={onChangeHandler}
+                name="category"
+                id=""
+                className={`${inputTextAreaStyle} text-gray-400`}
+                defaultValue="default"
+              >
+                <option value="default" disabled hidden>
+                  Category
+                </option>
+                <option value="Solar-Energy">Solar Energy</option>
+                <option value="Oil-Industry">Oil-Industry</option>
+                <option value="Sustainability">Sustainability</option>
+              </select>
+
+              <textarea
+                onChange={onChangeHandler}
+                value={data.desc}
+                name="desc"
+                placeholder="Description"
+                required
+                className={`${inputTextAreaStyle} w-full h-full mt-2`}
+              />
+            </div>
+          </div>
+
+          <input
+            onChange={onChangeHandler}
+            value={data.title}
+            type="text"
+            name="title"
+            placeholder="Title"
+            className={`${inputTextAreaStyle} font-semibold w-full my-2`}
+          />
+
+          <div id="blog-body" className="flex flex-col h-[350px]">
+            <TextEditor sendData={handleTextEditorValue} />
+          </div>
+        </div>
+      </div>
+    </form>
   );
 };
 export default CreateBlog;

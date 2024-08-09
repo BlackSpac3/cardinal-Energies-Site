@@ -52,13 +52,13 @@ const FAQs = () => {
     <section>
       <div className="m-body flex flex-col items-center">
         <h2 className={`${styles.homePageSectionTitle} text-center`}>FAQs</h2>
-        <p className="text-center w-[60%] mt-3 mb-10">
+        <p className="text-center w-[60%] phone:w-[90%] mt-3 mb-10">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea impedit
           aperiam voluptatum consequuntur blanditiis obcaecati ipsum quia
           debitis eum culpa.
         </p>
 
-        <div className="grid grid-cols-2 gap-x-10 w-full">
+        <div className="grid grid-cols-2 phone:grid-cols-1 gap-x-10 w-full">
           <div>
             {faqs.map((faq, index) => {
               return (

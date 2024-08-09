@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { fadeIn } from "../utils/motion";
 
 const BlogCard = ({ id, thumbnail, title, desc, date, category }) => {
   console.log(thumbnail);
   return (
-    <div>
-      <div className="border-solid p-[5%] shadow-md rounded-3xl">
+    <Link to={`/blog/${id}`}>
+      <div className="border-solid p-[2%] rounded-3xl">
         <img
           src={thumbnail}
           alt=""
@@ -28,7 +29,7 @@ const BlogCard = ({ id, thumbnail, title, desc, date, category }) => {
           </p>
         </motion.div>
       </div>
-    </div>
+    </Link>
   );
 };
 export default BlogCard;

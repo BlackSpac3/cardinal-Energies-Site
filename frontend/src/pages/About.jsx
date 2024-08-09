@@ -18,7 +18,6 @@ const About = () => {
           duration: 0.05,
         },
       }}
-      className="mt-[90px] tab-s:mt-0"
     >
       <Header />
       <MisionVision />

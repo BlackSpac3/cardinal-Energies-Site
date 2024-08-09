@@ -16,7 +16,7 @@ const Home = () => {
         opacity: 0,
         transition: { duration: 0.05 },
       }}
-      className="mt-[90px] tab-s:mt-0"
+      className=""
     >
       <Hero />
       <AboutSection />

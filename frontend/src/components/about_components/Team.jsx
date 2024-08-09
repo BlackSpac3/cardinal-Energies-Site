@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { styles } from "../../utils/styles";
 import { assets, icons } from "../../assets/assets";
+import MoreButton from "../MoreButton";
 
 const Team = () => {
   return (
@@ -10,8 +11,8 @@ const Team = () => {
         <h1 className={`${styles.homePageSectionTitle}`}>
           Message from our CEO
         </h1>
-        <NavLink to="/#" className="text-primary">
-          See all team members
+        <NavLink to="/our-team" className="">
+          <MoreButton>See all team members</MoreButton>
         </NavLink>
       </div>
       <div className="grid grid-cols-[0.8fr_1fr]  items-end  gap-7 my-10 phone:block">

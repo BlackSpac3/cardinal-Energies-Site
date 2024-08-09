@@ -4,6 +4,7 @@ import BlogCard from "../BlogCard";
 import { assets } from "../../assets/assets";
 // import { fadeIn } from "../../utils/motion";
 import { blogs } from "../../constants";
+import { Link } from "react-router-dom";
 
 const BlogsGrid = () => {
   const slideUp = {
@@ -29,7 +30,7 @@ const BlogsGrid = () => {
       >
         {blogs.map((blog, index) => (
           <BlogCard
-            id={index}
+            id={blog.id}
             thumbnail={blog.thumbnail}
             title={blog.title}
             desc={blog.desc}

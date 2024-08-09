@@ -1,10 +1,11 @@
 import { delay, easeIn, easeInOut, easeOut, motion } from "framer-motion";
 
-import { assets, navlinks } from "../assets/assets";
+import { assets, navlinks, icons } from "../assets/assets";
 import { useState } from "react";
 import { Link, NavLink, useLocation, useMatch } from "react-router-dom";
 
 const Navbar = () => {
+  const [aboutMenuIsOpen, setAboutMenuIsOpen] = useState(true);
   const container = {
     show: {
       transition: {
@@ -51,7 +52,7 @@ const Navbar = () => {
       <Link to="/">
         <motion.img
           variants={item}
-          src={assets.logo}
+          src={assets.logo_black}
           alt=""
           className="w-[110px]"
         />
@@ -61,30 +62,80 @@ const Navbar = () => {
         {navlinks.map((link, index) => (
           <NavLink to={link.path} key={index}>
             {({ isActive }) => (
-              <motion.div
-                variants={item}
-                whileTap={{ scale: 0.9 }}
-                className="flex flex-col items-center"
+              <div
+                onMouseEnter={
+                  link.path === "/about" ? () => setAboutMenuIsOpen(false) : {}
+                }
+                onMouseLeave={
+                  link.path === "/about" ? () => setAboutMenuIsOpen(true) : {}
+                }
+                className="relative flex flex-col"
               >
-                <p
-                  className={
-                    isActive
-                      ? "text-primary hover:text-primary cursor-pointer"
-                      : "text-[#737373] hover:text-[#525252] cursor-pointer"
-                  }
+                <motion.div
+                  variants={item}
+                  whileTap={{ scale: 0.9 }}
+                  className=" flex flex-col items-center"
                 >
-                  {link.name}
-                </p>
-                {isActive ? (
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: "100%" }}
-                    className="w-full h-[2px] rounded-full bg-primary"
-                  ></motion.div>
+                  <div className="flex gap-[5px]   items-center justify-between">
+                    <p
+                      className={
+                        isActive
+                          ? "text-primary hover:text-primary cursor-pointer"
+                          : "text-[#737373] hover:text-[#525252] cursor-pointer"
+                      }
+                    >
+                      {link.name}
+                    </p>
+                    <div
+                      onClick={
+                        aboutMenuIsOpen
+                          ? () => setAboutMenuIsOpen(false)
+                          : () => setAboutMenuIsOpen(true)
+                      }
+                      className={`${
+                        link.path === "/about" ? "block" : "hidden"
+                      }`}
+                    >
+                      <img
+                        src={icons.expand_arrow_black}
+                        alt=""
+                        className={`${
+                          !aboutMenuIsOpen ? "-rotate-180" : "rotate-0"
+                        } w-[10px] durtion-100`}
+                      />
+                    </div>
+                  </div>
+                  {isActive ? (
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: "100%" }}
+                      className="w-full h-[2px] rounded-full bg-primary"
+                    ></motion.div>
+                  ) : (
+                    <></>
+                  )}
+                </motion.div>
+
+                {link.path === "/about" ? (
+                  <div
+                    className={`${
+                      aboutMenuIsOpen ? "h-0 p-0 my-0" : "h-fit"
+                    } absolute top-[20px] left-[50%] w-[125px] -translate-x-[50%] bg-white shadow-md rounded-sm  overflow-hidden transition-all duration-200`}
+                  >
+                    <div className="flex flex-col  gap-[10px] m-4">
+                      <div>
+                        <Link to="our-team">Our Team</Link>
+                      </div>
+                      <hr />
+                      <div>
+                        <Link to="our-gallery">Our Gallery</Link>
+                      </div>
+                    </div>
+                  </div>
                 ) : (
                   <></>
                 )}
-              </motion.div>
+              </div>
             )}
           </NavLink>
         ))}

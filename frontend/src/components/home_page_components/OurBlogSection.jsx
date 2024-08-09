@@ -38,7 +38,7 @@ const OurBlogSection = () => {
                   viewport={{ once: true }}
                 >
                   <BlogCard
-                    id={index}
+                    id={blog.id}
                     thumbnail={blog.thumbnail}
                     title={blog.title}
                     desc={blog.desc}

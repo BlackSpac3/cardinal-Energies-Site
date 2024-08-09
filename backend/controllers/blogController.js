@@ -1,16 +1,19 @@
+import { error } from "console";
 import blogModel from "../models/blogModel.js";
 import fs from "fs";
 
 //add blog item
 
 const addBlog = async (req, res) => {
+  let authorId = req.user;
   let image_filename = `${req.file.filename}`;
   const blog = new blogModel({
+    thumbnail: image_filename,
     title: req.body.title,
     desc: req.body.desc,
-    date: req.body.date,
     category: req.body.category,
-    thumbnail: image_filename,
+    content: req.body.content,
+    author: authorId,
   });
   try {
     await blog.save();

@@ -12,6 +12,9 @@ export default {
         "tab-s": { max: "700px" },
         phone: { max: "640px" },
         "phone-s": { max: "380px" },
+        portrait: {
+          raw: "(orientation: portrait)",
+        },
       },
     },
   },

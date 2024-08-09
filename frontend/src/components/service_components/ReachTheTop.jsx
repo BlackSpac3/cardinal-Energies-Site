@@ -13,7 +13,7 @@ const ReachTheTop = () => {
     <section className="bg-section-bg-1 bg-cover bg-center bg-no-repeat">
       <div
         id="section-contents"
-        className=" p-[7vw] grid grid-cols-[0.8fr_1fr] gap-10 items-center text-white"
+        className=" p-[7vw] grid grid-cols-[0.8fr_1fr] phone:grid-cols-1 gap-10 items-center text-white"
       >
         <div>
           <h2 className={`${styles.homePageSectionTitle} text-white`}>

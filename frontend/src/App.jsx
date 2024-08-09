@@ -36,7 +36,6 @@ const App = () => {
       {isMobile ? <NavbarMobile /> : <Navbar />}
       <ScrollToTop />
       <AnimatedRoutes />
-
       <Subscribe />
       <Footer />
     </div>

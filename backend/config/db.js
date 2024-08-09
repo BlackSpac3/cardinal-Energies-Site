@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
+import "dotenv/config";
 
 export const connectToDB = async () => {
   await mongoose
-    .connect(
-      "mongodb+srv://toyinacobs12:toyinacobs12@cluster0.mpbraxh.mongodb.net/cardinal_energies"
-    )
+    .connect(process.env.DB_LOCATION, { autoIndex: true })
     .then(() => console.log("Database connection successful"));
 };

@@ -7,7 +7,7 @@ const ServicesSection = () => {
   const descStyle = "mt-5";
   return (
     <div className="m-body">
-      <div className="grid grid-cols-[1.2fr_0.8fr] gap-10 my-32">
+      <div className="grid grid-cols-[1.2fr_0.8fr] phone:grid-cols-1 gap-10 my-32">
         <div>
           <div className="inline-block">
             <h2 className={titleStyle}>Source Energy</h2>
@@ -29,17 +29,17 @@ const ServicesSection = () => {
           </p>
         </div>
         <img
-          src={assets.about_us_thumbnail1}
+          src={assets.store1_img}
           alt=""
           className={thumbnailStyle}
         />
       </div>
 
-      <div className="grid grid-cols-[0.8fr_1.2fr] gap-10 my-32">
+      <div className="grid grid-cols-[0.8fr_1.2fr] phone:grid-cols-1 gap-10 my-32">
         <img
-          src={assets.about_us_thumbnail1}
+          src={assets.pet2_img}
           alt=""
-          className={thumbnailStyle}
+          className={`${thumbnailStyle} order-first phone:order-last`}
         />
         <div>
           <div className="inline-block">
@@ -63,7 +63,7 @@ const ServicesSection = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-[1.2fr_0.8fr] gap-10 my-32">
+      <div className="grid grid-cols-[1.2fr_0.8fr] phone:grid-cols-1 gap-10 my-32">
         <div>
           <div className="inline-block">
             <h2 className={titleStyle}>Sell Energy</h2>

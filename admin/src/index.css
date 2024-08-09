@@ -15,3 +15,15 @@
 body {
   min-height: 100vh;
 }
+
+.ql-toolbar {
+  border-radius: 0.375rem 0.375rem 0 0;
+}
+
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
+  border-radius: 0 0 0.375rem 0.375rem;
+}
+
+input[type="password"]::-ms-reveal {
+  display: none;
+}

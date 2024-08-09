@@ -16,7 +16,7 @@ const Footer = () => {
           id="footer-content-left"
           className="flex flex-col items-start gap-[20px]"
         >
-          <img src={assets.logo} alt="" className="" />
+          <img src={assets.logo_white} alt="" className="w-[120px]" />
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo commodi
             quas quia quisquam dignissimos, nemo totam adipisci obcaecati sint
@@ -65,9 +65,12 @@ const Footer = () => {
             >
               Services
             </Link>
-            <li className="mb-[10px] cursor-pointer hover:text-white">
-              Privacy Policy
-            </li>
+            <Link
+              to="/our-gallery"
+              className="mb-[10px] cursor-pointer hover:text-white"
+            >
+              Our Gallery
+            </Link>
           </ul>
         </div>
         <div
