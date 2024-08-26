@@ -4,26 +4,34 @@ import bcrypt from "bcrypt";
 import validator from "validator";
 import "dotenv/config";
 
+const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,20}$/;
+
 const formatUserData = (user) => {
   const access_token = jwt.sign(
     { id: user._id },
+
     process.env.SECRET_ACCESS_KEY
   );
 
   return {
     access_token,
+    user_id: user._id,
     profile_img: user.personal_info.profile_img,
     first_name: user.personal_info.first_name,
     last_name: user.personal_info.last_name,
     email: user.personal_info.email,
+    bio: user.personal_info.bio,
     email_validation_status: user.account_info.email_validation_status,
     total_posts: user.account_info.total_posts,
+    total_reads: user.account_info.total_reads,
+    total_drafts: user.account_info.total_drafts,
+    total_images: user.account_info.total_images,
     user_type: user.account_info.type,
     blogs: user.blogs,
   };
 };
 
-const loginUser = async (req, res) => {
+export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await userModel.findOne({ "personal_info.email": email });
@@ -36,7 +44,7 @@ const loginUser = async (req, res) => {
     if (!isMatch) {
       return res.json({ success: false, message: "Invalid credentials" });
     }
-    // const token = generateToken(user._id);
+
     res.json({ success: true, user: formatUserData(user) });
   } catch (error) {
     console.log(error);
@@ -48,29 +56,58 @@ const loginUser = async (req, res) => {
   }
 };
 
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET);
+export const getUserData = async (req, res) => {
+  const { email } = req.body;
+  console.log(req.body);
+  console.log(req.file);
+  console.log(email);
+  const user = await userModel
+    .findOne({ "personal_info.email": email })
+    .select("-personal_info.password -updatedAt -blogs -__v");
+
+  if (!user) {
+    return res.status(404).json({ success: false, message: "user not found" });
+  }
+
+  res
+    .status(200)
+    .json({ success: true, message: "User found", data: user.account_info });
 };
 
-const registerUser = async (req, res) => {
-  const { first_name, last_name, password, email } = req.body;
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.SECRET_ACCESS_KEY);
+};
+
+export const registerUser = async (req, res) => {
+  let { first_name, last_name, password, email, user_type } = req.body;
+  console.log(req.body);
+  let type;
+  !user_type ? (type = "user") : (type = user_type);
+
+  console.log(type);
+  if (!password) {
+    password = "Cardinal@12345";
+  }
+
   try {
     //Check if user already exists
-    const exists = await userModel.findOne({ email });
+    const exists = await userModel.findOne({ "personal_info.email": email });
     if (exists) {
-      return res.json({ success: false, message: "User already exists" });
+      return res
+        .status(409)
+        .json({ success: false, message: "User already exists" });
     }
 
     //vaidatingn mail format & strong password
     if (!validator.isEmail(email)) {
-      return res.json({
+      return res.status(400).json({
         success: false,
         message: "Please enter a valid email",
       });
     }
 
-    if (password.length < 8) {
-      return res.json({
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({
         success: false,
         message: "Please use a stronger password",
       });
@@ -83,21 +120,143 @@ const registerUser = async (req, res) => {
 
     const newUser = new userModel({
       personal_info: {
-        first_name: first_name,
-        last_name: last_name,
-        email: email,
+        first_name,
+        last_name,
+        email,
         password: encryptedPass,
+      },
+      account_info: {
+        type,
       },
     });
 
     const user = await newUser.save();
     const token = generateToken(user._id);
 
-    res.json({ success: true, token });
+    res.status(200).json({
+      success: true,
+      message: `${
+        first_name[0].toUpperCase() + first_name.slice(1)
+      } added successfully`,
+      token,
+    });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "An unexpected error has occured" });
+    return res
+      .status(400)
+      .json({ success: false, message: "Something went wrong somewhere" });
   }
 };
 
-export { loginUser, registerUser };
+export const listUsers = async (req, res) => {
+  let { acct_type } = req.body;
+  let findQuery;
+
+  if (acct_type) {
+    findQuery = { "account_info.type": acct_type };
+  } else {
+    findQuery = {};
+  }
+  try {
+    const users = await userModel
+      .find(findQuery)
+      .select("-personal_info.password -updatedAt -blogs -__v")
+      // .populate(
+      //   "blogs",
+      //   "personal_info.first_name personal_info.last_name personal_info.profile_img -_id"
+      // )
+      .sort({ joinedAt: -1 });
+    res.status(200).json({ success: true, data: users });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ success: false, message: "Something went wrong somewhere" });
+  }
+};
+
+export const changeUserPassword = async (req, res) => {
+  let { currPassword, newPassword } = req.body;
+
+  if (!passwordRegex.test(newPassword)) {
+    return res.json({ success: false, message: "Set a stronger password" });
+  }
+
+  const user = await userModel.findOne({ _id: req.user });
+
+  const match = await bcrypt.compare(currPassword, user.personal_info.password);
+
+  if (!match) {
+    return res.json({ success: false, message: "Incorrect Password" });
+  }
+
+  const salt = await bcrypt.genSalt(10);
+
+  const encryptedPass = await bcrypt.hash(newPassword, salt);
+
+  userModel
+    .findOneAndUpdate(
+      { _id: req.user },
+      { "personal_info.password": encryptedPass }
+    )
+    .then((u) => {
+      console.log(encryptedPass);
+      res.json({ success: true, message: "Password Updated" });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json({ success: false, message: "Something went wrong somewhere" });
+    });
+};
+
+export const updateUser = async (req, res) => {
+  console.log("UPDATE USER ENDPOINT CALLED");
+  let { first_name, last_name, profile_img, email, bio } = req.body;
+
+  const bioLimit = 150;
+
+  if (req.file) {
+    profile_img = req.file.filename;
+  }
+
+  if (first_name.length < 2 || last_name.length < 2) {
+    return res.status(403).json({
+      success: false,
+      message: "Name cannot be less than 2 characters",
+    });
+  }
+
+  if (bio.length > bioLimit) {
+    return res.status(403).json({
+      success: false,
+      message: `Bio should not be more than ${bioLimit} characters`,
+    });
+  }
+
+  let updateObj = {
+    "personal_info.first_name": first_name,
+    "personal_info.last_name": last_name,
+    "personal_info.email": email,
+    "personal_info.profile_img": profile_img,
+    "personal_info.bio": bio,
+  };
+
+  userModel
+    .findOneAndUpdate({ _id: req.user }, updateObj, {
+      runValidators: true,
+    })
+    .then(() => {
+      const data = { first_name, email, last_name, profile_img, bio };
+      return res.status(200).json({
+        data,
+        message: "Profile updated successfully",
+      });
+    })
+    .catch((err) => {
+      if (err.code == 11000) {
+        return res
+          .status(500)
+          .json({ error: err.message, message: "Email already in use" });
+      }
+    });
+};

@@ -5,6 +5,7 @@ export default {
     extend: {
       colors: {
         primary: "#2fae60",
+        placeholder: "#9ea5b0",
       },
       screens: {
         tab: { max: "1080px" },

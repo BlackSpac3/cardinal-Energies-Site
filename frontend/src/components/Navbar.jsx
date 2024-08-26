@@ -31,7 +31,7 @@ const Navbar = () => {
 
   const [navbarShadow, setNavbarShadow] = useState(false);
   const shadowTrigger = () => {
-    if (window.scrollY > 40) {
+    if (window.scrollY > 0) {
       setNavbarShadow(true);
     } else {
       setNavbarShadow(false);
@@ -46,8 +46,10 @@ const Navbar = () => {
       initial="hidden"
       animate="show"
       className={`${
-        navbarShadow ? "shadow-md py-[15px]" : "py-[20px]"
-      } flex fixed w-[100%] top-0 z-20 bg-white justify-between px-[5vw] items-center duration-[0.2s]`}
+        navbarShadow
+          ? "shadow-md py-[15px] bg-white"
+          : "py-[20px] bg-transparent"
+      } flex fixed w-[100%] top-0 z-20  justify-between px-[5vw] items-center duration-[0.2s]`}
     >
       <Link to="/">
         <motion.img
@@ -76,7 +78,7 @@ const Navbar = () => {
                   whileTap={{ scale: 0.9 }}
                   className=" flex flex-col items-center"
                 >
-                  <div className="flex gap-[5px]   items-center justify-between">
+                  <div className="flex gap-2   items-center justify-between">
                     <p
                       className={
                         isActive

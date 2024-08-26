@@ -38,6 +38,8 @@ import expand_arrow_white from "./expand_arrow_white.png";
 import qoute_green from "./qoute_green.png";
 import menu from "./menu.svg";
 
+export const url = " http://localhost:4000";
+
 export const assets = {
   logo_black,
   logo_white,
@@ -95,7 +97,7 @@ export const navlinks = [
     path: "/services",
   },
   {
-    name: "Blog",
+    name: "Blogs",
     path: "/blog",
   },
 ];

@@ -1,7 +1,10 @@
 import express from "express";
 import {
-  addBlog,
-  listBlog,
+  addImgInBlog,
+  countBlogs,
+  createBlog,
+  getBlog,
+  listBlogs,
   removeBlog,
 } from "../controllers/blogController.js";
 import multer from "multer";
@@ -30,7 +33,7 @@ const verifyJWT = (req, res, next) => {
 //image storage engine
 
 const storage = multer.diskStorage({
-  destination: "uploads",
+  destination: "uploads/blog-images",
   filename: (req, file, cb) => {
     return cb(null, `${Date.now()}${file.originalname}`);
   },
@@ -38,10 +41,16 @@ const storage = multer.diskStorage({
 
 const uplaod = multer({ storage: storage });
 
-blogRouter.post("/add", verifyJWT, uplaod.single("thumbnail"), addBlog);
+// blogRouter.post("/add", verifyJWT, uplaod.single("banner"), addBlog);
+blogRouter.post("/create", verifyJWT, uplaod.single("banner"), createBlog);
 
-blogRouter.get("/list", listBlog);
+blogRouter.post("/create/add-image", uplaod.single("image"), addImgInBlog);
+
+blogRouter.post("/list", listBlogs);
 
 blogRouter.post("/remove", removeBlog);
+
+blogRouter.post("/all-latest-blogs-count", countBlogs);
+blogRouter.post("/get-blog", getBlog);
 
 export default blogRouter;

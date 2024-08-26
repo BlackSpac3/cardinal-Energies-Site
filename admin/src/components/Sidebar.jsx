@@ -3,56 +3,69 @@ import { assets, icons } from "../assets/assets";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 
-const Sidebar = () => {
+const Sidebar = ({ setPageTitle }) => {
   const {
-    userAuth: { first_name, last_name, email, user_type },
-    setUserAuth,
+    userData: { user_type },
+    setUserData,
   } = useContext(UserContext);
+
   const sidebarOptions = [
     {
-      black_icon: icons.dashboard_black,
-      white_icon: icons.dashboard_white,
-      green_icon: icons.dashboard_green,
-      title: "Dashboard",
+      icon: "home",
+      title: "Home",
       path: "/",
     },
     {
-      black_icon: icons.create_black,
-      white_icon: icons.create_white,
-      green_icon: icons.create_green,
-      title: "Create blog",
+      icon: "edit",
+      title: "Write",
       path: "/newblog",
     },
     {
-      black_icon: icons.list_black,
-      white_icon: icons.list_white,
-      green_icon: icons.list_green,
-      title: "View blogs",
+      icon: "document",
+      title: "Blogs",
       path: "/blogs",
     },
     {
-      black_icon: icons.gallery_black,
-      white_icon: icons.gallery_white,
-      green_icon: icons.gallery_green,
-      title: "Gallery",
-      path: "gallery",
+      icon: "file-edit",
+      title: "Drafts",
+      path: "/drafts",
     },
     {
-      black_icon: icons.team_black,
-      white_icon: icons.team_white,
-      green_icon: icons.team_green,
-      title: "Team Members",
-      path: "/team",
+      icon: "picture",
+      title: "Gallery",
+      path: "/gallery",
+    },
+    {
+      icon: "users",
+      title: "Employees",
+      path: "/employees",
     },
   ];
-  console.log(email);
+
+  const settingsOptions = [
+    {
+      icon: "user-pen",
+      title: "Edit Profile",
+      path: "/edit-profile",
+    },
+    {
+      icon: "lock",
+      title: "Change Password",
+      path: "/change-password",
+    },
+    {
+      icon: "users",
+      title: "Manage Users",
+      path: "/manage-users",
+    },
+  ];
   const logout = () => {
-    setUserAuth({ access_token: null });
+    setUserData({ access_token: null });
     sessionStorage.clear();
   };
   return (
     <>
-      <div className=" flex flex-col min-h-[100vh] border-r-[1px] w-[14%] shrink-0 text-[1vw] ">
+      <div className="phone:hidden flex flex-col min-h-[100vh] border-r w-[14%] shrink-0 text-[1vw]">
         <div id="logo-div" className="place-self-center py-5">
           <img src={assets.logo_black} alt="" className="w-[100px]" />
         </div>
@@ -62,54 +75,97 @@ const Sidebar = () => {
           className="flex flex-col gap-5
          h-full my-5"
         >
-          <div className="flex flex-col items-center gap-2 rounded-lg">
-            <img src={assets.profile_img} alt="" className="w-[54px]" />
-            <div className="text-center">
-              <p className="text-[12px] line-clamp-1 font-bold">{`${first_name} ${last_name}`}</p>
-              <p className="text-[11px] line-clamp-1 text-gray-400">
-                {email.split("@")[0]}
-              </p>
-            </div>
-            <div>
-              <button className=" border-[1px] px-3 py-1 rounded-lg ">
-                <div className="flex gap-1 items-center opacity-60">
-                  <img src={icons.edit_black} alt="" className="w-[12px]" />
-                  <p className="text-[10px]">Edit profile</p>
-                </div>
-              </button>
-            </div>
-          </div>
-
           <div
             id="sidebar-options"
-            className="flex flex-col place-self-start w-full"
+            className="flex flex-col gap-5 place-self-start w-full"
           >
-            {/* <p className="mx-3 font-medium mb-2">Menu</p> */}
-            {sidebarOptions.map((option, index) => (
-              <NavLink to={option.path} id="sidebar-option" className="mx-3">
-                {({ isActive }) => (
-                  <div
-                    className={`${
-                      isActive ? "bg-[#2fae6010] text-primary py-3" : "py-2"
-                    } flex gap-2  items-center px-3 cursor-pointer duration-75 rounded-lg`}
-                  >
-                    <img
-                      src={isActive ? option.green_icon : option.black_icon}
-                      alt=""
-                      className="w-[16px]"
-                    />
-                    <p className="tab-m:hidden">{option.title}</p>
-                  </div>
-                )}
-              </NavLink>
-            ))}
+            <div id="dashboard-options-section" className="flex flex-col gap-1">
+              <div className="flex flex-col gap-2 pl-3">
+                <h2>Dashboard</h2>
+                <hr />
+              </div>
+              <div className="flex flex-col">
+                {sidebarOptions.map((option, index) => {
+                  if (option.path == "/employees" && user_type != "admin") {
+                    return null;
+                  } else {
+                    return (
+                      <NavLink
+                        to={option.path}
+                        id="dashboard-options"
+                        className=""
+                      >
+                        {({ isActive }) => {
+                          isActive && setPageTitle(option.title);
+                          return (
+                            <div
+                              key={index}
+                              className={`${
+                                isActive
+                                  ? "bg-[#2fae6010] text-primary border-r-primary py-3"
+                                  : "py-2 opacity-70 hover:opacity-100  border-r-transparent"
+                              } flex gap-2 items-center px-5 cursor-pointer duration-75 border-r-[2px]`}
+                            >
+                              <i class={`fi fi-rr-${option.icon}`}></i>
+                              <p className="tab-m:hidden leading-none">
+                                {option.title}
+                              </p>
+                            </div>
+                          );
+                        }}
+                      </NavLink>
+                    );
+                  }
+                })}
+              </div>
+            </div>
+
+            <div id="settings-options-section" className="flex flex-col gap-1">
+              <div className="flex flex-col gap-2 pl-3">
+                <h2>Settings</h2>
+                <hr />
+              </div>
+              <div id="settings-options" className="flex flex-col">
+                {settingsOptions.map((option, index) => {
+                  if (option.path == "/manage-users" && user_type != "admin") {
+                    return null;
+                  } else {
+                    return (
+                      <NavLink
+                        to={option.path}
+                        id="sidebar-option"
+                        className=""
+                      >
+                        {({ isActive }) => {
+                          isActive && setPageTitle(option.title);
+                          return (
+                            <div
+                              className={`${
+                                isActive
+                                  ? "bg-[#2fae6010] text-primary border-r-primary py-3"
+                                  : "py-2 opacity-70 hover:opacity-100  border-r-transparent"
+                              } flex gap-2 items-center px-5 cursor-pointer duration-75 border-r-[2px]`}
+                            >
+                              <i class={`fi fi-rr-${option.icon}`}></i>
+                              <p className="tab-m:hidden leading-none">
+                                {option.title}
+                              </p>
+                            </div>
+                          );
+                        }}
+                      </NavLink>
+                    );
+                  }
+                })}
+              </div>
+            </div>
           </div>
           <div
             id="logout-bttn"
             className="flex flex-col h-full items-center justify-end my-5"
           >
             <button className="flex items-center gap-1" onClick={logout}>
-              <img src={icons.logout_black} className="w-[16px] rotate-180" />
+              <i class="fi fi-rr-exit -rotate-180"></i>
               Logout
             </button>
           </div>

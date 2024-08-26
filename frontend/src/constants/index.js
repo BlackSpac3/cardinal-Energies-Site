@@ -3,6 +3,17 @@ import { assets } from "../assets/assets";
 
 export const blogs = [
   {
+    id: 9,
+    thumbnail: assets.leaders_img,
+    title: "We are the world leaders",
+    desc: "Lorem ipsum dolor sit amet, consectetur tempor adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqa.Alias, voluptatibus? Pariatur, officia hic. Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    content:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum iure eos culpa ab, rem magnam maxime quod consequuntur at! Odit, praesentium, corrupti animi beatae id architecto quis accusamus cupiditate unde quo possimus impedit consectetur quos quibusdam autem dolorem nobis, explicabo sed. Nostrum sit ipsam vel similique aspernatur cum maiores sint facere, voluptate officiis ut, dolorum deleniti praesentium reiciendis nam magni, modi fuga. Pariatur, voluptatum nostrum? Blanditiis maxime quibusdam maiores suscipit, delectus error rerum minima iste adipisci nobis voluptatem ea consequuntur, in, ipsam odit repudiandae exercitationem placeat! Repellat architecto earum ratione? Fuga vero nulla, porro, animi ipsa sed, error ea cupiditate provident alias iusto quibusdam. Temporibus, optio deleniti ratione placeat obcaecati corporis tempore eveniet consequatur quod, error, facilis saepe laudantium dolorem ipsum dolorum ea totam est suscipit alias eum. Culpa aliquam velit quisquam? Eaque minus voluptate nobis obcaecati blanditiis quas iusto omnis quis placeat? Dolorem suscipit quo fugiat harum non nulla? Dolor, cum vero nisi, corrupti iure laborum deserunt a quo beatae, aliquam corporis eaque nihil! Consequuntur laborum sunt commodi iure ut magni? Dolorem voluptate est minima blanditiis maiores laborum repellat et nostrum iure excepturi quos, libero, doloremque id ab, necessitatibus eos inventore velit corrupti a. Expedita ad fugiat soluta suscipit.",
+    aurthor: "John doe",
+    date: "29/07/2024",
+    category: "uncategorized",
+  },
+  {
     id: 0,
     thumbnail: assets.leaders_img,
     title: "We are the world leaders",

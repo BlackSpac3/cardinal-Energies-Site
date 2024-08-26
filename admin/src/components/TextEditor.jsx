@@ -8,7 +8,7 @@ const TextEditor = ({ sendData }) => {
 
   const modules = {
     toolbar: [
-      ["bold", "italic", "underline", "strike"],
+      ["bold", "italic", "underline", "strike", "image"],
       [{ list: "ordered" }, { list: "bullet" }],
       [{ indent: "-1" }, { indent: "+1" }],
       [{ size: ["small", false, "large", "huge"] }],

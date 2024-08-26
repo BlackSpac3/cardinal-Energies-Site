@@ -11,10 +11,22 @@
     "postinstall": "node ./postinstall.js"
   },
   "dependencies": {
+    "@editorjs/code": "^2.9.0",
+    "@editorjs/editorjs": "^2.30.5",
+    "@editorjs/embed": "^2.7.4",
+    "@editorjs/header": "^2.8.7",
+    "@editorjs/image": "^2.9.3",
+    "@editorjs/inline-code": "^1.5.1",
+    "@editorjs/link": "^2.6.2",
+    "@editorjs/list": "^1.10.0",
+    "@editorjs/marker": "^1.4.0",
+    "@editorjs/paragraph": "^2.11.6",
+    "@flaticon/flaticon-uicons": "^3.3.1",
     "axios": "^1.7.2",
     "quill": "^2.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hot-toast": "^2.4.1",
     "react-quilljs": "^2.0.4",
     "react-router-dom": "^6.25.1",
     "react-toastify": "^10.0.5"

@@ -1,12 +1,12 @@
-import { motion } from "framer-motion";
 import BlogCard from "../BlogCard";
-
-import { assets } from "../../assets/assets";
-// import { fadeIn } from "../../utils/motion";
-import { blogs } from "../../constants";
-import { Link } from "react-router-dom";
+import ContentPageNavigation from "../ContentPageNavigation";
+import axios from "axios";
+import { url } from "../../assets/assets";
+import { useState, useRef, useEffect } from "react";
+import { filterPaginationData } from "../../utils/filter-pagination-data";
 
 const BlogsGrid = () => {
+  const max = 9;
   const slideUp = {
     initial: {
       opacity: 0,
@@ -22,22 +22,83 @@ const BlogsGrid = () => {
       },
     },
   };
+
+  const [query, setQuery] = useState("");
+
+  const handleSearch = (e) => {
+    setQuery(e.target.value);
+
+    if (e.keyCode == 13 && query.length) {
+      fetchBlogs({ query, page: 1 });
+    }
+  };
+
+  const clearSearch = (e) => {
+    setQuery(e.target.value);
+    e.target.value == "" && fetchBlogs({ page: 1 });
+  };
+
+  const prevBttn = useRef(null);
+  const nextBttn = useRef(null);
+
+  const [blogs, setBlogs] = useState(null);
+
+  const fetchBlogs = async ({ query, tags, page = 1, max }) => {
+    setBlogs(null);
+    let formatedData;
+    await axios
+      .post(`${url}/api/blog/list`, {
+        query,
+        tags,
+        page,
+        max,
+        draft: false,
+      })
+      .then(async ({ data }) => {
+        formatedData = await filterPaginationData({
+          state: blogs,
+          data: data.data,
+          page: page,
+          countRoute: "/api/blog/all-latest-blogs-count",
+          data_to_send: { query },
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setBlogs(formatedData);
+  };
+  useEffect(() => {
+    fetchBlogs({ query, page: 1, max: max });
+  }, []);
   return (
-    <div className="m-body">
-      <div
-        id="services-section-content"
-        className="grid grid-cols-3  phone:grid-cols-1 gap-[20px] mt-14 phone:mt-6"
-      >
-        {blogs.map((blog, index) => (
-          <BlogCard
-            id={blog.id}
-            thumbnail={blog.thumbnail}
-            title={blog.title}
-            desc={blog.desc}
-            date={blog.date}
-            category={blog.category}
-          />
-        ))}
+    <div className="flex flex-col m-body">
+      <div className="flex flex-col gap-10 items-center">
+        <div
+          id="services-section-content"
+          className="grid grid-cols-3  phone:grid-cols-1 gap-[20px] mt-14 phone:mt-6 w-full"
+        >
+          {blogs &&
+            blogs.results.map((blog, index) => (
+              <BlogCard
+                blog_id={blog.blog_id}
+                banner={blog.banner}
+                title={blog.title}
+                desc={blog.desc}
+                date={blog.publishedAt}
+                tags={blog.tags}
+                author={blog.author}
+              />
+            ))}
+        </div>
+        <ContentPageNavigation
+          state={blogs}
+          fetchData={fetchBlogs}
+          prev={prevBttn}
+          next={nextBttn}
+          query={query}
+          max={max}
+        />
       </div>
     </div>
   );

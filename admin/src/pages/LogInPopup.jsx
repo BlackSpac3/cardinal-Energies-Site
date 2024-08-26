@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import { assets, icons } from "../assets/assets.js";
 import { UserContext } from "../context/UserContext.jsx";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import TextBox from "../components/TextBox.jsx";
 import { storeInSession } from "../common/session.jsx";
 import { useNavigate } from "react-router-dom";
@@ -11,17 +11,13 @@ import { useRef } from "react";
 const LogInPopup = () => {
   const submitBttn = useRef(null);
   const navigate = useNavigate();
-  const { url, userAuth, setUserAuth } = useContext(UserContext);
+  const { url, userData, setUserData } = useContext(UserContext);
   const linkStyle = "text-primary font-medium cursor-pointer";
 
   const [data, setData] = useState({
     email: "",
     password: "",
   });
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   const onChangeHandler = (e) => {
     const name = e.target.name;
@@ -40,7 +36,8 @@ const LogInPopup = () => {
         toast.success("Login Successful");
         navigate("/");
 
-        setUserAuth(response.data.user);
+        setUserData(response.data.user);
+        console.log(userData);
         console.log(sessionStorage.user);
       } else {
         console.log(response.data);
@@ -76,28 +73,26 @@ const LogInPopup = () => {
             </div>
             <div id="login-popup-input" className="flex flex-col gap-2 mt-2">
               <TextBox
+                id_name="email-input"
                 onChange={onChangeHandler}
                 type="email"
                 name="email"
                 value={data.email}
                 placeholder="Your email"
-                img={icons.email}
+                icon="envelope"
               />
               <TextBox
+                id_name="password-input"
                 type="password"
                 name="password"
                 value={data.password}
                 onChange={onChangeHandler}
                 placeholder="Password"
-                img={icons.password}
+                icon="lock"
                 content={data.password}
               />
             </div>
-            <button
-              ref={submitBttn}
-              type="submit"
-              className="py-[15px] bg-primary rounded-md text-white text-[15px]  cursor-pointer duration-[50ms] disabled:bg-gray-100 disabled:text-[#9CA3AF]"
-            >
+            <button ref={submitBttn} type="submit" className="bttn-wide">
               Login
             </button>
 

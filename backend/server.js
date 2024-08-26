@@ -5,6 +5,7 @@ import "dotenv/config";
 import { connectToDB } from "./config/db.js";
 import blogRouter from "./routes/blogRoute.js";
 import userRouter from "./routes/userRoute.js";
+import imageRouter from "./routes/imageRoute.js";
 
 //App config
 const app = express();
@@ -22,7 +23,13 @@ app.use("/api/blog", blogRouter);
 
 app.use("/api/user", userRouter);
 
-app.use("/thumbnails", express.static("uploads"));
+app.use("/api/image", imageRouter);
+
+app.use("/blog-images", express.static("uploads/blog-images"));
+
+app.use("/profile-images", express.static("uploads/profile-images"));
+
+app.use("/images", express.static("uploads/images"));
 
 app.get("/", (req, res) => {
   res.send("API Working");

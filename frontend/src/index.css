@@ -3,7 +3,7 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-
+@import "@flaticon/flaticon-uicons/css/all/all";
 * {
   padding: 0;
   margin: 0;
@@ -37,4 +37,55 @@ body {
 }
 .slick-dots li {
   width: 2px !important;
+}
+i {
+  display: flex;
+  align-items: center;
+}
+
+.blog-content h1 {
+  display: block;
+  font-size: 2em;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+.blog-content h2 {
+  display: block;
+  font-size: 1.5em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+.blog-content h3 {
+  display: block;
+  font-size: 1.17em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+.blog-content p {
+  display: block;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.blog-content ol {
+  display: block;
+  list-style-type: decimal;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 40px;
+}
+
+.blog-content ul {
+  display: block;
+  list-style-type: disc;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 40px;
 }

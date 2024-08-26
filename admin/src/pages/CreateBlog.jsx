@@ -5,12 +5,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { UserContext } from "../context/UserContext";
 import TextEditor from "../components/TextEditor";
-import AddThumbnail from "../components/AddThumbnail";
+import AddBanner from "../components/AddBanner";
 
 const CreateBlog = () => {
-  const { url, userAuth } = useContext(UserContext);
-  const inputTextAreaStyle =
-    "p-[10px] border-[1px] border-[#cccccc] rounded-md outline-none";
+  const { url, userData: access_token } = useContext(UserContext);
+  const inputTextAreaStyle = "p-[10px] border-[1px] rounded-md outline-none";
 
   const [textEditorValue, setTextEditorValue] = useState();
 
@@ -18,10 +17,10 @@ const CreateBlog = () => {
     setTextEditorValue(val);
   }
 
-  const [thumbnail, setThumbnail] = useState();
+  const [banner, setBanner] = useState();
 
-  function handleThumbnail(val) {
-    setThumbnail(val);
+  function handleBanner(val) {
+    setBanner(val);
   }
 
   const [data, setData] = useState({
@@ -42,18 +41,16 @@ const CreateBlog = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    const date = new Date();
     const formData = new FormData();
 
-    formData.append("thumbnail", thumbnail);
+    formData.append("banner", banner);
     formData.append("title", data.title);
     formData.append("desc", data.desc);
     formData.append("category", data.category);
     formData.append("content", textEditorValue);
-    // formData.append("date", date.toLocaleDateString("en-GB"));
 
     const response = await axios.post(`${url}/api/blog/add`, formData, {
-      headers: { Authorization: `Bearer ${userAuth.access_token}` },
+      headers: { Authorization: `Bearer ${access_token}` },
     });
     if (response.data.success) {
       setData({
@@ -62,7 +59,7 @@ const CreateBlog = () => {
         price: "",
         category: "Energy",
       });
-      setThumbnail(false);
+      setBanner(false);
       toast.success(response.data.message);
     } else {
       console.log(response.data);
@@ -74,26 +71,40 @@ const CreateBlog = () => {
     <form
       id="create-blog"
       onSubmit={onSubmitHandler}
-      className="flex flex-col w-[100%] h-[100vh]  text-base overflow-hidden"
+      className="flex flex-col w-full h-full  text-base overflow-hidden"
     >
-      <div className="flex justify-between items-center w-full py-3 px-[2vw] border-b-[1px] ">
-        <h2 className="text-[20px]">Create new blog</h2>
-        <button
-          type="submit"
-          className="bg-primary text-white w-[100px] rounded-md col-span-2 py-2 shadow-md"
-        >
-          Post
-        </button>
+      <div className="flex gap-2 items-center justify-between mx-[5vw] py-2 border-b">
+        <input
+          onChange={onChangeHandler}
+          value={data.title}
+          type="text"
+          name="title"
+          placeholder="Title"
+          className={`${inputTextAreaStyle} font-medium border-none rounded-none`}
+        />
+        <div className="flex gap-3">
+          <button className="border text-gray-400 px-5 text-xs rounded-md py-2">
+            Save Draft
+          </button>
+
+          <button
+            type="submit"
+            className="bg-primary text-white px-5 text-xs rounded-md py-2"
+          >
+            Publish
+          </button>
+        </div>
       </div>
+
       <div className="flex flex-col h-[100%] overflow-y-scroll">
         <div className="flex flex-col h-[100%] my-5 mx-16">
           <div className="grid grid-cols-2 gap-2">
-            <AddThumbnail setData={handleThumbnail} />
+            <AddBanner setData={handleBanner} />
             <div className="flex flex-col h-full">
               <select
                 onChange={onChangeHandler}
                 name="category"
-                id=""
+                id="create-blog-category-field"
                 className={`${inputTextAreaStyle} text-gray-400`}
                 defaultValue="default"
               >
@@ -116,16 +127,7 @@ const CreateBlog = () => {
             </div>
           </div>
 
-          <input
-            onChange={onChangeHandler}
-            value={data.title}
-            type="text"
-            name="title"
-            placeholder="Title"
-            className={`${inputTextAreaStyle} font-semibold w-full my-2`}
-          />
-
-          <div id="blog-body" className="flex flex-col h-[350px]">
+          <div id="blog-body" className="flex flex-col h-[350px] mt-2">
             <TextEditor sendData={handleTextEditorValue} />
           </div>
         </div>
