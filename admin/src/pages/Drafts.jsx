@@ -7,6 +7,7 @@ import { filterPaginationData } from "../utils/filter-pagination-data";
 import ContentPages from "../components/ContentPages";
 import Loading from "../components/Loading";
 import SearchBox from "../components/SearchBox";
+import BlogCardSkelenton from "../components/Skelentons/BlogCardSkelenton";
 
 const Drafts = () => {
   const max = 9;
@@ -85,12 +86,12 @@ const Drafts = () => {
         </div>
       </div>
       <div className="flex w-full">
-        {blogs == null ? (
-          <Loading />
-        ) : (
-          <div className="flex flex-col gap-10 items-center w-full ">
-            <div className="grid grid-cols-3 gap-5 duration-100 w-full">
-              {blogs.results.map((blog, index) => {
+        <div className="flex flex-col gap-10 items-center w-full ">
+          <div className="grid grid-cols-3 gap-5 duration-100 w-full">
+            {blogs == null ? (
+              <BlogCardSkelenton cards={9} />
+            ) : (
+              blogs.results.map((blog, index) => {
                 const { first_name, last_name, profile_img } =
                   blog.author.personal_info;
                 return (
@@ -108,18 +109,18 @@ const Drafts = () => {
                     author_profile_img={profile_img}
                   />
                 );
-              })}
-            </div>
-            <ContentPages
-              state={blogs}
-              fetchData={fetchBlogs}
-              prev={prevBttn}
-              next={nextBttn}
-              query={query}
-              max={max}
-            />
+              })
+            )}
           </div>
-        )}
+          <ContentPages
+            state={blogs}
+            fetchData={fetchBlogs}
+            prev={prevBttn}
+            next={nextBttn}
+            query={query}
+            max={max}
+          />
+        </div>
       </div>
     </div>
   );

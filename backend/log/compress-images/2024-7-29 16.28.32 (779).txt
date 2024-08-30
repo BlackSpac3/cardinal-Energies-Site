@@ -1,0 +1,8 @@
+File from: [uploads\1724945312673WhatsApp-Image-2023-03-29-at-20.10.10-e1680125680526-q48vi37yw3boti2t6lhnkbrjq602ze1hhv0s6j12q6 (1).jpeg]
+
+File to: [uploads/employee-images/1724945312673WhatsApp-Image-2023-03-29-at-20.10.10-e1680125680526-q48vi37yw3boti2t6lhnkbrjq602ze1hhv0s6j12q6 (1).jpeguploads\1724945312673WhatsApp-Image-2023-03-29-at-20.10.10-e1680125680526-q48vi37yw3boti2t6lhnkbrjq602ze1hhv0s6j12q6 (1).jpeg]
+
+Compression algorithm: [mozjpeg]
+
+Description: Error: Command failed: C:\Users\toyin\Desktop\Cardinal_Energies\backend\node_modules\mozjpeg\vendor\cjpeg.exe -quality 60 -outfile uploads/employee-images/1724945312673WhatsApp-Image-2023-03-29-at-20.10.10-e1680125680526-q48vi37yw3boti2t6lhnkbrjq602ze1hhv0s6j12q6 (1).jpeguploads\1724945312673WhatsApp-Image-2023-03-29-at-20.10.10-e1680125680526-q48vi37yw3boti2t6lhnkbrjq602ze1hhv0s6j12q6 (1).jpeg uploads\1724945312673WhatsApp-Image-2023-03-29-at-20.10.10-e1680125680526-q48vi37yw3boti2t6lhnkbrjq602ze1hhv0s6j12q6 (1).jpeg
+C:\Users\toyin\Desktop\Cardinal_Energies\backend\node_modules\mozjpeg\vendor\cjpeg.exe: can't open uploads/employee-images/1724945312673WhatsApp-Image-2023-03-29-at-20.10.10-e1680125680526-q48vi37yw3boti2t6lhnkbrjq602ze1hhv0s6j12q6 (1).jpeguploads\1724945312673WhatsApp-Image-2023-03-29-at-20.10.10-e1680125680526-q48vi37yw3boti2t6lhnkbrjq602ze1hhv0s6j12q6 (1).jpeg

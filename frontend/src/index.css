@@ -4,6 +4,7 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 @import "@flaticon/flaticon-uicons/css/all/all";
+
 * {
   padding: 0;
   margin: 0;
@@ -88,4 +89,36 @@ i {
   margin-left: 0;
   margin-right: 0;
   padding-left: 40px;
+}
+
+.blog-content a:link {
+  color: #0077ff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.blog-content a:visited {
+  color: purple;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.blog-content a:link:active {
+  color: (internal value);
+}
+
+.blog-content a:visited:active {
+  color: (internal value);
+}
+
+dialog::backdrop {
+  background-color: #00000060;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  padding: 0px;
+}
+
+dialog:-internal-dialog-in-top-layer {
+  max-width: 100%;
+  max-height: 100%;
 }

@@ -5,14 +5,12 @@ import { Toaster } from "react-hot-toast";
 
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
-import { styles } from "./utils/styles";
 import Blogs from "./pages/Blogs";
 import CreateBlog from "./pages/CreateBlog";
 import LogInPopup from "./pages/LogInPopup";
 import Dashboard from "./pages/Dashboard";
 import { lookInSession } from "./common/session";
 import { UserContext } from "./context/UserContext";
-// import EditProfile from "./components/EditProfile";
 import Gallery from "./pages/Gallery";
 import CreateBlog2 from "./pages/CreateBlog2";
 import CreateBlogContextProvider from "./context/CreateBlogContext";
@@ -20,10 +18,10 @@ import Drafts from "./pages/Drafts";
 import ChangePassword from "./pages/ChangePassword";
 import EditProfile from "./pages/EditProfile";
 import ManageUsers from "./pages/ManageUsers";
-import AddUserPopUp from "./components/AddUserPopUp";
+import Employees from "./pages/Employees";
+
 const App = () => {
   const { userData, setUserData } = useContext(UserContext);
-  const [addUserPopUp, setAddUserPopUp] = useState(false);
 
   const [pageTitle, setPageTitle] = useState("");
 
@@ -36,11 +34,6 @@ const App = () => {
   return (
     <>
       <Toaster />
-      {addUserPopUp ? (
-        <AddUserPopUp setAddUserPopUp={setAddUserPopUp} />
-      ) : (
-        <></>
-      )}
 
       {userData.access_token ? (
         <div className="flex h-[100vh] overflow-hidden">
@@ -67,14 +60,12 @@ const App = () => {
                   }
                 />
                 <Route path="/blogs" element={<Blogs />} />
-                <Route path="/gallery" element={<Gallery />} />
                 <Route path="/drafts" element={<Drafts />} />
+                <Route path="/gallery" element={<Gallery />} />
+                <Route path="/employees" element={<Employees />} />
                 <Route path="/change-password" element={<ChangePassword />} />
                 <Route path="/edit-profile" element={<EditProfile />} />
-                <Route
-                  path="/manage-users"
-                  element={<ManageUsers showAddUserForm={setAddUserPopUp} />}
-                />
+                <Route path="/manage-users" element={<ManageUsers />} />
                 <Route path="*" element={<h1>404 Page</h1>} />
               </Routes>
             </div>

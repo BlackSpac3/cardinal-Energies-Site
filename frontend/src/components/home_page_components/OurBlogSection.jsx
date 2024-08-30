@@ -39,25 +39,20 @@ const OurBlogSection = () => {
           className="flex justify-between w-[100%] items-center phone:block"
         >
           <h2 className={`${styles.homePageSectionTitle} phone:text-center`}>
-            Articles & Blog
+            Articles & Blogs
           </h2>
-          <Link to="/services" className="mr-[3vw] phone:hidden">
+          <Link to="/blog" className="mr-[3vw] phone:hidden">
             <MoreButton>View all</MoreButton>
           </Link>
         </div>
 
-        <motion.div
+        <div
           id="services-section-content"
           className="grid grid-cols-3  phone:grid-cols-1 gap-[20px] mt-14 phone:mt-6"
         >
           {blogs.map((blog, index) => {
             return (
-              <motion.div
-                variants={fadeIn}
-                initial="initial"
-                whileInView="animate"
-                viewport={{ once: true }}
-              >
+              <div>
                 <BlogCard
                   blog_id={blog.blog_id}
                   banner={blog.banner}
@@ -67,10 +62,10 @@ const OurBlogSection = () => {
                   tags={blog.tags}
                   author={blog.author}
                 />
-              </motion.div>
+              </div>
             );
           })}
-        </motion.div>
+        </div>
       </div>
     </div>
   );

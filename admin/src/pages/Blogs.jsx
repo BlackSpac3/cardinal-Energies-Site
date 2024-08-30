@@ -7,6 +7,7 @@ import { filterPaginationData } from "../utils/filter-pagination-data";
 import ContentPages from "../components/ContentPages";
 import Loading from "../components/Loading";
 import SearchBox from "../components/SearchBox";
+import BlogCardSkelenton from "../components/Skelentons/BlogCardSkelenton";
 
 const Blogs = () => {
   const max = 9;
@@ -65,7 +66,7 @@ const Blogs = () => {
           data: data.data,
           page: page,
           countRoute: "/api/blog/all-latest-blogs-count",
-          data_to_send: { query, author_id },
+          data_to_send: { query, author_id, draft },
         });
       })
       .catch((err) => {
@@ -109,12 +110,12 @@ const Blogs = () => {
         </select>
       </div>
       <div className="flex w-full">
-        {blogs == null ? (
-          <Loading />
-        ) : (
-          <div className="flex flex-col gap-10 items-center w-full ">
-            <div className="grid grid-cols-3 gap-5 duration-100 w-full">
-              {blogs.results.map((blog, index) => {
+        <div className="flex flex-col gap-10 items-center w-full ">
+          <div className="grid grid-cols-3 gap-5 gap-y-10 duration-100 w-full">
+            {blogs == null ? (
+              <BlogCardSkelenton cards={9} />
+            ) : (
+              blogs.results.map((blog, index) => {
                 const { first_name, last_name, profile_img } =
                   blog.author.personal_info;
                 return (
@@ -132,18 +133,18 @@ const Blogs = () => {
                     author_profile_img={profile_img}
                   />
                 );
-              })}
-            </div>
-            <ContentPages
-              state={blogs}
-              fetchData={fetchBlogs}
-              prev={prevBttn}
-              next={nextBttn}
-              query={query}
-              max={max}
-            />
+              })
+            )}
           </div>
-        )}
+          <ContentPages
+            state={blogs}
+            fetchData={fetchBlogs}
+            prev={prevBttn}
+            next={nextBttn}
+            query={query}
+            max={max}
+          />
+        </div>
       </div>
     </div>
   );

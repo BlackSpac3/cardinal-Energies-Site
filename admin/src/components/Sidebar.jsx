@@ -65,7 +65,7 @@ const Sidebar = ({ setPageTitle }) => {
   };
   return (
     <>
-      <div className="phone:hidden flex flex-col min-h-[100vh] border-r w-[14%] shrink-0 text-[1vw]">
+      <div className="phone:hidden flex flex-col min-h-[100vh] border-r w-[14%] shrink-0 text-xs">
         <div id="logo-div" className="place-self-center py-5">
           <img src={assets.logo_black} alt="" className="w-[100px]" />
         </div>
@@ -91,6 +91,7 @@ const Sidebar = ({ setPageTitle }) => {
                   } else {
                     return (
                       <NavLink
+                        key={index}
                         to={option.path}
                         id="dashboard-options"
                         className=""
@@ -106,7 +107,7 @@ const Sidebar = ({ setPageTitle }) => {
                                   : "py-2 opacity-70 hover:opacity-100  border-r-transparent"
                               } flex gap-2 items-center px-5 cursor-pointer duration-75 border-r-[2px]`}
                             >
-                              <i class={`fi fi-rr-${option.icon}`}></i>
+                              <i className={`fi fi-rr-${option.icon}`}></i>
                               <p className="tab-m:hidden leading-none">
                                 {option.title}
                               </p>
@@ -132,6 +133,7 @@ const Sidebar = ({ setPageTitle }) => {
                   } else {
                     return (
                       <NavLink
+                        key={index}
                         to={option.path}
                         id="sidebar-option"
                         className=""
@@ -140,13 +142,14 @@ const Sidebar = ({ setPageTitle }) => {
                           isActive && setPageTitle(option.title);
                           return (
                             <div
+                              key={index}
                               className={`${
                                 isActive
                                   ? "bg-[#2fae6010] text-primary border-r-primary py-3"
                                   : "py-2 opacity-70 hover:opacity-100  border-r-transparent"
                               } flex gap-2 items-center px-5 cursor-pointer duration-75 border-r-[2px]`}
                             >
-                              <i class={`fi fi-rr-${option.icon}`}></i>
+                              <i className={`fi fi-rr-${option.icon}`}></i>
                               <p className="tab-m:hidden leading-none">
                                 {option.title}
                               </p>
@@ -165,7 +168,7 @@ const Sidebar = ({ setPageTitle }) => {
             className="flex flex-col h-full items-center justify-end my-5"
           >
             <button className="flex items-center gap-1" onClick={logout}>
-              <i class="fi fi-rr-exit -rotate-180"></i>
+              <i className="fi fi-rr-exit -rotate-180"></i>
               Logout
             </button>
           </div>

@@ -19,7 +19,7 @@ const Navbar = ({ title, setShowEditProfile }) => {
       type,
     },
   } = useContext(UserContext);
-  const img = `${url}/profile-images/` + profile_img;
+  const img = `${url}/profile-images/${profile_img}uploads/${profile_img}`;
   console.log(profile_img);
 
   return (
@@ -28,24 +28,16 @@ const Navbar = ({ title, setShowEditProfile }) => {
 
       <div
         id="profile-card"
-        className="flex items-center gap-3 cursor-pointer relative rounded-full"
+        className="flex items-center gap-2 cursor-pointer relative rounded-full"
         onClick={() => setShowEditProfile(true)}
       >
-        <div className="relative">
-          <img
-            src={img}
-            className="w-[30px] h-[30px] object-cover rounded-full"
-          />
-          <img
-            src={assets.verified_badge}
-            alt=""
-            className="w-[15px] h-[15px] absolute bottom-0 right-[-4px]"
-          />
-        </div>
+        <img
+          src={img}
+          className="w-[30px] h-[30px] object-cover rounded-full"
+        />
+
         <div className="flex items-start gap-2">
-          <p className="text-[12px] leading-none line-clamp-1">{`${capitalize(
-            first_name
-          )} ${capitalize(last_name)}`}</p>
+          <p className="text-sm capitalize leading-none line-clamp-1">{`${first_name} ${last_name}`}</p>
         </div>
       </div>
     </div>

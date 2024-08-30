@@ -66,6 +66,12 @@ const userSchema = new mongoose.Schema(
       ref: "blogs",
       default: [],
     },
+    images: {
+      type: [Schema.Types.ObjectId],
+      ref: "images",
+      default: [],
+    },
+    disabled: { type: Boolean, default: false },
   },
   {
     timestamps: {

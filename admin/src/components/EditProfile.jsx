@@ -9,13 +9,7 @@ const EditProfile = ({ setShow }) => {
   const {
     userData: {
       personal_info: { first_name, last_name, email, profile_img },
-      account_info: {
-        total_posts,
-        total_reads,
-        total_drafts,
-        total_images,
-        type,
-      },
+      account_info: { type },
     },
     url,
   } = useContext(UserContext);

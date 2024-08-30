@@ -18,9 +18,11 @@ const ServiceSection = () => {
           </Link>
         </div>
         <p className="w-[60%] mt-5 phone:w-full">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est dolore
-          dolor vero, beatae alias illo delectus quod et, impedit, in fuga?
-          Deleniti fugit quibusdam atque molestias vel numquam iusto nihil?
+          At Cardinal Energies, we are dedicated to providing innovative and
+          sustainable energy solutions that empower businesses and communities.
+          We specialize in renewable energy, solar, wind, natural gas, etc.,
+          delivering reliable, cost-effective, and environmentally responsible
+          power to meet your energy needs.
         </p>
       </div>
       <div
@@ -28,13 +30,13 @@ const ServiceSection = () => {
         className="grid grid-cols-3 gap-[20px] mt-[8vw] phone:block"
       >
         {services.map((service, index) => (
-          <motion.div
-            variants={fadeIn}
-            initial="initial"
-            whileInView="animate"
-            whileHover={{ scale: 1.02 }}
-            viewport={{ once: true }}
-            custom={index + 1}
+          <div
+            // variants={fadeIn}
+            // initial="initial"
+            // whileInView="animate"
+            // whileHover={{ scale: 1.02 }}
+            // viewport={{ once: true }}
+            // custom={index + 1}
             className={`${
               service.title === "Sell Energy" ? "bg-primary" : "bg-[#efefef]"
             } relative p-[10%] rounded-3xl shadow-md phone:mt-14`}
@@ -52,9 +54,9 @@ const ServiceSection = () => {
               <h2 className="text-lg font-medium mt-4 tab-m:mt-5 phone:mt-4">
                 {service.title}
               </h2>
-              <p className="text-xs tab-m:line-clamp-4 mt-1">{service.desc}</p>
+              <p className="text-sm line-clamp-3 mt-1">{service.desc}</p>
 
-              <Link to="/services">
+              <Link to="/services" className="cursor-pointer">
                 <motion.div
                   whileTap={{ scale: 0.95 }}
                   className="flex mt-[10px] items-center gap-[5px] cursor-pointer"
@@ -66,12 +68,12 @@ const ServiceSection = () => {
                         ? icons.arrow_right_icon_white
                         : icons.arrow_right_icon_black
                     }
-                    className="w-[17px]"
+                    className="w-[17px] cursor-pointer"
                   />
                 </motion.div>
               </Link>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
     </div>

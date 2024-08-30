@@ -18,9 +18,10 @@ const Suscribe = () => {
           <h2 className="text-3xl tab:text-2xl font-semibold font-['Montserrat'] mb-2">
             Subscribe to our news letter
           </h2>
-          <p className="text-sm tab:text-xs w-[90%] mb-5">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas illo
-            ex dolorem accusantium! Ipsum odio cumque eos.
+          <p className="text-sm w-[90%] mb-5">
+            Want to stay updated on the latest news, innovations, and insights
+            in the energy industry? Subscribe to our newsletter and be
+            the first to know
           </p>
         </div>
         <div className="bg-white w-[90%] phone:w-full tab:text-sm text-black rounded-full p-1">

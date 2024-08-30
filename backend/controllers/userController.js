@@ -3,6 +3,8 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import validator from "validator";
 import "dotenv/config";
+import compressImages from "compress-images";
+import fs from "fs";
 
 const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,20}$/;
 
@@ -78,13 +80,18 @@ const generateToken = (id) => {
   return jwt.sign({ id }, process.env.SECRET_ACCESS_KEY);
 };
 
+/////////////////////////////
+//// REGISTER USER ROUTE ////
+/////////////////////////////
+
 export const registerUser = async (req, res) => {
+  console.log("REGISTER USER ENDPOINT CALLED");
+
   let { first_name, last_name, password, email, user_type } = req.body;
-  console.log(req.body);
+
   let type;
   !user_type ? (type = "user") : (type = user_type);
 
-  console.log(type);
   if (!password) {
     password = "Cardinal@12345";
   }
@@ -98,7 +105,7 @@ export const registerUser = async (req, res) => {
         .json({ success: false, message: "User already exists" });
     }
 
-    //vaidatingn mail format & strong password
+    //vaidatinng mail format & strong password
     if (!validator.isEmail(email)) {
       return res.status(400).json({
         success: false,
@@ -148,14 +155,23 @@ export const registerUser = async (req, res) => {
   }
 };
 
+//////////////////////////
+//// LIST USERS ROUTE ////
+//////////////////////////
+
 export const listUsers = async (req, res) => {
+  console.log("LIST USERS ENDPOINT CALLED");
   let { acct_type } = req.body;
   let findQuery;
 
   if (acct_type) {
-    findQuery = { "account_info.type": acct_type };
+    findQuery = {
+      "account_info.type": acct_type,
+      _id: { $ne: req.user },
+      disabled: false,
+    };
   } else {
-    findQuery = {};
+    findQuery = { _id: { $ne: req.user }, disabled: false };
   }
   try {
     const users = await userModel
@@ -174,6 +190,10 @@ export const listUsers = async (req, res) => {
       .json({ success: false, message: "Something went wrong somewhere" });
   }
 };
+
+////////////////////////////////////
+//// CHANGE USER PASSWORD ROUTE ////
+////////////////////////////////////
 
 export const changeUserPassword = async (req, res) => {
   let { currPassword, newPassword } = req.body;
@@ -209,15 +229,15 @@ export const changeUserPassword = async (req, res) => {
     });
 };
 
+///////////////////////////
+//// UPDATE USER ROUTE ////
+///////////////////////////
+
 export const updateUser = async (req, res) => {
   console.log("UPDATE USER ENDPOINT CALLED");
   let { first_name, last_name, profile_img, email, bio } = req.body;
 
   const bioLimit = 150;
-
-  if (req.file) {
-    profile_img = req.file.filename;
-  }
 
   if (first_name.length < 2 || last_name.length < 2) {
     return res.status(403).json({
@@ -231,6 +251,48 @@ export const updateUser = async (req, res) => {
       success: false,
       message: `Bio should not be more than ${bioLimit} characters`,
     });
+  }
+
+  if (req.file) {
+    profile_img = req.file.filename;
+    let profile_imgPath = req.file.path;
+    const compressedFilePath = "uploads/profile-images/" + profile_img;
+    const compression = 60;
+    compressImages(
+      profile_imgPath,
+      compressedFilePath,
+      {
+        compress_force: false,
+        statistic: true,
+        autoupdate: true,
+      },
+      false,
+      { jpg: { engine: "mozjpeg", command: ["-quality", compression] } },
+      {
+        png: {
+          engine: "pngquant",
+          command: ["--quality=" + compression + "-" + compression, "-o"],
+        },
+      },
+      { svg: { engine: "svgo", command: "--multipass" } },
+      {
+        gif: {
+          engine: "gifsicle",
+          command: ["--colors", "64", "--use-col=web"],
+        },
+      },
+      async (error, completed, statistic) => {
+        console.log("______");
+        console.log(error);
+        console.log(completed);
+        console.log(statistic);
+        console.log("______");
+
+        fs.unlink(profile_imgPath, (err) => {
+          if (err) throw err;
+        });
+      }
+    );
   }
 
   let updateObj = {
@@ -258,5 +320,32 @@ export const updateUser = async (req, res) => {
           .status(500)
           .json({ error: err.message, message: "Email already in use" });
       }
+    });
+};
+
+//////////////////////////
+/// DELETE USER ROUTE ////
+///////////////////////////
+
+export const removeUser = async (req, res) => {
+  console.log("REMOVE USER ENDPOINT CALLED");
+  let { del_user } = req.body;
+
+  userModel
+    .findById(req.user, "account_info.type")
+    .then(({ account_info: { type } }) => {
+      if (type != "admin") {
+        return res
+          .status(401)
+          .json({ success: false, message: "Invalid access permision" });
+      }
+      userModel
+        .findOneAndUpdate({ _id: del_user }, { disabled: true })
+        .then(() => {
+          console.log("removed user");
+          res
+            .status(200)
+            .json({ success: true, message: "User removed successfully" });
+        });
     });
 };

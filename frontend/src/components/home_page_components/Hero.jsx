@@ -51,7 +51,7 @@ const Hero = () => {
         </motion.h2>
         <motion.p
           variants={item}
-          className=" text-white line-clamp-3 text-[max(1vw,14px)] w-[70%] tab-m:w-[90%] mt-[10px]"
+          className=" text-white line-clamp-3 text-sm w-[70%] tab-m:w-[90%] mt-[10px]"
         >
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus quasi
           quas atque? Quo quae et dicta repellendus optio incidunt totam, dolor

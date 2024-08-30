@@ -22,20 +22,26 @@ const AboutSection = () => {
       >
         <h2 className={styles.homePageSectionTitle}>About Us</h2>
         <p className="w-[100%] line-clamp-[11] tab-m:line-clamp-[8] mt-5  text-justify">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima quod
-          amet voluptatibus deleniti aliquid dolor vitae nobis porro modi eum,
-          necessitatibus fugit qui cupiditate quia. Alias, voluptatibus?
-          Pariatur, officia hic. Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Minima quod amet voluptatibus deleniti aliquid dolor
-          vitae nobis porro modi eum, necessitatibus fugit qui cupiditate quia.
-          Alias, voluptatibus? Pariatur, officia hic. Lorem ipsum dolor sit amet
-          consectetur adipisicing elit. Minima quod amet voluptatibus deleniti
-          aliquid dolor vitae nobis porro modi eum, necessitatibus fugit qui
-          cupiditate quia. Alias, voluptatibus? Pariatur, officia hic. Lorem
-          ipsum dolor sit amet consectetur adipisicing elit. Minima quod amet
-          voluptatibus deleniti aliquid dolor vitae nobis porro modi eum,
-          necessitatibus fugit qui cupiditate quia. Alias, voluptatibus?
-          Pariatur, officia hic.
+          Cardinal Energies is an innovative energy company with focus in the
+          entire value chain in the oil and gas space covering the downstream,
+          midstream and upstream sector. The company will operate across the
+          entire spectrum of the oil & gas space by exploring the following key
+          areas in the sector; petroleum trading, crude sales, Gas sales, key
+          investment in marginal field or existing OML or OPL, storage solutions
+          and etc. Nevertheless, our key focus as we commence operations will be
+          in the downstream space. Cardinal energies shall expand it activity in
+          the trading space by providing services that cover the entire supply
+          value chain. The company will be involved in the large-scale export
+          and import of petroleum products with the aim of becoming a leading
+          supplier of petroleum products to Nigeria and West Africa.We will
+          trade an extensive range of refined petroleum products and crude oil
+          throughout Africa. Our product range will include Jet A1, Liquefied
+          Petroleum Gas, Gasoline, Dual Purpose Kerosene, Diesel, Low/High Pour
+          Fuel Oil, Naphtha, Base Oil and Bitumen. Cardinal energies will be
+          responsible primarily for the supply of refined petroleum products
+          into Nigeria, however the long term plan is to build the necessary
+          capacity to supply petroleum products into new and emerging markets in
+          Africa.
         </p>
       </motion.div>
       <div className="h-100% place-self-end">

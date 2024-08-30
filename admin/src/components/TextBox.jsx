@@ -27,7 +27,7 @@ const TextBox = ({
         className={`${styles.inputBox} px-4 py-3 pl-12 text-gray-700`}
       />
       <i
-        class={`fi fi-rr-${icon} absolute text-[14px] left-4 top-1/2 -translate-y-1/2 text-gray-600`}
+        className={`fi fi-rr-${icon} absolute text-[14px] left-4 top-1/2 -translate-y-1/2 text-gray-600`}
       ></i>
 
       {type === "password" ? (
@@ -42,9 +42,9 @@ const TextBox = ({
           } absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer`}
         >
           {passwordVisible ? (
-            <i class="fi fi-rr-eye-crossed text-[14px] text-gray-600"></i>
+            <i className="fi fi-rr-eye-crossed text-[14px] text-gray-600"></i>
           ) : (
-            <i class="fi fi-rr-eye text-[16px] text-gray-600"></i>
+            <i className="fi fi-rr-eye text-[16px] text-gray-600"></i>
           )}
         </div>
       ) : (

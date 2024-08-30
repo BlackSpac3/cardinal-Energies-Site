@@ -44,7 +44,7 @@ const EditProfile = () => {
     e.preventDefault();
     profile_img = "default.png";
     setProfileImg(null);
-    profileImgRef.current.src = `${url}/profile-images/${profile_img}`;
+    profileImgRef.current.src = `${url}/profile-images/${profile_img}uploads/${profile_img}`;
   };
 
   const handleSubmit = async (e) => {
@@ -109,7 +109,7 @@ const EditProfile = () => {
                 </div>
                 <img
                   ref={profileImgRef}
-                  src={`${url}/profile-images/` + profile_img}
+                  src={`${url}/profile-images/${profile_img}uploads/${profile_img}`}
                   alt=""
                   className="w-full h-full rounded-full object-cover"
                 />
@@ -140,7 +140,7 @@ const EditProfile = () => {
                   name="first_name"
                   Value={first_name}
                   type="text"
-                  placeholder="First Name"
+                  placeholder="John"
                   className={inputStyle}
                 />
               </div>
@@ -153,7 +153,7 @@ const EditProfile = () => {
                   type="text"
                   name="last_name"
                   Value={last_name}
-                  placeholder="Last Name"
+                  placeholder="Doe"
                   className={inputStyle}
                 />
               </div>
@@ -168,7 +168,7 @@ const EditProfile = () => {
                 name="email"
                 Value={email}
                 type="text"
-                placeholder="Blog Title"
+                placeholder="johndoe@example.com"
                 className={inputStyle}
               />
             </div>
@@ -187,12 +187,14 @@ const EditProfile = () => {
                 onChange={handleBioCharacterChange}
                 rows={6}
               />
-              <p
-                className={`$"form-label" place-self-end`}
-              >{`${charactersleft} characters left`}</p>
+              <p className="form-label place-self-end">{`${charactersleft} characters left`}</p>
             </div>
 
-            <button ref={submitBttnRef} type="submit" className="bttn">
+            <button
+              ref={submitBttnRef}
+              type="submit"
+              className="bttn bg-primary text-sm"
+            >
               Save Changes
             </button>
           </div>

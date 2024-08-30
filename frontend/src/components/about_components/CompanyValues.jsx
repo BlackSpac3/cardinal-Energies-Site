@@ -5,19 +5,19 @@ const CompanyValues = () => {
   const values = [
     {
       title: "Integrity",
-      desc: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Adipisci  est repellendus ipsum amet, cum perferendis? Quisquam, architecto!",
+      desc: "Integrity is the cornerstone of everything we do. We are committed to conducting our business with the highest standards of honesty, transparency, and ethical behavior.",
     },
     {
       title: "Responsibility",
-      desc: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Adipisci  est repellendus ipsum amet, cum perferendis? Quisquam, architecto!",
+      desc: "As a responsible corporate citizen, we strive to benefit our clients, employees, communities, and the planet by making ethical, sustainable decisions focused on long-term value creation.",
     },
     {
       title: "Innovation",
-      desc: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Adipisci  est repellendus ipsum amet, cum perferendis? Quisquam, architecto!",
+      desc: "Our commitment to innovation fuels our ability to deliver superior products and services that exceed expectations and lead the industry.",
     },
     {
       title: "Sustainability",
-      desc: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Adipisci  est repellendus ipsum amet, cum perferendis? Quisquam, architecto!",
+      desc: "We are dedicated to fostering environmental stewardship and creating long-term value through sustainable practices.",
     },
   ];
   return (
@@ -29,11 +29,11 @@ const CompanyValues = () => {
         <div className="grid grid-cols-2 gap-4 mt-10  text-white phone:grid-cols-1">
           {values.map((value, index) => (
             <div className="p-6 h-full w-full bg-white rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-white">
-              <h1 className="text-white font-semibold text-2xl mb-1">
+              <h1 className="text-white font-semibold text-xl mb-1">
                 {value.title}
               </h1>
-              <p>{value.desc}</p>
-              <button>Learn more</button>
+              <p className="text-sm">{value.desc}</p>
+              {/* <button>Learn more</button> */}
             </div>
           ))}
         </div>

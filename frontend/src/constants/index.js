@@ -118,16 +118,16 @@ export const services = [
   {
     icon: icons.source_energy_icon,
     title: "Soucrce Energy",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida.",
+    desc: "We specialize in sourcing high-quality energy solutions tailored to meet the unique needs of our clients. From renewables to traditional power, we connect you with the right energy resources, ensuring reliable, efficient, and cost-effective energy supply.",
   },
   {
     icon: icons.store_energy_icon,
     title: "Store Energy",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida.",
+    desc: "We provide advanced energy storage solutions that enable businesses and communities to harness, store, and manage energy more effectively.",
   },
   {
     icon: icons.sell_energy_icon,
     title: "Sell Energy",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida.",
+    desc: "Our flexible energy sales solutions provide cost-effective and reliable access to electricity, renewable energy, helping you meet your power needs while staying within budget.",
   },
 ];

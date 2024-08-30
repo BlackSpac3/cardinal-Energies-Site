@@ -31,7 +31,7 @@ const BlogEditor = () => {
     const img = e.target.files[0];
 
     if (img) {
-      if (img.size > 7000000) {
+      if (img.size > 1024 * 1024 * 6) {
         toast.error("Image should be less than 6MB");
       } else {
         toast.success("Uploaded 👍 ");
@@ -124,7 +124,7 @@ const BlogEditor = () => {
     try {
       return URL.createObjectURL(img);
     } catch (error) {
-      return `${url}/blog-images/` + img;
+      return `${url}/blog-images/${img}uploads/${img}`;
     }
   };
 
@@ -188,18 +188,12 @@ const BlogEditor = () => {
             onChange={handleTitleChange}
           ></textarea>
 
-          <div className="flex gap-3 min-w-fit">
-            <button
-              onClick={handleSaveDraft}
-              className="border text-gray-400 px-5 text-xs rounded-md py-2"
-            >
+          <div className="flex gap-3 min-w-fit text-xs">
+            <button onClick={handleSaveDraft} className="bttn-outline">
               Save Draft
             </button>
 
-            <button
-              onClick={handlePublishEvent}
-              className="bg-primary text-white px-5 text-xs rounded-md py-2"
-            >
+            <button onClick={handlePublishEvent} className="bttn bg-primary">
               Publish
             </button>
           </div>
@@ -218,7 +212,7 @@ const BlogEditor = () => {
               <input
                 id="upload-banner"
                 type="file"
-                accept=".png, .jpg, .jpeg, .webp"
+                accept=".png, .jpg, .jpeg"
                 hidden
                 onChange={handleBannerUpload}
               />

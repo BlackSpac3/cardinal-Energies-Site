@@ -53,7 +53,9 @@ const PublishForm = () => {
     if (e.keyCode == 13 || e.keyCode == 188) {
       e.preventDefault();
 
-      let tag = e.target.value.toLowerCase();
+      let input = e.target.value.toLowerCase();
+
+      let tag = input.replaceAll(" and ", " & ");
 
       if (tags.length < tagLimit) {
         if (!tags.includes(tag) && tag.length) {
@@ -167,7 +169,7 @@ const PublishForm = () => {
     try {
       return URL.createObjectURL(img);
     } catch (error) {
-      return `${url}/blog-images/` + img;
+      return `${url}/blog-images/${img}uploads/${img}`;
     }
   };
 
@@ -187,9 +189,9 @@ const PublishForm = () => {
           <div className="w-full">
             <div className="relative w-full aspect-video overflow-hidden rounded-md">
               {tags.length != 0 && (
-                <div className="absolute left-2 top-2 bg-gray-600 bg-opacity-50 px-4 py-2 backdrop-blur-sm rounded-full text-white text-sm">
-                  <p>{capitalize(tags[0])}</p>
-                </div>
+                <p className="absolute left-2 top-2 bg-gray-700 bg-opacity-20 backdrop-blur-sm rounded-full px-4 py-2 capitalize text-white text-sm">
+                  {tags[0]}
+                </p>
               )}
               <img
                 src={bannerFormat(banner)}
@@ -201,8 +203,8 @@ const PublishForm = () => {
             <p className="break-words text-sm text-gray-700 mt-1">{desc}</p>
             <div className="flex gap-2 items-center mt-4">
               <img
-                src={`${url}/profile-images/` + profile_img}
-                className="w-8 h-8"
+                src={`${url}/profile-images/${profile_img}uploads/${profile_img}`}
+                className="w-8 h-8 rounded-full bg-gray-50"
               />
               <p className="leading-none">{`${capitalize(
                 first_name
@@ -267,7 +269,10 @@ const PublishForm = () => {
                 {tagLimit - tags.length == 1 ? "tag" : "tags"} left
               </p>
             </div>
-            <button onClick={publishBlog} className="bttn place-self-end">
+            <button
+              onClick={publishBlog}
+              className="bttn bg-primary place-self-end"
+            >
               Publish
             </button>
           </form>

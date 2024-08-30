@@ -1,5 +1,6 @@
 import BlogsGrid from "../components/blog_components/BlogsGrid";
-import Header from "../components/blog_components/Header";
+import FeaturedBlogs from "../components/blog_components/FeaturedBlogs";
+import LatestBlog from "../components/blog_components/LatestBlog";
 import { motion } from "framer-motion";
 
 const Blog = () => {
@@ -16,7 +17,8 @@ const Blog = () => {
         },
       }}
     >
-      <Header />
+      <LatestBlog />
+      <FeaturedBlogs />
       <BlogsGrid />
     </motion.div>
   );

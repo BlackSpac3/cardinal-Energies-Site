@@ -4,6 +4,8 @@ import axios from "axios";
 import { url } from "../../assets/assets";
 import { useState, useRef, useEffect } from "react";
 import { filterPaginationData } from "../../utils/filter-pagination-data";
+import { styles } from "../../utils/styles";
+import BlogCardSkeleton from "../skeletons/BlogCardSkeleton";
 
 const BlogsGrid = () => {
   const max = 9;
@@ -60,7 +62,7 @@ const BlogsGrid = () => {
           data: data.data,
           page: page,
           countRoute: "/api/blog/all-latest-blogs-count",
-          data_to_send: { query },
+          data_to_send: { query, draft: false },
         });
       })
       .catch((err) => {
@@ -73,12 +75,17 @@ const BlogsGrid = () => {
   }, []);
   return (
     <div className="flex flex-col m-body">
-      <div className="flex flex-col gap-10 items-center">
+      <header>
+        <p className={styles.homePageSectionTitle}>All Posts</p>
+      </header>
+      <div className="flex flex-col gap-10 items-center mt-14">
         <div
           id="services-section-content"
-          className="grid grid-cols-3  phone:grid-cols-1 gap-[20px] mt-14 phone:mt-6 w-full"
+          className="grid grid-cols-3  phone:grid-cols-1 gap-5 gap-y-14  phone:mt-6 w-full"
         >
-          {blogs &&
+          {!blogs ? (
+            <BlogCardSkeleton cards={9} />
+          ) : (
             blogs.results.map((blog, index) => (
               <BlogCard
                 blog_id={blog.blog_id}
@@ -89,7 +96,8 @@ const BlogsGrid = () => {
                 tags={blog.tags}
                 author={blog.author}
               />
-            ))}
+            ))
+          )}
         </div>
         <ContentPageNavigation
           state={blogs}

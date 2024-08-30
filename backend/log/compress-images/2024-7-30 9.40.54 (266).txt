@@ -1,0 +1,8 @@
+File from: [uploads\1725007254040hydrogen-tank-solar-panel-windmills-blue-sky-background-sustainable-ecological-energy-concept-jpg]
+
+File to: [uploads/gallery/1725007254040hydrogen-tank-solar-panel-windmills-blue-sky-background-sustainable-ecological-energy-concept-jpguploads\1725007254040hydrogen-tank-solar-panel-windmills-blue-sky-background-sustainable-ecological-energy-concept-jpg]
+
+Compression algorithm: [mozjpeg]
+
+Description: Error: Command failed: C:\Users\toyin\Desktop\Cardinal_Energies\backend\node_modules\mozjpeg\vendor\cjpeg.exe -quality 60 -outfile uploads/gallery/1725007254040hydrogen-tank-solar-panel-windmills-blue-sky-background-sustainable-ecological-energy-concept-jpguploads\1725007254040hydrogen-tank-solar-panel-windmills-blue-sky-background-sustainable-ecological-energy-concept-jpg uploads\1725007254040hydrogen-tank-solar-panel-windmills-blue-sky-background-sustainable-ecological-energy-concept-jpg
+C:\Users\toyin\Desktop\Cardinal_Energies\backend\node_modules\mozjpeg\vendor\cjpeg.exe: can't open uploads/gallery/1725007254040hydrogen-tank-solar-panel-windmills-blue-sky-background-sustainable-ecological-energy-concept-jpguploads\1725007254040hydrogen-tank-solar-panel-windmills-blue-sky-background-sustainable-ecological-energy-concept-jpg

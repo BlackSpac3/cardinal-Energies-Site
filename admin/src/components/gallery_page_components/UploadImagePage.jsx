@@ -22,12 +22,19 @@ const UploadImagePage = ({ setState }) => {
 
   const handleImageSelection = (e) => {
     const selectedImg = e.target.files[0];
-    setImage(selectedImg);
-    imgRef.current.src = URL.createObjectURL(selectedImg);
-    if (!desc) {
-      submitBttnRef.current.disabled = true;
-    } else {
-      submitBttnRef.current.disabled = false;
+
+    if (selectedImg) {
+      if (selectedImg.size > 1024 * 1024 * 6) {
+        toast.error("Image should be less than 6MB", { id: "Image-too-large" });
+      } else {
+        setImage(selectedImg);
+        imgRef.current.src = URL.createObjectURL(selectedImg);
+        if (!desc) {
+          submitBttnRef.current.disabled = true;
+        } else {
+          submitBttnRef.current.disabled = false;
+        }
+      }
     }
   };
 
@@ -63,12 +70,11 @@ const UploadImagePage = ({ setState }) => {
     formData.append("image", image);
     formData.append("desc", desc);
 
-    const loadingToast = toast.loading("Updating...");
+    const loadingToast = toast.loading("Uploading...");
     try {
       const res = await axios.post(`${url}/api/image/add`, formData, {
         headers: { Authorization: `Bearer ${access_token}` },
       });
-      console.log(res);
       toast.dismiss(loadingToast);
       toast.success(res.data.message, { id: "image-upload-successfull" });
       setDesc("");
@@ -134,7 +140,7 @@ const UploadImagePage = ({ setState }) => {
             <button
               ref={submitBttnRef}
               onClick={uploadImage}
-              className="bttn place-self-end"
+              className="bttn bg-primary place-self-end"
             >
               Upload
             </button>

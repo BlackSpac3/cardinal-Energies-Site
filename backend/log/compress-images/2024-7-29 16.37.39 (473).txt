@@ -1,0 +1,8 @@
+File from: [uploads\1724945858850WhatsApp-Image-2023-03-29-at-20.10.10-e1680125680526-q48vi37yw3boti2t6lhnkbrjq602ze1hhv0s6j12q6-(1).png]
+
+File to: [uploads/employee-images/1724945858850WhatsApp-Image-2023-03-29-at-20.10.10-e1680125680526-q48vi37yw3boti2t6lhnkbrjq602ze1hhv0s6j12q6-(1).pnguploads\1724945858850WhatsApp-Image-2023-03-29-at-20.10.10-e1680125680526-q48vi37yw3boti2t6lhnkbrjq602ze1hhv0s6j12q6-(1).png]
+
+Compression algorithm: [pngquant]
+
+Description: Error: Command failed: C:\Users\toyin\Desktop\Cardinal_Energies\backend\node_modules\pngquant-bin\vendor\pngquant.exe --quality=60-60 -o uploads/employee-images/1724945858850WhatsApp-Image-2023-03-29-at-20.10.10-e1680125680526-q48vi37yw3boti2t6lhnkbrjq602ze1hhv0s6j12q6-(1).pnguploads\1724945858850WhatsApp-Image-2023-03-29-at-20.10.10-e1680125680526-q48vi37yw3boti2t6lhnkbrjq602ze1hhv0s6j12q6-(1).png uploads\1724945858850WhatsApp-Image-2023-03-29-at-20.10.10-e1680125680526-q48vi37yw3boti2t6lhnkbrjq602ze1hhv0s6j12q6-(1).png
+  error: cannot open 'uploads/employee-images/1724945858850WhatsApp-Image-2023-03-29-at-20.10.10-e1680125680526-q48vi37yw3boti2t6lhnkbrjq602ze1hhv0s6j12q6-(1).pnguploads\1724945858850WhatsApp-Image-2023-03-29-at-20.10.10-e1680125680526-q48vi37yw3boti2t6lhnkbrjq602ze1hhv0s6j12q6-(1).png.tmp' for writing

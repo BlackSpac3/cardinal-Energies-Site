@@ -2,25 +2,104 @@ import blogModel from "../models/blogModel.js";
 import fs from "fs";
 import { nanoid } from "nanoid";
 import userModel from "../models/userModel.js";
+import compressImages from "compress-images";
 
 //add image in blog
 
 const addImgInBlog = async (req, res) => {
-  let image_filename = `${req.file.filename}`;
+  let imageFilename = req.file.filename;
+  const imagePath = req.file.path;
+
+  const compressedFilePath = "uploads/blog-images/" + imageFilename;
+  const compression = 60;
+
+  compressImages(
+    imagePath,
+    compressedFilePath,
+    {
+      compress_force: false,
+      statistic: true,
+      autoupdate: true,
+    },
+    false,
+    { jpg: { engine: "mozjpeg", command: ["-quality", compression] } },
+    {
+      png: {
+        engine: "pngquant",
+        command: ["--quality=" + compression + "-" + compression, "-o"],
+      },
+    },
+    { svg: { engine: "svgo", command: "--multipass" } },
+    {
+      gif: { engine: "gifsicle", command: ["--colors", "64", "--use-col=web"] },
+    },
+    async (error, completed, statistic) => {
+      console.log("______");
+      console.log(error);
+      console.log(completed);
+      console.log(statistic);
+      console.log("______");
+
+      fs.unlink(imagePath, (err) => {
+        if (err) throw err;
+      });
+    }
+  );
   res.json({
     success: 1,
-    file: { url: `http://localhost:4000/blog-images/${image_filename}` },
+    file: {
+      url: `http://localhost:4000/blog-images/${imageFilename}uploads/${imageFilename}`,
+    },
   });
 };
 //create blog
 
 const createBlog = async (req, res) => {
-  console.log("bCREATE BLOG ENDPOINT HIT");
+  console.log("CREATE BLOG ENDPOINT HIT");
   let { title, desc, banner, content, tags, draft, id } = req.body;
   let authorId = req.user;
 
   if (req.file) {
-    banner = `${req.file.filename}`;
+    banner = req.file.filename;
+    const bannerPath = req.file.path;
+    const compressedFilePath = "uploads/blog-images/" + banner;
+    const compression = 60;
+
+    compressImages(
+      bannerPath,
+      compressedFilePath,
+      {
+        compress_force: false,
+        statistic: true,
+        autoupdate: true,
+      },
+      false,
+      { jpg: { engine: "mozjpeg", command: ["-quality", compression] } },
+      {
+        png: {
+          engine: "pngquant",
+          command: ["--quality=" + compression + "-" + compression, "-o"],
+        },
+      },
+      { svg: { engine: "svgo", command: "--multipass" } },
+      {
+        gif: {
+          engine: "gifsicle",
+          command: ["--colors", "64", "--use-col=web"],
+        },
+      },
+      async (error, completed, statistic) => {
+        console.log("______");
+        console.log(error);
+        console.log(completed);
+        console.log(statistic);
+        console.log("______");
+
+        fs.unlink(bannerPath, (err) => {
+          if (err) throw err;
+        });
+      }
+    );
   }
 
   let blog_id =
@@ -135,18 +214,38 @@ const createBlog = async (req, res) => {
 
 //all blog list
 const listBlogs = async (req, res) => {
-  let { author_id, tag, query, page, max, draft, eliminate_blog } = req.body;
+  let { author_id, tag, tags, query, page, max, draft, eliminate_blog } =
+    req.body;
   draft = Boolean(draft);
   let findQuery;
 
   if (tag && !eliminate_blog) {
     findQuery = { tags: tag, draft };
   } else if (eliminate_blog) {
-    findQuery = { tags: tag, draft, blog_id: { $ne: eliminate_blog } };
+    findQuery = {
+      tags: { $in: tags },
+      draft,
+      blog_id: { $ne: eliminate_blog },
+    };
   } else if (query && author_id) {
-    findQuery = { title: new RegExp(query, "i"), author: author_id, draft };
+    findQuery = {
+      $or: [
+        { title: new RegExp(query, "i") },
+        { tags: new RegExp(query, "i") },
+        { desc: new RegExp(query, "i") },
+      ],
+      author: author_id,
+      draft,
+    };
   } else if (query) {
-    findQuery = { title: new RegExp(query, "i"), draft };
+    findQuery = {
+      $or: [
+        { title: new RegExp(query, "i") },
+        { tags: new RegExp(query, "i") },
+        { desc: new RegExp(query, "i") },
+      ],
+      draft,
+    };
   } else if (author_id) {
     findQuery = { author: author_id, draft };
   } else {
@@ -171,17 +270,39 @@ const listBlogs = async (req, res) => {
 };
 
 const countBlogs = async (req, res) => {
-  let { author_id, query, tag, draft, eliminate_blog } = req.body;
+  console.log("_______________________________________");
+  console.log("BLOG COUNT CALLED");
+  console.log("_______________________________________");
+  let { author_id, query, tag, tags, draft, eliminate_blog } = req.body;
   let findQuery;
 
   if (tag && !eliminate_blog) {
     findQuery = { tags: tag, draft };
   } else if (eliminate_blog) {
-    findQuery = { tags: tag, draft, blog_id: { $ne: eliminate_blog } };
+    findQuery = {
+      tags: { $in: tags },
+      draft,
+      blog_id: { $ne: eliminate_blog },
+    };
   } else if (query && author_id) {
-    findQuery = { title: new RegExp(query, "i"), author: author_id, draft };
+    findQuery = {
+      $or: [
+        { title: new RegExp(query, "i") },
+        { tags: new RegExp(query, "i") },
+        { desc: new RegExp(query, "i") },
+      ],
+      author: author_id,
+      draft,
+    };
   } else if (query) {
-    findQuery = { title: new RegExp(query, "i"), draft };
+    findQuery = {
+      $or: [
+        { title: new RegExp(query, "i") },
+        { tags: new RegExp(query, "i") },
+        { desc: new RegExp(query, "i") },
+      ],
+      draft,
+    };
   } else if (author_id) {
     findQuery = { author: author_id, draft };
   } else {
@@ -266,6 +387,23 @@ const removeBlog = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: "Error" });
+  }
+};
+
+export const trendingBlogs = async (req, res) => {
+  try {
+    const blogs = await blogModel
+      .find({ draft: false })
+      .populate(
+        "author",
+        "personal_info.first_name personal_info.last_name personal_info.profile_img -_id"
+      )
+      .sort({ total_reads: -1, publishedAt: -1 })
+      .limit(3);
+    res.status(200).json({ success: true, data: blogs });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "error" });
   }
 };
 

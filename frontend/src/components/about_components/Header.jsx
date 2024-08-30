@@ -32,23 +32,26 @@ const Header = () => {
           <div className="h-[2.5px] mt-1 w-full bg-primary"></div>
         </div>
         <p className="mt-10">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus
-          cumque fugit commodi velit pariatur, necessitatibus eius vitae officia
-          magnam in illum incidunt doloribus, esse deleniti obcaecati! Aliquid
-          saepe sint dolor mollitia, optio possimus sequi delectus rerum
-          deserunt adipisci blanditiis tempora magnam perspiciatis facilis
-          officiis tenetur excepturi ab facere autem molestias! Qui nemo,
-          molestiae eaque ducimus molestias obcaecati, soluta eligendi nulla
-          porro incidunt sed a, at ipsum odio cum quod repellendus magnam libero
-          maxime quae? Impedit quibusdam autem facere, vel qui inventore
-          tenetur, ducimus ratione eaque sapiente quam, debitis quo officiis
-          quis rem. Consequatur ut ex fuga. Corporis ipsam repellat aut dolore
-          inventore. Ipsum explicabo nisi quis voluptatum nemo molestias maiores
-          culpa perferendis dignissimos temporibus debitis eligendi, a molestiae
-          quos corporis dolores impedit velit vitae incidunt. Quasi quo rerum
-          temporibus aut. Nulla repellat provident assumenda id. Repellendus
-          possimus minima beatae voluptatum accusantium rem voluptas impedit
-          quisquam? Corrupti, non? Inventore, nesciunt corrupti!
+          Cardinal Energies is an innovative energy company with focus in the
+          entire value chain in the oil and gas space covering the downstream,
+          midstream and upstream sector. The company will operate across the
+          entire spectrum of the oil & gas space by exploring the following key
+          areas in the sector; petroleum trading, crude sales, Gas sales, key
+          investment in marginal field or existing OML or OPL, storage solutions
+          and etc. Nevertheless, our key focus as we commence operations will be
+          in the downstream space. Cardinal energies shall expand it activity in
+          the trading space by providing services that cover the entire supply
+          value chain. The company will be involved in the large-scale export
+          and import of petroleum products with the aim of becoming a leading
+          supplier of petroleum products to Nigeria and West Africa.We will
+          trade an extensive range of refined petroleum products and crude oil
+          throughout Africa. Our product range will include Jet A1, Liquefied
+          Petroleum Gas, Gasoline, Dual Purpose Kerosene, Diesel, Low/High Pour
+          Fuel Oil, Naphtha, Base Oil and Bitumen. Cardinal energies will be
+          responsible primarily for the supply of refined petroleum products
+          into Nigeria, however the long term plan is to build the necessary
+          capacity to supply petroleum products into new and emerging markets in
+          Africa.
         </p>
       </div>
     </div>

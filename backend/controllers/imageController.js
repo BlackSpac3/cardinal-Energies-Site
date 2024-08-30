@@ -1,7 +1,7 @@
 import imageModel from "../models/ImageModel.js";
 import fs from "fs";
-import { nanoid } from "nanoid";
 import userModel from "../models/userModel.js";
+import compressImages from "compress-images";
 
 export const addImage = async (req, res) => {
   console.log("IMAGE UPLOAD ENDPOINT HIT");
@@ -16,30 +16,82 @@ export const addImage = async (req, res) => {
       .json({ success: false, message: "Can't process without an image" });
   }
 
-  const image = req.file.filename;
-
-  if (desc.length > descLimit) {
+  if (!desc || desc.length > descLimit) {
     return res.status(400).json({
       success: false,
-      message: `Description cannot be more than ${descLimit} characters`,
+      message: `Image must have a decription under ${descLimit} characters`,
     });
   }
 
-  const newImage = new imageModel({
-    image,
-    desc,
-    author,
-  });
+  const imageName = req.file.filename;
+  const imagePath = req.file.path;
 
-  try {
-    await newImage.save();
-    return res.status(200).json({ success: true, message: "Image Uploaded" });
-  } catch (error) {
-    console.log(error);
-    res
-      .status(500)
-      .json({ success: false, message: "Something went wrong somewhere" });
-  }
+  const compressedFilePath = "uploads/gallery/" + imageName;
+  const compression = 60;
+
+  compressImages(
+    imagePath,
+    compressedFilePath,
+    {
+      compress_force: false,
+      statistic: true,
+      autoupdate: true,
+    },
+    false,
+    { jpg: { engine: "mozjpeg", command: ["-quality", compression] } },
+    {
+      png: {
+        engine: "pngquant",
+        command: ["--quality=" + compression + "-" + compression, "-o"],
+      },
+    },
+    { svg: { engine: "svgo", command: "--multipass" } },
+    {
+      gif: { engine: "gifsicle", command: ["--colors", "64", "--use-col=web"] },
+    },
+    async (error, completed, statistic) => {
+      console.log("______");
+      console.log(error);
+      console.log(completed);
+      console.log(statistic);
+      console.log("______");
+
+      fs.unlink(imagePath, (err) => {
+        if (err) throw err;
+      });
+
+      if (error) {
+        return res
+          .status(500)
+          .json({ success: false, message: "Could not upload image" });
+      }
+
+      const newImage = new imageModel({
+        image: imageName,
+        desc,
+        author,
+      });
+
+      try {
+        await newImage.save();
+        await userModel.findOneAndUpdate(
+          { _id: author },
+          {
+            $inc: { "account_info.total_images": 1 },
+            $push: { images: newImage._id },
+          }
+        );
+        return res
+          .status(200)
+          .json({ success: true, message: "Image Uploaded" });
+      } catch (error) {
+        console.log(error);
+        res
+          .status(500)
+          .json({ success: false, message: "Something went wrong somewhere" });
+      }
+    }
+  );
 };
 
 export const listImages = async (req, res) => {

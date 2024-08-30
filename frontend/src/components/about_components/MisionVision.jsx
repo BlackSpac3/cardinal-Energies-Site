@@ -22,9 +22,10 @@ const MisionVision = () => {
           <img src={icons.vision_icon} className="w-[40px]" />
           <h2 className={`${cardTitleStyles}`}>Vision</h2>
           <p className={cardDescStyles}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid
-            animi, non dolores ad nostrum ratione, eligendi aspernatur impedit
-            incidunt corporis odit molestias! Consectetur?
+            Our vision is to lead the global transition toward a sustainable and
+            energy-efficient future by empowering communities and businesses
+            with innovative, reliable, and clean energy solutions while
+            preserving our planet for future generations.
           </p>
         </div>
 
@@ -32,9 +33,10 @@ const MisionVision = () => {
           <img src={icons.mission_icon} className="w-[40px]" />
           <h2 className={`${cardTitleStyles}`}>Mission</h2>
           <p className={cardDescStyles}>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed, magni
-            architecto nulla iure dolores debitis provident exercitationem id
-            earum modi expedita, distinctio natus.
+            At the core of our mission is the steadfast commitment to delivering
+            high-quality energy solutions that adapt to the evolving needs of
+            our customers, all while embodying a deep dedication to
+            sustainability and innovation.
           </p>
         </div>
       </div>
