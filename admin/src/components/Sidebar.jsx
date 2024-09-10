@@ -3,7 +3,7 @@ import { assets, icons } from "../assets/assets";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 
-const Sidebar = ({ setPageTitle }) => {
+const Sidebar = ({ setPageTitle, sidebarIsOpen, setSidebarIsOpen }) => {
   const {
     userData: { user_type },
     setUserData,
@@ -40,6 +40,11 @@ const Sidebar = ({ setPageTitle }) => {
       title: "Employees",
       path: "/employees",
     },
+    {
+      icon: "newsletter-subscribe",
+      title: "Subsrcibers",
+      path: "/subsrcibers",
+    },
   ];
 
   const settingsOptions = [
@@ -65,9 +70,24 @@ const Sidebar = ({ setPageTitle }) => {
   };
   return (
     <>
-      <div className="phone:hidden flex flex-col min-h-[100vh] border-r w-[14%] shrink-0 text-xs">
-        <div id="logo-div" className="place-self-center py-5">
-          <img src={assets.logo_black} alt="" className="w-[100px]" />
+      <div
+        className={`${
+          sidebarIsOpen
+            ? "tab-m:left-0 shadow-[0px_0px_10px_-5px_rgba(0,0,0,10)]"
+            : "tab-m:-left-full"
+        } tab-m:absolute top-0 bg-white flex flex-col h-screen z-[100] border-r w-[15rem] max-w-[15xrem] text-xs tab-m:text-base overflow-y-auto duration-200`}
+      >
+        <div
+          id="logo-div"
+          className="flex justify-center  tab-m:justify-between items-center px-5 py-5"
+        >
+          <img src={assets.logo_black} alt="" className="w-[100px] " />
+          <div
+            onClick={() => setSidebarIsOpen(false)}
+            className="hidden tab-m:flex h-full aspect-square  justify-center items-center rounded-full bg-gray-100 p-2"
+          >
+            <i className="fi fi-rr-angle-left text-base"></i>
+          </div>
         </div>
 
         <div
@@ -86,7 +106,11 @@ const Sidebar = ({ setPageTitle }) => {
               </div>
               <div className="flex flex-col">
                 {sidebarOptions.map((option, index) => {
-                  if (option.path == "/employees" && user_type != "admin") {
+                  if (
+                    (option.path == "/employees" ||
+                      option.path == "/subsrcibers") &&
+                    user_type != "admin"
+                  ) {
                     return null;
                   } else {
                     return (
@@ -95,6 +119,7 @@ const Sidebar = ({ setPageTitle }) => {
                         to={option.path}
                         id="dashboard-options"
                         className=""
+                        onClick={() => setSidebarIsOpen(false)}
                       >
                         {({ isActive }) => {
                           isActive && setPageTitle(option.title);
@@ -103,14 +128,12 @@ const Sidebar = ({ setPageTitle }) => {
                               key={index}
                               className={`${
                                 isActive
-                                  ? "bg-[#2fae6010] text-primary border-r-primary py-3"
-                                  : "py-2 opacity-70 hover:opacity-100  border-r-transparent"
+                                  ? "bg-[#2fae6010] text-primary border-r-primary tab-m:py-5 py-3"
+                                  : "py-2 tab-m:py-3 opacity-70 hover:opacity-100  border-r-transparent"
                               } flex gap-2 items-center px-5 cursor-pointer duration-75 border-r-[2px]`}
                             >
                               <i className={`fi fi-rr-${option.icon}`}></i>
-                              <p className="tab-m:hidden leading-none">
-                                {option.title}
-                              </p>
+                              <p className="leading-none">{option.title}</p>
                             </div>
                           );
                         }}
@@ -136,7 +159,7 @@ const Sidebar = ({ setPageTitle }) => {
                         key={index}
                         to={option.path}
                         id="sidebar-option"
-                        className=""
+                        onClick={() => setSidebarIsOpen(false)}
                       >
                         {({ isActive }) => {
                           isActive && setPageTitle(option.title);
@@ -145,14 +168,12 @@ const Sidebar = ({ setPageTitle }) => {
                               key={index}
                               className={`${
                                 isActive
-                                  ? "bg-[#2fae6010] text-primary border-r-primary py-3"
-                                  : "py-2 opacity-70 hover:opacity-100  border-r-transparent"
+                                  ? "bg-[#2fae6010] text-primary border-r-primary tab-m:py-5 py-3"
+                                  : "py-2 tab-m:py-3 opacity-70 hover:opacity-100  border-r-transparent"
                               } flex gap-2 items-center px-5 cursor-pointer duration-75 border-r-[2px]`}
                             >
                               <i className={`fi fi-rr-${option.icon}`}></i>
-                              <p className="tab-m:hidden leading-none">
-                                {option.title}
-                              </p>
+                              <p className="leading-none">{option.title}</p>
                             </div>
                           );
                         }}

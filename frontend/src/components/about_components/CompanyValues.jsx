@@ -28,7 +28,10 @@ const CompanyValues = () => {
         </h1>
         <div className="grid grid-cols-2 gap-4 mt-10  text-white phone:grid-cols-1">
           {values.map((value, index) => (
-            <div className="p-6 h-full w-full bg-white rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-white">
+            <div
+              key={index}
+              className="p-6 h-full w-full bg-white rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-white"
+            >
               <h1 className="text-white font-semibold text-xl mb-1">
                 {value.title}
               </h1>

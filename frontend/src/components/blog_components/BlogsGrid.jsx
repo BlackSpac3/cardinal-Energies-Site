@@ -74,11 +74,11 @@ const BlogsGrid = () => {
     fetchBlogs({ query, page: 1, max: max });
   }, []);
   return (
-    <div className="flex flex-col m-body">
+    <div className="flex flex-col m-body ">
       <header>
         <p className={styles.homePageSectionTitle}>All Posts</p>
       </header>
-      <div className="flex flex-col gap-10 items-center mt-14">
+      <div className="flex flex-col gap-10 items-center mt-14 phone:mt-0">
         <div
           id="services-section-content"
           className="grid grid-cols-3  phone:grid-cols-1 gap-5 gap-y-14  phone:mt-6 w-full"
@@ -87,15 +87,17 @@ const BlogsGrid = () => {
             <BlogCardSkeleton cards={9} />
           ) : (
             blogs.results.map((blog, index) => (
-              <BlogCard
-                blog_id={blog.blog_id}
-                banner={blog.banner}
-                title={blog.title}
-                desc={blog.desc}
-                date={blog.publishedAt}
-                tags={blog.tags}
-                author={blog.author}
-              />
+              <div key={index}>
+                <BlogCard
+                  blog_id={blog.blog_id}
+                  banner={blog.banner}
+                  title={blog.title}
+                  desc={blog.desc}
+                  date={blog.publishedAt}
+                  tags={blog.tags}
+                  author={blog.author}
+                />
+              </div>
             ))
           )}
         </div>

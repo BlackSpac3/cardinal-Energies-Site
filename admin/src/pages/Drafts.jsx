@@ -8,6 +8,7 @@ import ContentPages from "../components/ContentPages";
 import Loading from "../components/Loading";
 import SearchBox from "../components/SearchBox";
 import BlogCardSkelenton from "../components/Skelentons/BlogCardSkelenton";
+import NoDataMessage from "../components/NoDataMessage";
 
 const Drafts = () => {
   const max = 9;
@@ -23,25 +24,19 @@ const Drafts = () => {
     setQuery(e.target.value);
 
     if (e.keyCode == 13 && query.length) {
-      fetchBlogs({ query, page: 1 });
+      fetchBlogs();
     }
   };
 
   const clearSearch = (e) => {
     setQuery(e.target.value);
-    e.target.value == "" && fetchBlogs({ page: 1, max });
+    e.target.value == "" && fetchBlogs();
   };
 
   const prevBttn = useRef(null);
   const nextBttn = useRef(null);
 
-  const fetchBlogs = async ({
-    query,
-    category,
-    page = 1,
-    max,
-    draft = true,
-  }) => {
+  const fetchBlogs = async () => {
     setBlogs(null);
     let formatedData;
     const author_id = user_id;
@@ -49,67 +44,66 @@ const Drafts = () => {
     await axios
       .post(`${url}/api/blog/list`, {
         query,
-        category,
-        page,
+        page: 1,
         max,
         author_id,
-        draft,
+        draft: true,
       })
       .then(async ({ data }) => {
         formatedData = await filterPaginationData({
           state: blogs,
           data: data.data,
-          page: page,
+          page: 1,
           countRoute: "/api/blog/all-latest-blogs-count",
-          data_to_send: { query, author_id },
+          data_to_send: { query, author_id, draft: true },
         });
       })
       .catch((err) => {
         console.log(err);
       });
     setBlogs(formatedData);
+    console.log(formatedData);
   };
 
   useEffect(() => {
-    fetchBlogs({ query, page: 1, max: max });
+    fetchBlogs();
   }, []);
 
   return (
-    <div className="flex flex-col p-10 w-full gap-10 overflow-y-scroll">
+    <div className="flex flex-col py-10 px-[3vw] tab-m:px-[5vw] w-full gap-10 overflow-y-scroll">
       <div className="flex justify-between w-full gap-10 items-center">
-        <div className="flex w-[50%]">
+        <div className="flex w-[50%] tab-s:w-full">
           <SearchBox
             onKeyDown={handleSearch}
             onChange={clearSearch}
-            placeholder="Find blogs"
+            search={() => query.length && fetchBlogs()}
+            placeholder="Find drafts"
           />
         </div>
       </div>
       <div className="flex w-full">
         <div className="flex flex-col gap-10 items-center w-full ">
-          <div className="grid grid-cols-3 gap-5 duration-100 w-full">
-            {blogs == null ? (
+          <div className="grid grid-cols-3 tab-m:grid-cols-2 tab-s:grid-cols-1 gap-y-10 gap-5 duration-100 w-full">
+            {!blogs ? (
               <BlogCardSkelenton cards={9} />
+            ) : blogs.results.length ? (
+              blogs.results.map((blog, index) => (
+                <BlogCard
+                  key={index}
+                  blog_id={blog.blog_id}
+                  banner={blog.banner}
+                  title={capitalize(blog.title)}
+                  desc={blog.desc}
+                  tags={blog.tags}
+                  status="Published"
+                  date={blog.publishedAt}
+                  author={blog.author}
+                />
+              ))
             ) : (
-              blogs.results.map((blog, index) => {
-                const { first_name, last_name, profile_img } =
-                  blog.author.personal_info;
-                return (
-                  <BlogCard
-                    blog_id={blog.blog_id}
-                    banner={blog.banner}
-                    title={capitalize(blog.title)}
-                    desc={blog.desc}
-                    tags={blog.tags}
-                    status="Published"
-                    date={blog.publishedAt}
-                    author={`${capitalize(first_name)} ${capitalize(
-                      last_name
-                    )}`}
-                    author_profile_img={profile_img}
-                  />
-                );
-              })
+              <div className="col-span-3">
+                <NoDataMessage message="No Drafts" />
+              </div>
             )}
           </div>
           <ContentPages

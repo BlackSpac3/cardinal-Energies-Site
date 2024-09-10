@@ -2,6 +2,7 @@ import imageModel from "../models/ImageModel.js";
 import fs from "fs";
 import userModel from "../models/userModel.js";
 import compressImages from "compress-images";
+import activityModel from "../models/activityModel.js";
 
 export const addImage = async (req, res) => {
   console.log("IMAGE UPLOAD ENDPOINT HIT");
@@ -81,6 +82,18 @@ export const addImage = async (req, res) => {
             $push: { images: newImage._id },
           }
         );
+
+        const activity = new activityModel({
+          title: desc,
+          type: "img_add",
+          author,
+        });
+
+        try {
+          await activity.save();
+        } catch (error) {
+          console.log(error);
+        }
         return res
           .status(200)
           .json({ success: true, message: "Image Uploaded" });
@@ -148,5 +161,47 @@ export const countImages = async (req, res) => {
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const removeImage = async (req, res) => {
+  console.log("_______________________________________________");
+  console.log("DELETE IMAGE ENDPOINT HIT");
+  console.log("_______________________________________________");
+
+  let { img_id } = req.body;
+  try {
+    const img = await imageModel.findOne({ _id: img_id });
+    const title = img.desc;
+    fs.unlink(`uploads/gallery/${img.image}uploads/${img.image}`, () => {});
+
+    await imageModel.findOneAndDelete({ _id: img_id });
+
+    await userModel.findOneAndUpdate(
+      { _id: img.author },
+      {
+        $inc: { "account_info.total_images": -1 },
+        $pull: { images: img._id },
+      }
+    );
+
+    const activity = new activityModel({
+      title,
+      type: "img_del",
+      author: req.user,
+    });
+
+    try {
+      await activity.save();
+    } catch (error) {
+      console.log(error);
+    }
+
+    res.status(200).json({ success: true, message: "Image deleted" });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ success: false, message: "Something went wrong somewhere" });
   }
 };

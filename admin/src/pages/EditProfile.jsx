@@ -96,9 +96,9 @@ const EditProfile = () => {
       <div className="overflow-y-scroll">
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col lg:flex-row items-center lg:items-start py-10 gap-8 lg:gap-10 mx-auto w-fit"
+          className="flex flex-col lg:flex-row items-center lg:items-start py-10 gap-8 lg:gap-10 mx-auto w-[60%] tab:w-[90%]"
         >
-          <div className="flex items-start gap-10">
+          <div className="flex items-start gap-10 ">
             <div className="flex flex-col gap-3 items-center">
               <label
                 htmlFor="uploadProfileImg"
@@ -129,8 +129,8 @@ const EditProfile = () => {
               </button>
             </div>
           </div>
-          <div className="flex flex-col items-end gap-4">
-            <div className="flex gap-2 items-start">
+          <div className="flex flex-col items-end gap-4 w-full">
+            <div className="flex gap-2 items-start w-full">
               <div className="form-field-div">
                 <label htmlFor="first-name-input-field" className="form-label">
                   First name

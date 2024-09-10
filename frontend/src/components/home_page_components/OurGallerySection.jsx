@@ -46,29 +46,27 @@ const OurGallerySection = () => {
 
   return (
     <section className="m-body">
-      <div className="mb-14">
+      <div className="">
         <h1 className={styles.homePageSectionTitle}>Our Gallery</h1>
       </div>
 
       {images && (
-        <div className="ob grid grid-cols-2 phone:grid-cols-1  gap-2 w-full outline-none">
+        <div className="ob grid grid-cols-2 tab-s:grid-cols-1  mt-14 tab-s:mt-6 gap-2 w-full outline-none">
           <div
             id="image-left-section"
-            className="h-[40vw] phone:h-[120vw] outline-none"
+            className="h-[40vw] tab-s:h-[120vw] outline-none"
           >
             <img
-              className="h-full w-full rounded-xl phone:hidden object-cover"
+              className="h-full w-full rounded-xl tab-s:hidden object-cover"
               src={`${url}/images/${images[0].image}uploads/${images[0].image}`}
               alt="Cardinal Gallery"
             />
-            <div className="hidden phone:block outline-none">
+            <div className="hidden tab-s:block outline-none">
               <Slider {...settings} className="outline-none">
                 {images.map((image, index) => {
-                  console.log(image);
                   return (
-                    <div>
+                    <div key={index}>
                       <img
-                        key={index}
                         className=" h-[120vw] w-full rounded-3xl object-cover object-center outline-none"
                         src={`${url}/images/${image.image}uploads/${image.image}`}
                         alt=""
@@ -82,7 +80,7 @@ const OurGallerySection = () => {
 
           <div
             id="images-right-section"
-            className="h-[40vw] phone:hidden grid grid-rows-2 gap-2"
+            className="h-[40vw] tab-s:hidden grid grid-rows-2 gap-2"
           >
             <div className="grid grid-cols-2 gap-2 rounded-xl overflow-hidden">
               <img

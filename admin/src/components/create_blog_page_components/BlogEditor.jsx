@@ -1,19 +1,24 @@
 import { assets } from "../../assets/assets";
 import { useContext } from "react";
 import { useState } from "react";
-import { toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import { CreateBlogContext } from "../../context/CreateBlogContext";
 import { useEffect } from "react";
 import EditorJS from "@editorjs/editorjs";
 import axios from "axios";
 import { tools } from "./BlogEditorTools";
 import { UserContext } from "../../context/UserContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { blogImgs, capitalize } from "../../utils";
+import { useRef } from "react";
+import ConfirmDelDialog from "../ConfirmDelDialog";
 
 const BlogEditor = () => {
   const { blog_id } = useParams();
+
+  const navigate = useNavigate();
+  const confirmDelModalIdName = "confirm-delete-blog-modal";
   let {
     blog,
     blog: { title, banner, content, tags, desc },
@@ -22,8 +27,9 @@ const BlogEditor = () => {
     setTextEditor,
     setEditorState,
   } = useContext(CreateBlogContext);
+
   const {
-    userData: { access_token },
+    userData: { access_token, user_type },
     url,
   } = useContext(UserContext);
 
@@ -107,7 +113,7 @@ const BlogEditor = () => {
             toast.success("Saved");
 
             setTimeout(() => {
-              navigate("/blogs");
+              navigate("/drafts");
             }, 750);
           })
           .catch((err) => {
@@ -154,13 +160,15 @@ const BlogEditor = () => {
                       .post(`${url}/api/blog/create/add-image`, file)
                       .then((res) => {
                         block.data.file.url = res.data.file.url;
+                        toast.success("Images Uploaded 👍", {
+                          id: "blog-content-image-upload-sucessful",
+                        });
                       });
                   }
                 });
               }
             });
             toast.dismiss(loadingToast);
-            toast.success("Images Uploaded 👍");
             setBlog({ ...blog, content: data });
             console.log(content);
             setEditorState("publish");
@@ -172,10 +180,43 @@ const BlogEditor = () => {
     }
   };
 
+  const deleteBlog = async (e) => {
+    e.preventDefault();
+    const loadingToast = toast.loading("Deleting...", { id: "deleting-blog" });
+
+    try {
+      const res = await axios.post(
+        `${url}/api/blog/remove`,
+        { blog_id, draft: blog.draft },
+        {
+          headers: { Authorization: `Bearer ${access_token}` },
+        }
+      );
+      toast.dismiss(loadingToast);
+      toast.success(res.data.message, { id: "blog-deleted-successfully" });
+      navigate("/blogs");
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      toast.error("Something went wrong somewhere", {
+        id: "something-went-wrong-somewhere",
+      });
+    }
+  };
+
   return (
     <div className="flex flex-col w-full overflow-hidden">
       <nav className="w-full px-[3vw]">
-        <div className="flex w-full justify-between gap-2 items-start py-2 border-b ">
+        <div className="flex w-full  gap-2 items-start py-2 border-b ">
+          {blog_id && (user_type == "admin" || blog.draft) && (
+            <button
+              onClick={() =>
+                document.getElementById(confirmDelModalIdName).showModal()
+              }
+              className="bttn bg-red-500 text-xs"
+            >
+              Delete
+            </button>
+          )}
           <textarea
             defaultValue={title}
             name="title"
@@ -201,7 +242,7 @@ const BlogEditor = () => {
       </nav>
 
       <section className="overflow-y-scroll">
-        <div className="flex flex-col py-5 gap-5 mx-auto max-w-[80%]">
+        <div className="flex flex-col py-5 gap-5 mx-auto max-w-[80%] tab-m:max-w-[90%]">
           <div className="relative aspect-video bg-white border-2 overflow-hidden">
             <label htmlFor="upload-banner">
               <img
@@ -222,6 +263,14 @@ const BlogEditor = () => {
           <div id="textEditor" className="editor"></div>
         </div>
       </section>
+
+      <ConfirmDelDialog
+        id_name={confirmDelModalIdName}
+        delfunc={deleteBlog}
+        toaster={true}
+        warningText="This blog will be permanently deleted, and this action cannot be
+            reversed."
+      />
     </div>
   );
 };

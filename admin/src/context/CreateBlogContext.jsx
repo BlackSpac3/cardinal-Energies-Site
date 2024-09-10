@@ -5,7 +5,7 @@ export const CreateBlogContext = createContext(null);
 const CreateBlogContextProvider = (props) => {
   const blogStructure = {
     title: "",
-    banner: false,
+    banner: "",
     content: [],
     tags: [],
     desc: "",

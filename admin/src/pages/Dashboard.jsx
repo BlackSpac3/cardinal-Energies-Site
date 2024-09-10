@@ -8,6 +8,7 @@ import CurrentInfo from "../components/dashboard_components/CurrentInfo";
 import RecentActivities from "../components/dashboard_components/RecentActivities";
 import MiniBlogCardSkelenton from "../components/Skelentons/MiniBlogCardSkelenton";
 import { Link } from "react-router-dom";
+import NoDataMessage from "../components/NoDataMessage";
 
 const Dashboard = () => {
   const {
@@ -15,7 +16,7 @@ const Dashboard = () => {
     userData: { user_id },
   } = useContext(UserContext);
 
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState(null);
   const fetchBlogs = async () => {
     const res = await axios.post(`${url}/api/blog/list`, {
       page: 1,
@@ -34,14 +35,14 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <section className="flex flex-col w-full h-full overflow-hidden ">
-      <section className="grid grid-cols-[1fr,0.6fr] phone:flex phone:flex-col overflow-hidden phone:overflow-auto px-[3vw]  phone:h-fit h-full">
-        <div className="flex flex-col gap-5 h-full phone:h-fit overflow-hidden phone:overflow-auto pr-5 pt-5">
+    <section className="flex flex-col w-full h-full overflow-hidden tab-m:overflow-scroll tab-m:h-fit ">
+      <section className="grid grid-cols-[1fr,0.6fr] tab-m:flex tab-m:flex-col overflow-hidden tab-m:overflow-scroll px-[3vw] tab-m:gap-5 h-full ">
+        <div className="flex flex-col gap-5 tab-m:gap-10 h-full tab-m:h-fit  overflow-hidden tab-m:pr-0 pr-5 pt-5">
           <CurrentInfo />
 
           <RecentActivities />
         </div>
-        <div className="flex flex-col border-l bg-white max-h-full w-full pl-5 pt-5 overflow-hidden">
+        <div className="flex flex-col border-l tab-m:border-l-0 bg-white max-h-full w-full pl-5 tab-m:pl-0 pt-5 overflow-hidden">
           <div className="flex items-center justify-between w-full">
             <h1 className="text-lg ">Your recent blogs</h1>
             <Link to="/blogs">
@@ -52,9 +53,9 @@ const Dashboard = () => {
           </div>
           <hr className="mt-3" />
           <div className="h-full w-full flex flex-col gap-2 overflow-y-scroll pt-3 pb-5 pr-2">
-            {!blogs.length ? (
+            {!blogs ? (
               <MiniBlogCardSkelenton cards={5} />
-            ) : (
+            ) : blogs.length ? (
               blogs.map((blog, index) => {
                 const date = new Date(blog.publishedAt);
                 return (
@@ -67,6 +68,10 @@ const Dashboard = () => {
                   />
                 );
               })
+            ) : (
+              <div>
+                <NoDataMessage message="No Blogs Made Yet" />
+              </div>
             )}
           </div>
         </div>

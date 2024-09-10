@@ -1,5 +1,3 @@
-import { easeOut, motion } from "framer-motion";
-import { styles } from "../../utils/styles";
 import { url } from "../../assets/assets";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -18,9 +16,6 @@ const LatestBlog = () => {
       })
       .then(async ({ data }) => {
         setBlogs(data.data);
-        console.log("IN FETCH__________________");
-        console.log(blogs);
-        console.log("IN FETCH__________________");
       })
       .catch((err) => {
         console.log(err);
@@ -29,9 +24,6 @@ const LatestBlog = () => {
 
   useEffect(() => {
     fetchBlogs();
-    console.log("IN EFFECT__________________");
-    console.log(blogs);
-    console.log("IN EFFECT__________________");
   }, []);
   return (
     <div className="flex h-[40vw] tab-s:h-[70vh] phone-s:h-[100vh] mx-hero tab-s:mx-0 mb-[30px] tab-s:rounded-none rounded-3xl overflow-hidden">

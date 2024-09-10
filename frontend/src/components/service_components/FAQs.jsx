@@ -1,11 +1,7 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-
-import { icons } from "../../assets/assets";
+import { useState } from "react";
 import { styles } from "../../utils/styles";
 
 const FAQs = () => {
-  const expandIconStyle = "w-[15px] cursor-pointer duration-[0.2s]";
   const cardStyle =
     "flex justify-between items-center gap-10 rounded-xl px-8 py-5 w-full cursor-pointer duration-[0.1s]";
   const cardOpenedStyle =
@@ -62,7 +58,7 @@ const FAQs = () => {
           <div>
             {faqs.map((faq, index) => {
               return (
-                <div className="my-2">
+                <div key={index} className="my-2">
                   <div
                     onClick={() => col1handleExpand(index)}
                     className={`${
@@ -72,18 +68,13 @@ const FAQs = () => {
                     } ${cardStyle}`}
                   >
                     <p className={cardTitleStyle}>{faq.question}</p>
-                    <img
-                      src={
-                        col1IsOpen[0] && col1IsOpen[1] === index
-                          ? icons.expand_arrow_black
-                          : icons.expand_arrow_white
-                      }
-                      className={`${
+                    <i
+                      className={`fi fi-rr-angle-down ${
                         col1IsOpen[0] && col1IsOpen[1] === index
                           ? "-rotate-180"
                           : "rotate-0"
-                      } ${expandIconStyle}`}
-                    />
+                      } duration-200`}
+                    ></i>
                   </div>
                   <div
                     className={`${
@@ -102,7 +93,7 @@ const FAQs = () => {
           <div>
             {faqs.map((faq, index) => {
               return (
-                <div className="my-2">
+                <div key={index} className="my-2">
                   <div
                     onClick={() => col2handleExpand(index)}
                     className={`${
@@ -112,18 +103,13 @@ const FAQs = () => {
                     } ${cardStyle} `}
                   >
                     <p className={cardTitleStyle}>{faq.question}</p>
-                    <img
-                      src={
-                        col2IsOpen[0] && col2IsOpen[1] === index
-                          ? icons.expand_arrow_black
-                          : icons.expand_arrow_white
-                      }
-                      className={`${
+                    <i
+                      className={`fi fi-rr-angle-down ${
                         col2IsOpen[0] && col2IsOpen[1] === index
                           ? "-rotate-180"
                           : "rotate-0"
-                      } ${expandIconStyle}`}
-                    />
+                      } duration-200`}
+                    ></i>
                   </div>
                   <div
                     className={`${

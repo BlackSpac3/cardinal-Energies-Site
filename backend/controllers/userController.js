@@ -36,7 +36,10 @@ const formatUserData = (user) => {
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await userModel.findOne({ "personal_info.email": email });
+    const user = await userModel.findOne({
+      "personal_info.email": email,
+      disabled: false,
+    });
 
     if (!user) {
       return res.json({ success: false, message: `User does not exist` });

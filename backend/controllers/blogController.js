@@ -3,6 +3,7 @@ import fs from "fs";
 import { nanoid } from "nanoid";
 import userModel from "../models/userModel.js";
 import compressImages from "compress-images";
+import activityModel from "../models/activityModel.js";
 
 //add image in blog
 
@@ -199,6 +200,18 @@ const createBlog = async (req, res) => {
             $push: { blogs: blog._id },
           }
         );
+
+        const activity = new activityModel({
+          title,
+          type: "blog_add",
+          author: authorId,
+        });
+
+        try {
+          await activity.save();
+        } catch (error) {
+          console.log(error);
+        }
       }
 
       return res.json({ success: true, message: "Blog Created" });
@@ -214,14 +227,15 @@ const createBlog = async (req, res) => {
 
 //all blog list
 const listBlogs = async (req, res) => {
-  let { author_id, tag, tags, query, page, max, draft, eliminate_blog } =
-    req.body;
+  console.log("______________________________________________________");
+  console.log("LIST BLOGS ENDPOINT CALLED");
+  console.log("______________________________________________________");
+
+  let { author_id, tags, query, page, max, draft, eliminate_blog } = req.body;
   draft = Boolean(draft);
   let findQuery;
 
-  if (tag && !eliminate_blog) {
-    findQuery = { tags: tag, draft };
-  } else if (eliminate_blog) {
+  if (eliminate_blog) {
     findQuery = {
       tags: { $in: tags },
       draft,
@@ -257,12 +271,14 @@ const listBlogs = async (req, res) => {
       .find(findQuery)
       .populate(
         "author",
-        "personal_info.first_name personal_info.last_name personal_info.profile_img -_id"
+        "personal_info.first_name personal_info.last_name personal_info.profile_img _id"
       )
       .sort({ publishedAt: -1 })
       .skip((page - 1) * max)
       .limit(max);
     res.json({ success: true, data: blogs });
+    console.log("BLOGS RETURNED");
+    console.log("_______________________________________");
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: "error" });
@@ -322,7 +338,7 @@ const countBlogs = async (req, res) => {
 const getBlog = async (req, res) => {
   let { blog_id, mode } = req.body;
 
-  let incrementVal = mode == "edit " ? 0 : 1;
+  let incrementVal = mode == "edit" ? 0 : 1;
 
   blogModel
     .findOneAndUpdate({ blog_id }, { $inc: { total_reads: incrementVal } })
@@ -330,7 +346,9 @@ const getBlog = async (req, res) => {
       "author",
       "personal_info.first_name personal_info.last_name personal_info.profile_img personal_info.email -_id"
     )
-    .select("blog_id title banner desc tags content total_reads publishedAt")
+    .select(
+      "blog_id title banner desc tags content total_reads publishedAt draft"
+    )
     .then((blog) => {
       userModel
         .findOneAndUpdate(
@@ -377,16 +395,58 @@ const getBlog = async (req, res) => {
 //remove blog
 
 const removeBlog = async (req, res) => {
+  console.log("_______________________________________________");
+  console.log("DELETE BLOG ENDPOINT HIT");
+  console.log("_______________________________________________");
+
+  let { blog_id, draft } = req.body;
+
   try {
-    const blog = await blogModel.findById(req.body.id);
-    fs.unlink(`uploads/${blog.banner}`, () => {});
+    const blog = await blogModel.findOne({ blog_id });
+    const title = blog.title;
+    fs.unlink(
+      `uploads/blog-images/${blog.banner}uploads/${blog.banner}`,
+      () => {}
+    );
 
-    await blogModel.findByIdAndDelete(req.body.id);
+    await blogModel.findOneAndDelete({ blog_id });
 
-    res.json({ success: true, message: "Blog deleted" });
+    if (draft) {
+      await userModel.findOneAndUpdate(
+        { _id: blog.author },
+        {
+          $inc: { "account_info.total_drafts": -1 },
+          $pull: { blogs: blog._id },
+        }
+      );
+    } else {
+      await userModel.findOneAndUpdate(
+        { _id: blog.author },
+        {
+          $inc: { "account_info.total_posts": -1 },
+          $pull: { blogs: blog._id },
+        }
+      );
+
+      const activity = new activityModel({
+        title,
+        type: "blog_del",
+        author: req.user,
+      });
+
+      try {
+        await activity.save();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    res.status(200).json({ success: true, message: "Blog deleted" });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "Error" });
+    res
+      .status(500)
+      .json({ success: false, message: "Something went wrong somewhere" });
   }
 };
 

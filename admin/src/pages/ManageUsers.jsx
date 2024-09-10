@@ -8,10 +8,11 @@ import { assets } from "../assets/assets";
 import toast, { Toaster } from "react-hot-toast";
 import { styles } from "../utils/styles";
 import { useNavigate } from "react-router-dom";
-const ManageUsers = ({ showAddUserForm }) => {
+import ConfirmDelDialog from "../components/ConfirmDelDialog";
+const ManageUsers = () => {
   const navigate = useNavigate();
   const addUserModalRef = useRef(null);
-  const confirmDelModal = useRef(null);
+  const confirmDelModalIdName = "del-user-confirm-del-modal";
   const submitBttnRef = useRef(null);
   const nameLimit = 3;
   const inputStyle = "border rounded-md px-3 py-2 w-full text-sm outline-none";
@@ -25,7 +26,8 @@ const ManageUsers = ({ showAddUserForm }) => {
   });
 
   let { first_name, last_name, email, user_type } = formData;
-  const gridCols = "grid grid-cols-[2fr_2fr_0.5fr_0.5fr_0.5fr_0.5fr] gap-5";
+  const gridCols =
+    "grid grid-cols-[2fr_2fr_0.5fr_0.5fr_0.5fr_0.5fr] phone:grid-cols-[2fr_2fr_0.5fr_0.5fr] gap-5";
   const {
     url,
     userData: { access_token },
@@ -51,6 +53,7 @@ const ManageUsers = ({ showAddUserForm }) => {
         }
       );
       setUsers(res.data.data);
+      setEditState([false, -1, ""]);
     } catch (error) {
       console.log(error);
       console.log(error.res.data.message);
@@ -75,16 +78,23 @@ const ManageUsers = ({ showAddUserForm }) => {
     try {
       const res = await axios.post(`${url}/api/user/register`, formData);
       toast.dismiss(loadingToast);
-      toast.success(res.data.message);
-      navigate(0);
+      toast.success(res.data.message, { id: "add-user-sucess" });
+      fetchUsers();
+      addUserModalRef.current.close();
     } catch (error) {
+      console.log(error);
       toast.dismiss(loadingToast);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message, { id: "add-user-error" });
+      fetchUsers();
     }
   };
 
+  const filterSearch = () => {};
+
   const delUser = async (id) => {
-    console.log(id);
+    const loadingToast = toast.loading("Deleting...", {
+      id: "delete-user-loading-toast",
+    });
     try {
       const res = await axios.post(
         `${url}/api/user/remove-user`,
@@ -93,8 +103,17 @@ const ManageUsers = ({ showAddUserForm }) => {
           headers: { Authorization: `Bearer ${access_token}` },
         }
       );
-    } catch (error) {}
+      toast.dismiss(loadingToast);
+      toast.success(res.data.message);
+      fetchUsers();
+      document.getElementById(confirmDelModalIdName).close();
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      toast.success("Something went wrong somewhere");
+      fetchUsers();
+    }
   };
+
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -111,40 +130,43 @@ const ManageUsers = ({ showAddUserForm }) => {
 
   return (
     <section className="flex flex-col w-full overflow-hidden">
-      <div className="flex justify-between w-full gap-10 items-center px-10 pt-10">
-        <div className="flex w-[50%]">
+      <div className="hidden tab-s:block fixed bottom-0 p-2 w-full">
+        <button
+          onClick={() => addUserModalRef.current.showModal()}
+          className="bttn-wide w-full"
+        >
+          Add user
+        </button>
+      </div>
+      <div className="flex justify-between w-full gap-2 px-10 pt-10">
+        <div className="flex w-[50%] tab-s:w-full">
           <SearchBox
             // onKeyDown={handleSearch}
             // onChange={clearSearch}
-            placeholder="Find blogs"
+            filter={filterSearch}
+            options={[
+              { name: "All", value: "all" },
+              { name: "Admins", value: "admin" },
+              { name: "Users", value: "user" },
+            ]}
+            placeholder="Find User"
           />
         </div>
-        <div className="flex items-center gap-2">
-          <select
-            //   onChange={changeBy}
-            name="by"
-            id="blog-page-by-field"
-            className="border p-1 rounded-md text-xs leading-none"
-            // defaultValue="all"
-          >
-            <option value="all">All</option>
-            <option value="by me">By Me</option>
-          </select>
-          <button
-            onClick={() => addUserModalRef.current.showModal()}
-            className="bttn text-xs bg-primary"
-          >
-            Add User
-          </button>
-        </div>
+
+        <button
+          onClick={() => addUserModalRef.current.showModal()}
+          className="bttn tab-s:hidden text-xs bg-primary"
+        >
+          Add User
+        </button>
       </div>
 
       <div className="px-10 mr-[5px] pt-5">
         <div className={`${gridCols}  py-3 text-sm  `}>
           <p className="border-r">User</p>
           <p className="border-r">Email</p>
-          <p className="border-r">Reads</p>
-          <p className="border-r">Posts</p>
+          <p className="border-r phone:hidden">Reads</p>
+          <p className="border-r phone:hidden">Posts</p>
           <p className="">User Type</p>
           {/* <p>Remove</p> */}
         </div>
@@ -169,15 +191,15 @@ const ManageUsers = ({ showAddUserForm }) => {
                       <img
                         src={`${url}/profile-images/${profile_img}uploads/${profile_img}`}
                         alt=""
-                        className="w-8 h-8 rounded-full bg-gray-50 object-cover"
+                        className="phone:hidden w-8 h-8 rounded-full bg-gray-50 object-cover"
                       />
                       <p>{`${capitalize(first_name)} ${capitalize(
                         last_name
                       )}`}</p>
                     </div>
                     <p>{email}</p>
-                    <p>{total_reads}</p>
-                    <p>{total_posts}</p>
+                    <p className="phone:hidden">{total_reads}</p>
+                    <p className="phone:hidden">{total_posts}</p>
 
                     {editState[0] && editState[1] == index ? (
                       <select
@@ -204,7 +226,11 @@ const ManageUsers = ({ showAddUserForm }) => {
                         </button>
 
                         <button
-                          onClick={() => confirmDelModal.current.showModal()}
+                          onClick={() =>
+                            document
+                              .getElementById(confirmDelModalIdName)
+                              .showModal()
+                          }
                           title="Delete"
                           className="flex items-center justify-center w-8 h-8 rounded-full bg-red-500 bg-opacity-10"
                         >
@@ -232,9 +258,8 @@ const ManageUsers = ({ showAddUserForm }) => {
 
       <dialog
         ref={addUserModalRef}
-        className="rounded-xl w-[35%] place-self-center"
+        className="rounded-xl w-[35%] tab-m:w-fit mx-auto my-auto"
       >
-        <Toaster />
         <form className="flex flex-col gap-5  p-7 ">
           <div className="flex items-start justify-between">
             <div className="flex gap-2 items-center w-full">
@@ -265,9 +290,9 @@ const ManageUsers = ({ showAddUserForm }) => {
             </select>
           </div>
 
-          <div className="flex flex-col gap-2 w-full">
+          <div className="flex flex-col gap-2 w-full tab-m:gap-5">
             <hr />
-            <div className="grid grid-cols-[0.5fr_1fr]">
+            <div className="grid grid-cols-[0.5fr_1fr] tab-m:flex-col tab-m:flex tab-m:gap-2">
               <label className="form-label">Name</label>
               <div className="flex gap-2">
                 <input
@@ -287,7 +312,7 @@ const ManageUsers = ({ showAddUserForm }) => {
               </div>
             </div>
             <hr />
-            <div className="grid grid-cols-[0.5fr_1fr]">
+            <div className="grid grid-cols-[0.5fr_1fr] tab-m:flex-col tab-m:flex tab-m:gap-2 ">
               <label className="form-label">Email</label>
               <input
                 type="email"
@@ -315,34 +340,11 @@ const ManageUsers = ({ showAddUserForm }) => {
         </form>
       </dialog>
 
-      <dialog
-        ref={confirmDelModal}
-        className="place-self-center rounded-xl text-sm"
-      >
-        <Toaster />
-        <div className="flex flex-col w-[320px] items-center gap-3 p-6">
-          <i className="fi fi-rr-triangle-warning text-red-400 text-4xl"></i>
-          <h2 className="text-lg leading-none font-medium">Are you sure?</h2>
-          <p className=" text-gray-500 text-center">
-            All user data will be permanently erased, and this action cannot be
-            reversed.
-          </p>
-          <div className="flex gap-3 w-full mt-2">
-            <button
-              onClick={() => confirmDelModal.current.close()}
-              className="bttn-outline w-full"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => delUser(editState[2])}
-              className="bttn w-full bg-red-500"
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-      </dialog>
+      <ConfirmDelDialog
+        id_name={confirmDelModalIdName}
+        delfunc={() => delUser(editState[2])}
+        warningText="All user data will be permanently erased, and this action cannot be reversed."
+      />
     </section>
   );
 };

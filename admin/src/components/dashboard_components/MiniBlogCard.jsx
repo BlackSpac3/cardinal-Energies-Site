@@ -12,7 +12,7 @@ const MiniBlogCard = ({ key, banner, title, desc, date }) => {
         <p className="text-gray-500 text-xs mt-1">{!date ? "Draft" : date}</p>
       </div>
       <img
-        className="w-[35%] aspect-square rounded-md object-cover object-center overflow-hidden"
+        className="w-[35%] tab-m:aspect-video phone:aspect-square aspect-square rounded-md object-cover object-center overflow-hidden"
         src={`${url}/blog-images/${banner}uploads/${banner}`}
         alt=""
         srcset=""

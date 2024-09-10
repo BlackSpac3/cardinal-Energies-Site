@@ -20,28 +20,28 @@ const ReachTheTop = () => {
             Reach The Top With Cardinal Energies
           </h2>
           <p className="my-5 text-[#dddddd]">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laborum
-            commodi fugiat dolorem alias blanditiis soluta accusantium
-            dignissimos voluptates tenetur harum.
+            Join us on this journey to the top, where excellence and
+            sustainability go hand in hand, and together, we can create a
+            brighter future for all.
           </p>
           <div className="text-[#dddddd] flex flex-col gap-5">
             <div className="flex items-center gap-5">
               <img src={icons.check_icon_green} className="h-[16px]" />
-              <p>Lorem ipsum dolor sit amet.</p>
+              <p> Upholding ethical standards in all dealings</p>
             </div>
             <div className="flex items-center gap-5">
               <img src={icons.check_icon_green} className="h-[16px]" />
-              <p>Lorem ipsum dolor sit amet.</p>
+              <p>Quality extends to safety protocols.</p>
             </div>
             <div className="flex items-center gap-5">
               <img src={icons.check_icon_green} className="h-[16px]" />
-              <p>Lorem ipsum dolor sit amet.</p>
+              <p>Technical Know-How</p>
             </div>
           </div>
         </div>
         <div className="flex flex-col gap-10">
           {skills.map((skill, index) => (
-            <div className="">
+            <div key={index}>
               <p className="text-base mb-3">{skill.name}</p>
               <div className="w-full h-[5px] bg-gray-200 rounded-full">
                 <motion.div

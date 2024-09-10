@@ -84,7 +84,7 @@ const Gallery_pics = () => {
         <Loading />
       ) : (
         images.results.map((image, index) => (
-          <div className={`${assignGridStyles(index)}`}>
+          <div key={index} className={`${assignGridStyles(index)}`}>
             <img
               className="h-[50vh] phone:h-56 w-full cursor-pointer object-cover rounded-md"
               key={index}
@@ -98,7 +98,7 @@ const Gallery_pics = () => {
       {images && (
         <dialog
           ref={modalRef}
-          className="place-self-center w-[100vw] h-[100vh] bg-black bg-opacity-50"
+          className="place-self-center mx-auto my-auto w-screen h-screen bg-black bg-opacity-50"
         >
           <div className="flex flex-col h-full w-full  bg-transparent text-white">
             <div className="absolute top-0 left-0 flex w-full h-full">

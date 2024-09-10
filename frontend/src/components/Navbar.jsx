@@ -49,7 +49,7 @@ const Navbar = () => {
         navbarShadow
           ? "shadow-md py-[15px] bg-white"
           : "py-[20px] bg-transparent"
-      } flex fixed w-[100%] top-0 z-20  justify-between px-[5vw] items-center duration-[0.2s]`}
+      } flex fixed w-[100%] top-0 z-20  justify-between px-[5vw] items-center duration-100`}
     >
       <Link to="/">
         <motion.img
@@ -66,10 +66,14 @@ const Navbar = () => {
             {({ isActive }) => (
               <div
                 onMouseEnter={
-                  link.path === "/about" ? () => setAboutMenuIsOpen(false) : {}
+                  link.path == "/about"
+                    ? () => setAboutMenuIsOpen(false)
+                    : () => {}
                 }
                 onMouseLeave={
-                  link.path === "/about" ? () => setAboutMenuIsOpen(true) : {}
+                  link.path == "/about"
+                    ? () => setAboutMenuIsOpen(true)
+                    : () => {}
                 }
                 className="relative flex flex-col"
               >
@@ -96,15 +100,17 @@ const Navbar = () => {
                       }
                       className={`${
                         link.path === "/about" ? "block" : "hidden"
+                      } ${
+                        isActive
+                          ? "text-primary hover:text-primary cursor-pointer"
+                          : "text-[#737373] hover:text-[#525252] cursor-pointer"
                       }`}
                     >
-                      <img
-                        src={icons.expand_arrow_black}
-                        alt=""
-                        className={`${
+                      <i
+                        className={`fi fi-br-angle-down text-[10px] ${
                           !aboutMenuIsOpen ? "-rotate-180" : "rotate-0"
-                        } w-[10px] durtion-100`}
-                      />
+                        } duration-200`}
+                      ></i>
                     </div>
                   </div>
                   {isActive ? (
@@ -126,11 +132,21 @@ const Navbar = () => {
                   >
                     <div className="flex flex-col  gap-[10px] m-4">
                       <div>
-                        <Link to="our-team">Our Team</Link>
+                        <Link
+                          onClick={() => setAboutMenuIsOpen(true)}
+                          to="our-team"
+                        >
+                          Our Team
+                        </Link>
                       </div>
                       <hr />
                       <div>
-                        <Link to="our-gallery">Our Gallery</Link>
+                        <Link
+                          onClick={() => setAboutMenuIsOpen(true)}
+                          to="our-gallery"
+                        >
+                          Our Gallery
+                        </Link>
                       </div>
                     </div>
                   </div>

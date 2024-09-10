@@ -6,7 +6,7 @@ const MiniBlogCard = ({ blog_id, banner, title, desc, tags }) => {
       <img
         loading="lazy"
         decoding="async"
-        fetchPriority="high"
+        fetchpriority="high"
         src={`${url}/blog-images/${banner}uploads/${banner}`}
         alt=""
         className="w-full h-full col-span-4 object-cover aspect-square rounded-xl"
@@ -17,7 +17,7 @@ const MiniBlogCard = ({ blog_id, banner, title, desc, tags }) => {
           {tags[0]}
         </span>
         <Link to={`/blog/${blog_id}`} className="inline-block my-1">
-          <h2 className="text-lg capitalize font-semibold leading-tight">
+          <h2 className="text-lg capitalize font-semibold leading-tight line-clamp-3">
             <span className="bg-gradient-to-r from-primary to-primary bg-[length:0px_2px] hover:bg-[length:100%_2px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500">
               {title}
             </span>

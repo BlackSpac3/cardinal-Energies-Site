@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { assets, icons, navlinks } from "../assets/assets";
+import { assets, navlinks } from "../assets/assets";
 
 const NavbarMobile = () => {
   const [navIsOpen, setNavIsOpen] = useState(false);
@@ -18,13 +18,12 @@ const NavbarMobile = () => {
   };
 
   window.addEventListener("scroll", () => shadowTrigger());
-  const [activeLink, setActiveLink] = useState("home");
 
   return (
     <div
       className={`${
         navbarShadow ? "shadow-md bg-white " : ""
-      } flex fixed w-[100%] top-0 z-20 bg-transparent justify-between px-[5vw] py-[20px] items-center duration-[0.1s]`}
+      } flex fixed w-[100%] top-0 z-20 bg-transparent justify-between px-[5vw] py-[20px] items-center duration-100`}
     >
       <Link to="/">
         <img
@@ -38,12 +37,10 @@ const NavbarMobile = () => {
           navIsOpen ? "block right-0" : "right-[-100vw]"
         } absolute bg-white h-[100vh] p-[20px] duration-[0.5s] w-[200px] top-0 shadow-[35px_0px_60px_-15px_rgba(0,0,0,70)]`}
       >
-        <img
+        <i
           onClick={() => setNavIsOpen(false)}
-          src={icons.close_icon}
-          alt=""
-          className="w-[25px] mb-[50px]"
-        />
+          className="fi fi-rr-cross text-lg mt-2 mb-14"
+        ></i>
         <ul className="flex flex-col gap-[10px]">
           {navlinks.map((link, index) => (
             <div className="">
@@ -68,27 +65,41 @@ const NavbarMobile = () => {
                     link.path === "/about" ? "block" : "hidden"
                   } mr-2`}
                 >
-                  <img
-                    src={icons.expand_arrow_black}
-                    alt=""
-                    className={`${
+                  <i
+                    className={`fi fi-rr-angle-down ${
                       !aboutMenuIsOpen ? "-rotate-180" : "rotate-0"
-                    } w-[16px] durtion-100`}
-                  />
+                    } duration-200`}
+                  ></i>
                 </div>
               </div>
               {link.path === "/about" ? (
                 <div
                   className={`${
-                    aboutMenuIsOpen ? "h-0 p-0 my-0" : "h-fit"
-                  } flex flex-col gap-[10px] my-[10px] w-full text-[18px] overflow-hidden duration-100`}
+                    aboutMenuIsOpen
+                      ? "gap-0 h-0 p-0 my-0"
+                      : "gap-[10px] h-fit my-[10px]"
+                  } flex flex-col   w-full text-[18px] overflow-hidden duration-200`}
                 >
                   <div>
-                    <Link to="our-team">Our Team</Link>
+                    <Link
+                      onClick={() => {
+                        setNavIsOpen(false);
+                      }}
+                      to="our-team"
+                    >
+                      Our Team
+                    </Link>
                   </div>
                   <hr />
                   <div>
-                    <Link to="our-gallery">Our Gallery</Link>
+                    <Link
+                      onClick={() => {
+                        setNavIsOpen(false);
+                      }}
+                      to="our-gallery"
+                    >
+                      Our Gallery
+                    </Link>
                   </div>
                 </div>
               ) : (
@@ -97,7 +108,13 @@ const NavbarMobile = () => {
               <hr className="mt-[10px]" />
             </div>
           ))}
-          <Link to="/contact-us" className="text-[20px]">
+          <Link
+            onClick={() => {
+              setNavIsOpen(false);
+            }}
+            to="/contact-us"
+            className="text-[20px]"
+          >
             Contact Us
           </Link>
           <hr />
@@ -110,10 +127,11 @@ const NavbarMobile = () => {
         }}
         className="rounded-md bg-transparent p-2"
       >
-        <img
-          src={navbarShadow ? icons.menu_icon_black : icons.menu_icon_white}
-          className="w-[22px]"
-        />
+        <i
+          className={`${
+            navbarShadow ? "text-black" : "text-white"
+          } fi fi-rr-menu-burger text-lg`}
+        ></i>
       </div>
     </div>
   );

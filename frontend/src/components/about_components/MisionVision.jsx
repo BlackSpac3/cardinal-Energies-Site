@@ -7,14 +7,15 @@ const MisionVision = () => {
   const cardTitleStyles = "text-2xl font-medium mt-3";
   const cardDescStyles = "text-xs mt-1";
   return (
-    <section className="grid grid-cols-2 m-body gap-3 phone:flex phone:flex-col">
+    <section className="grid grid-cols-[0.9fr_1.1fr] m-body gap-5 phone:flex phone:flex-col">
       <div>
         <h2 className={styles.homePageSectionTitle}>At Cardinal Energies</h2>
         <p className="mt-5">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Natus
-          molestiae aperiam nam veniam sed quibusdam autem enim maxime nobis
-          modi corporis optio corrupti rem dolor, fugit nihil eum possimus
-          consequatur.
+          We don’t just generate power, we ignite possibilities. Our journey is
+          one of resilience, innovation, and unwavering commitment. From the oil
+          fields to the wind farms, we’ve scaled peaks and harnessed the
+          elements. As the sun rises on each project, we rise too—driven by a
+          vision that transcends horizons.
         </p>
       </div>
       <div className="grid grid-cols-2 gap-3 text-center phone:flex phone:flex-col">

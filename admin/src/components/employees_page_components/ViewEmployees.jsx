@@ -23,7 +23,7 @@ const ViewEmployees = ({ setEmployeesPage }) => {
   };
 
   const fetchManagementTeam = async () => {
-    setBoardMembers(null);
+    setManagement(null);
     try {
       const res = await axios.post(`${url}/api/employee/list`, {
         dept: "management",
@@ -45,7 +45,7 @@ const ViewEmployees = ({ setEmployeesPage }) => {
           <header className="w-full flex justify-between">
             <h2 className="font-medium">Board of Directors</h2>
             <button
-              onClick={() => setEmployeesPage("add")}
+              onClick={() => setEmployeesPage(["add"])}
               className="bttn text-xs bg-primary"
             >
               Add Employee
@@ -57,7 +57,23 @@ const ViewEmployees = ({ setEmployeesPage }) => {
               <Loading />
             ) : (
               boardMembers.map((member, index) => (
-                <div key={index} className="flex h-full flex-col min-w-fit">
+                <div
+                  onClick={() =>
+                    setEmployeesPage([
+                      "edit",
+                      {
+                        _id: member._id,
+                        name: member.name,
+                        img: member.img,
+                        role: member.role,
+                        desc: member.desc,
+                        dept: member.dept,
+                      },
+                    ])
+                  }
+                  key={index}
+                  className="flex h-full flex-col aspect-square cursor-pointer"
+                >
                   <EmployeeCard
                     img={member.img}
                     name={member.name}
@@ -76,7 +92,23 @@ const ViewEmployees = ({ setEmployeesPage }) => {
               <Loading />
             ) : (
               management.map((member, index) => (
-                <div key={index} className="flex h-full flex-col min-w-fit">
+                <div
+                  onClick={() =>
+                    setEmployeesPage([
+                      "edit",
+                      {
+                        _id: member._id,
+                        name: member.name,
+                        img: member.img,
+                        role: member.role,
+                        desc: member.desc,
+                        dept: member.dept,
+                      },
+                    ])
+                  }
+                  key={index}
+                  className="flex h-full flex-col aspect-square cursor-pointer"
+                >
                   <EmployeeCard
                     img={member.img}
                     name={member.name}

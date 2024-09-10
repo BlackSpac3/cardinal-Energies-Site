@@ -20,7 +20,7 @@ blogRouter.post("/create/add-image", uplaod.single("image"), addImgInBlog);
 
 blogRouter.post("/list", listBlogs);
 
-blogRouter.post("/remove", removeBlog);
+blogRouter.post("/remove", verifyJWT, removeBlog);
 
 blogRouter.post("/all-latest-blogs-count", countBlogs);
 blogRouter.post("/get-blog", getBlog);

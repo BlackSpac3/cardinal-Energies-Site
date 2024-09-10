@@ -8,7 +8,7 @@ import { storeInSession } from "../common/session.jsx";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 
-const LogInPopup = () => {
+const LogInPopup = ({ setSidebarIsOpen }) => {
   const submitBttn = useRef(null);
   const navigate = useNavigate();
   const { url, userData, setUserData } = useContext(UserContext);
@@ -34,13 +34,10 @@ const LogInPopup = () => {
       if (response.data.success) {
         storeInSession("user", JSON.stringify(response.data.user));
         toast.success("Login Successful");
-        navigate("/");
-
         setUserData(response.data.user);
-        console.log(userData);
-        console.log(sessionStorage.user);
+        setSidebarIsOpen(false);
+        navigate("/");
       } else {
-        console.log(response.data);
         toast.error(response.data.message);
       }
       submitBttn.current.disabled = false;
@@ -96,15 +93,10 @@ const LogInPopup = () => {
               Login
             </button>
 
-            <div className="flex w-[100%] justify-center">
+            <div className="hidden w-[100%] justify-center">
               <p className="">
                 Forgot password?{" "}
-                <span
-                  onClick={() => setCurrState("Login")}
-                  className={linkStyle}
-                >
-                  Click here
-                </span>
+                <span className={linkStyle}>Contact IT Support</span>
               </p>
             </div>
           </form>

@@ -2,9 +2,9 @@ import Skeleton from "react-loading-skeleton";
 
 const FeaturedSectionSkeleton = () => {
   return (
-    <div className="grid grid-cols-2 grid-rows-2 gap-5 mt-14 phone:mt-6">
+    <div className="grid grid-cols-2 phone:grid-cols-1 grid-rows-2 gap-5 mt-14 phone:mt-6">
       <div className="flex w-full col-span-1 row-span-2">
-        <div className="w-full h-full">
+        <div className="w-full phone:aspect-video h-full">
           <Skeleton width={"100%"} height={"100%"} />
         </div>
       </div>

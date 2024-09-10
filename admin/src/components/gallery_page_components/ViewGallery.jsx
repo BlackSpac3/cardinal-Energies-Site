@@ -8,30 +8,49 @@ import { capitalize } from "../../utils";
 import { filterPaginationData } from "../../utils/filter-pagination-data";
 import toast from "react-hot-toast";
 import ImgSkelentonCard from "../Skelentons/ImgSkelentonCard";
+import NoDataMessage from "../NoDataMessage";
+import ConfirmDelDialog from "../ConfirmDelDialog";
 
 const ViewGallery = ({ setState }) => {
-  const { url } = useContext(UserContext);
+  const {
+    url,
+    userData: { user_id, user_type, access_token },
+  } = useContext(UserContext);
   const [images, setImages] = useState(null);
   const [query, setQuery] = useState("");
   const modalRef = useRef(null);
+  const confirmDelModalIdName = "confirm-delete-image-modal";
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(null);
+  let [currentImg_id, setCurrentImg_id] = useState(null);
+  let byAuthor = false;
+  const handleSearch = (e) => {
+    setQuery(e.target.value);
 
-  const handleSearch = () => {};
-  const openModal = (index) => {
-    // setIsOpen(true);
-    modalRef.current.showModal();
-    setCurrentIndex(index);
+    if (e.keyCode == 13 && query.length) {
+      fetchImages();
+    }
+  };
+  const clearSearch = (e) => {
+    setQuery(e.target.value);
+    e.target.value == "" && fetchImages();
+  };
+  const filterSearch = (e) => {
+    e.target.value == "all" ? (byAuthor = false) : (byAuthor = true);
+    fetchImages();
   };
 
-  const closeModal = () => {
-    // setIsOpen(false);
-    modalRef.current.close();
+  const openModal = (index) => {
+    setCurrentIndex(index);
+    modalRef.current.showModal();
+    setCurrentImg_id(images.results[index]._id);
   };
 
   const showNextImage = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.results.length);
+    setCurrentImg_id(
+      images.results[(currentIndex + 1) % images.results.length]._id
+    );
   };
 
   const showPrevImage = () => {
@@ -39,17 +58,51 @@ const ViewGallery = ({ setState }) => {
       (prevIndex) =>
         (prevIndex - 1 + images.results.length) % images.results.length
     );
+    setCurrentImg_id(
+      images.results[
+        (currentIndex - 1 + images.results.length) % images.results.length
+      ]._id
+    );
   };
 
+  const delImage = async () => {
+    const loadingToast = toast.loading("Deleting...", { id: "deleting-image" });
+
+    try {
+      const res = await axios.post(
+        `${url}/api/image/remove`,
+        { img_id: currentImg_id },
+        {
+          headers: { Authorization: `Bearer ${access_token}` },
+        }
+      );
+      toast.dismiss(loadingToast);
+      toast.success(res.data.message, { id: "image-delete-success" });
+      document.getElementById(confirmDelModalIdName).close();
+      modalRef.current.close();
+      fetchImages();
+    } catch (error) {
+      console.log(error);
+      toast.dismiss(loadingToast);
+      toast.error("Something went wrong somewhere", {
+        id: "something-went-wrong-somewhere",
+      });
+    }
+  };
   const fetchImages = async () => {
     setImages(null);
     let formatedData;
     let page = 1;
     let max = 9;
+    let author_id = null;
+
+    byAuthor ? (author_id = user_id) : (author_id = null);
     await axios
       .post(`${url}/api/image/list`, {
+        query,
         page,
         max,
+        author_id,
       })
       .then(async (res) => {
         formatedData = await filterPaginationData({
@@ -65,33 +118,49 @@ const ViewGallery = ({ setState }) => {
       });
 
     setImages(formatedData);
-    console.log(formatedData);
   };
 
   useEffect(() => {
-    fetchImages();
+    fetchImages({ query });
   }, []);
+
   return (
     <section className="flex relative w-full h-full">
-      <div className="flex flex-col p-10 gap-10 overflow-y-scroll w-full">
-        <div className="flex justify-between w-full gap-10 items-center">
-          <div className="flex w-[50%]">
-            <SearchBox onKeyDown={handleSearch} placeholder="Find Pictures" />
+      <div className="hidden tab-s:block fixed bottom-0 p-2 w-full z-10 bg-white">
+        <button
+          onClick={() => setState("upload")}
+          className="bttn-wide w-full "
+        >
+          Upload Image
+        </button>
+      </div>
+      <div className="flex flex-col py-10 px-[3vw] tab-m:px-[5vw] gap-10 overflow-y-scroll w-full">
+        <div className="flex justify-between w-full gap-2 ">
+          <div className="flex w-[50%] tab-s:w-full">
+            <SearchBox
+              filter={filterSearch}
+              options={[
+                { name: "All", value: "all" },
+                { name: "By me", value: "by me" },
+              ]}
+              onKeyDown={handleSearch}
+              onChange={clearSearch}
+              search={() => query.length && fetchImages()}
+              placeholder="Find Pictures"
+            />
           </div>
-          <div className="flex gap-3 text-xs leading-none">
-            <select className="border p-1 rounded-md ">
-              <option>All</option>
-              <option>By Me</option>
-            </select>
-            <button onClick={() => setState("upload")} className="bttn-wide">
-              Upload Image
-            </button>
-          </div>
+
+          <button
+            onClick={() => setState("upload")}
+            className="bttn bg-primary text-xs tab-s:hidden"
+          >
+            Upload Image
+          </button>
         </div>
         <div className="grid grid-cols-3 gap-3 phone:grid-cols-1">
           {!images ? (
             <ImgSkelentonCard cards={9} />
-          ) : (
+          ) : images.results.length ? (
             images.results.map((image, index) => {
               const image_url = `${url}/images/${image.image}uploads/${image.image}`;
               const author_img = `${url}/profile-images/${image.author.personal_info.profile_img}uploads/${image.author.personal_info.profile_img}`;
@@ -137,15 +206,19 @@ const ViewGallery = ({ setState }) => {
                 </div>
               );
             })
+          ) : (
+            <div className="col-span-3">
+              <NoDataMessage message="No Images" />
+            </div>
           )}
         </div>
       </div>
 
-      {images && (
-        <dialog
-          ref={modalRef}
-          className="place-self-center w-[100vw] h-[100vh] bg-black bg-opacity-50"
-        >
+      <dialog
+        ref={modalRef}
+        className="place-self-center w-[100vw] h-[100vh] bg-black bg-opacity-50"
+      >
+        {images && currentIndex != null && (
           <div className="flex flex-col h-full w-full  bg-transparent text-white">
             <div className="absolute top-0 left-0 flex w-full h-full">
               <img
@@ -160,7 +233,10 @@ const ViewGallery = ({ setState }) => {
                   {images.results[currentIndex].desc}
                 </p>
                 <button className=" flex justify-center items-center aspect-square">
-                  <i onClick={closeModal} className="fi fi-rr-cross"></i>
+                  <i
+                    onClick={() => modalRef.current.close()}
+                    className="fi fi-rr-cross"
+                  ></i>
                 </button>
               </div>
 
@@ -192,59 +268,28 @@ const ViewGallery = ({ setState }) => {
                     <span className="capitalize">{`${images.results[currentIndex].author.personal_info.first_name} ${images.results[currentIndex].author.personal_info.last_name}`}</span>
                   </p>
                 </div>
+                {user_type == "admin" && (
+                  <button
+                    onClick={() =>
+                      document.getElementById(confirmDelModalIdName).showModal()
+                    }
+                    className="p-3 text-lg bg-red-500 flex items-center rounded-full  justify-center gap-1"
+                  >
+                    <i className="fi fi-rr-trash"></i>
+                    {/* <p>Delete</p> */}
+                  </button>
+                )}
               </div>
             </div>
           </div>
-        </dialog>
-      )}
-      {/* {isOpen && (
-        <div className="flex flex-col h-full w-full absolute top-0 left-0   bg-black bg-opacity-75  z-50  text-white">
-          <div className="absolute top-0 left-0 flex w-full h-full">
-            <img
-              className="max-w-full max-h-full flex-shrink object-contain mx-auto "
-              src={`${url}/images/${images.results[currentIndex].image}uploads/${images.results[currentIndex].image}`}
-            />
-          </div>
+        )}
+      </dialog>
 
-          <div className="flex flex-col justify-between h-full z-20">
-            <div className="flex w-full items-center justify-between px-[3vw] py-5 bg-gradient-to-b from-[#00000070] to-transparent ">
-              <p className="w-[60%]">{images.results[currentIndex].desc}</p>
-              <button className="h-full aspect-square">
-                <i onClick={closeModal} className="fi fi-rr-cross"></i>
-              </button>
-            </div>
-            <div className="flex justify-between">
-              <button
-                className=" text-white text-2xl p-4"
-                onClick={showPrevImage}
-              >
-                <i className="fi fi-rr-angle-left"></i>
-              </button>
-
-              <button
-                className=" text-white text-2xl p-4"
-                onClick={showNextImage}
-              >
-                <i className="fi fi-rr-angle-right"></i>
-              </button>
-            </div>
-
-            <div className="flex w-full items-center justify-between px-[3vw] py-5 bg-gradient-to-t from-[#00000070] to-transparent">
-              <div className="flex items-center gap-2">
-                <img
-                  src={`${url}/profile-images/${images.results[currentIndex].author.personal_info.profile_img}uploads/${images.results[currentIndex].author.personal_info.profile_img}`}
-                  alt=""
-                  className="w-7 h-7 rounded-full bg-gray-50"
-                />
-                <p>
-                  Uploaded by {""}
-                  <span className="capitalize">{`${images.results[currentIndex].author.personal_info.first_name} ${images.results[currentIndex].author.personal_info.last_name}`}</span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )} */}
+      <ConfirmDelDialog
+        id_name={confirmDelModalIdName}
+        delfunc={delImage}
+        warningText="This image will be permanently deleted, and this action cannot be reversed."
+      />
     </section>
   );
 };

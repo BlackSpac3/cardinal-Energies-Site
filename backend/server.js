@@ -7,6 +7,7 @@ import blogRouter from "./routes/blogRoute.js";
 import userRouter from "./routes/userRoute.js";
 import imageRouter from "./routes/imageRoute.js";
 import employeeRouter from "./routes/employeeRoute.js";
+import activityModel from "./models/activityModel.js";
 
 //App config
 const app = express();
@@ -35,6 +36,30 @@ app.use("/profile-images", express.static("uploads/profile-images"));
 app.use("/images", express.static("uploads/gallery"));
 
 app.use("/employee-images", express.static("uploads/employee-images"));
+
+app.get("/activities", (req, res) => {
+  activityModel
+    .find()
+    .sort({ createdAt: -1 })
+    .limit(30)
+    .populate(
+      "author",
+      "personal_info.first_name personal_info.last_name personal_info.profile_img -_id"
+    )
+    .then((activities) => {
+      res.status(200).json({
+        success: true,
+        message: "Activities fetched successfully",
+        data: activities,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res
+        .status(500)
+        .json({ success: false, message: "Something went wronmg somewhere" });
+    });
+});
 
 app.get("/", (req, res) => {
   res.send("API Working");

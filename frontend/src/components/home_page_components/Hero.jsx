@@ -1,6 +1,7 @@
 import { easeIn, easeInOut, easeOut, motion } from "framer-motion";
 
 import { assets } from "../../assets/assets";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   const container = {
@@ -29,7 +30,7 @@ const Hero = () => {
   return (
     <motion.div
       id="home"
-      className="relative flex h-[35vw] tab-s:h-[70vh] phone-s:h-[100vh] mx-hero rounded-3xl   tab-s:mx-0 mb-[30px] bg-header bg-no-repeat bg-cover bg-center  tab-s:rounded-none"
+      className="relative flex h-[40vw] tab-s:h-[70vh] phone-s:h-[100vh] mx-hero rounded-3xl   tab-s:mx-0 mb-[30px] bg-header bg-no-repeat bg-cover bg-center  tab-s:rounded-none"
     >
       <motion.div
         variants={container}
@@ -51,31 +52,35 @@ const Hero = () => {
         </motion.h2>
         <motion.p
           variants={item}
-          className=" text-white line-clamp-3 text-sm w-[70%] tab-m:w-[90%] mt-[10px]"
+          className=" text-white line-clamp-3 text-sm w-[70%] tab-s:w-[90%] mt-[10px]"
         >
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus quasi
-          quas atque? Quo quae et dicta repellendus optio incidunt totam, dolor
-          similique perspiciatis excepturi harum, eius odit. Dignissimos, illo
-          laudantium? Quo quae et dicta repellendus optio incidunt totam.
+          We enable communities and businesses to flourish by using the
+          resources of innovation and sustainability. Come along with us as we
+          push energy forward to a time at which every watt contributes for a
+          greener tomorrow.
         </motion.p>
         <motion.div
           variants={item}
-          className="flex tab:hidden tab-s:flex gap-[20px] phone:flex mt-6"
+          className="flex tab:hidden  gap-[20px] tab-s:gap-0 tab-s:flex mt-6"
         >
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.9 }}
-            className="bg-transparent hover:bg-[#ffffff30] text-white border-white border-[2px] border-solid px-[25px] py-[10px] rounded-full phone:hidden"
-          >
-            Learn More
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.9 }}
-            className="hidden phone:block bg-white text-primary border-solid px-[25px] py-[10px] rounded-full"
-          >
-            Contact Us
-          </motion.button>
+          <Link to="/about">
+            <motion.p
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.9 }}
+              className="bg-transparent hover:bg-[#ffffff30] text-white border-white border-[2px] border-solid px-[25px] py-[10px] rounded-full tab-s:hidden"
+            >
+              Learn More
+            </motion.p>
+          </Link>
+          <Link to="/contact-us">
+            <motion.p
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.9 }}
+              className="hidden tab-s:block bg-white text-primary border-solid px-[25px] py-[10px] rounded-full"
+            >
+              Contact Us
+            </motion.p>
+          </Link>
         </motion.div>
       </motion.div>
     </motion.div>

@@ -18,10 +18,10 @@ const Footer = () => {
         >
           <img src={assets.logo_white} alt="" className="w-[120px]" />
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo commodi
-            quas quia quisquam dignissimos, nemo totam adipisci obcaecati sint
-            suscipit deleniti enim fugit aliquid illum quaerat vero sed sapiente
-            eum!
+            We enable communities and businesses to flourish by using the
+            resources of innovation and sustainability. Come along with us as we
+            push energy forward to a time at which every watt contributes for a
+            greener tomorrow.
           </p>
           <div id="footer-social-icons" className="flex">
             <img

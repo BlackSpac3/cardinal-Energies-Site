@@ -5,6 +5,7 @@ import {
   addImage,
   countImages,
   listImages,
+  removeImage,
 } from "../controllers/imageController.js";
 
 const imageRouter = express.Router();
@@ -15,7 +16,7 @@ imageRouter.post("/list", listImages);
 
 imageRouter.post("/count", countImages);
 
-// imageRouter.post("/remove", removeBlog);
+imageRouter.post("/remove", verifyJWT, removeImage);
 
 // imageRouter.post("/get-image", getBlog);
 

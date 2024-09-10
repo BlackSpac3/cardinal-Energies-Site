@@ -6,13 +6,12 @@ import { Toaster } from "react-hot-toast";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import Blogs from "./pages/Blogs";
-import CreateBlog from "./pages/CreateBlog";
 import LogInPopup from "./pages/LogInPopup";
 import Dashboard from "./pages/Dashboard";
 import { lookInSession } from "./common/session";
 import { UserContext } from "./context/UserContext";
 import Gallery from "./pages/Gallery";
-import CreateBlog2 from "./pages/CreateBlog2";
+import CreateBlog from "./pages/CreateBlog";
 import CreateBlogContextProvider from "./context/CreateBlogContext";
 import Drafts from "./pages/Drafts";
 import ChangePassword from "./pages/ChangePassword";
@@ -25,10 +24,10 @@ const App = () => {
 
   const [pageTitle, setPageTitle] = useState("");
 
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   useEffect(() => {
     let userInSession = lookInSession("user");
     userInSession && setUserData(JSON.parse(userInSession));
-    console.log(userData);
   }, []);
 
   return (
@@ -37,17 +36,21 @@ const App = () => {
 
       {userData.access_token ? (
         <div className="flex h-[100vh] overflow-hidden">
-          <Sidebar setPageTitle={setPageTitle} />
+          <Sidebar
+            setPageTitle={setPageTitle}
+            sidebarIsOpen={sidebarIsOpen}
+            setSidebarIsOpen={setSidebarIsOpen}
+          />
           <div className="flex flex-col w-full">
-            <Navbar title={pageTitle} />
-            <div className="flex h-[100vh] overflow-hidden phone:overflow-auto">
+            <Navbar title={pageTitle} setSidebarIsOpen={setSidebarIsOpen} />
+            <div className="flex h-[100vh] overflow-hidden tab-m:overflow-auto">
               <Routes>
                 <Route path="/" element={<Dashboard />} />
                 <Route
                   path="/newblog"
                   element={
                     <CreateBlogContextProvider>
-                      <CreateBlog2 />
+                      <CreateBlog />
                     </CreateBlogContextProvider>
                   }
                 />
@@ -55,7 +58,7 @@ const App = () => {
                   path="/newblog/:blog_id"
                   element={
                     <CreateBlogContextProvider>
-                      <CreateBlog2 />
+                      <CreateBlog />
                     </CreateBlogContextProvider>
                   }
                 />
@@ -72,7 +75,7 @@ const App = () => {
           </div>
         </div>
       ) : (
-        <LogInPopup />
+        <LogInPopup setSidebarIsOpen={setSidebarIsOpen} />
       )}
     </>
   );

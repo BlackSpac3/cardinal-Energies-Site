@@ -5,16 +5,16 @@ import { assets } from "../assets/assets";
 
 const Suscribe = () => {
   return (
-    <section className="relative bg-primary text-white  h-[25vw] flex justify-end phone:flex phone:flex-col phone:items-center phone:h-[130vw] phone:static phone:m-body phone:rounded-3xl">
+    <section className="relative bg-primary text-white  h-[25vw] flex justify-end tab-s:flex tab-s:flex-col tab-s:items-center tab-s:h-[130vw] tab-s:static tab-s:m-body tab-s:rounded-3xl">
       <img
         src={assets.subscribe_section_img_mobile}
-        className="hidden phone:block w-[70%] mt-20"
+        className="hidden tab-s:block w-[70%] mt-20"
       />
       <div
         id="subscribe-section-contents"
-        className="w-[40%] phone:w-[80%] z-[1] tab-m:w-[50%] tab-m:mr-[3vw] my-auto phone:mr-0 mr-[7vw]"
+        className="w-[40%] tab-s:w-[80%] z-[1]  my-auto tab-s:mr-0 mr-[7vw]"
       >
-        <div className="phone:text-center flex flex-col phone:items-center">
+        <div className="tab-s:text-center flex flex-col tab-s:items-center">
           <h2 className="text-3xl tab:text-2xl font-semibold font-['Montserrat'] mb-2">
             Subscribe to our news letter
           </h2>
@@ -24,7 +24,7 @@ const Suscribe = () => {
             the first to know
           </p>
         </div>
-        <div className="bg-white w-[90%] phone:w-full tab:text-sm text-black rounded-full p-1">
+        <div className="bg-white w-[90%] tab-s:w-full tab:text-sm text-black rounded-full p-1">
           <div className="grid grid-cols-[1fr_0.5fr] items-center">
             <div>
               <input
@@ -36,7 +36,7 @@ const Suscribe = () => {
             <div className="place-self-end">
               <motion.button
                 whileTap={{ scale: 0.9 }}
-                className="bg-black tab:text-sm text-white tab-m:px-5 tab-m:py-2 px-10 rounded-3xl py-3"
+                className="bg-black tab:text-sm text-white  px-10 rounded-3xl py-3"
               >
                 Suscribe
               </motion.button>
@@ -44,7 +44,7 @@ const Suscribe = () => {
           </div>
         </div>
       </div>
-      <div className="phone:hidden bg-newsletter-subscribe bg-cover w-full z-[0] h-full absolute phone:static phone:h-[40%] phone:bg-center"></div>
+      <div className="tab-s:hidden bg-newsletter-subscribe bg-cover w-full z-[0] h-full absolute tab-s:static tab-s:h-[40%] tab-s:bg-center"></div>
     </section>
   );
 };

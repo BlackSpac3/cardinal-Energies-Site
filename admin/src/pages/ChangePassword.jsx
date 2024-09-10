@@ -82,7 +82,7 @@ const ChangePassword = () => {
       <form
         onSubmit={onSubmitHandler}
         action=""
-        className="flex flex-col w-[40%] m-10 gap-5 text-sm"
+        className="flex flex-col w-[40%] tab-m:w-[90%] mx-auto m-10 gap-5 text-sm"
       >
         <div className="flex flex-col gap-2 w-full">
           <TextBox

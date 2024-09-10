@@ -20,17 +20,14 @@ const BlogCard = ({
           {tags[0]}
         </p>
 
-        <picture>
-          <source type="image/webp" />
-          <img
-            loading="lazy"
-            decoding="async"
-            fetchPriority="high"
-            src={`${url}/blog-images/${banner}uploads/${banner}`}
-            alt=""
-            className=" w-full h-full  object-cover hover:scale-[1.15] duration-200 bg-gray-50 overflow-hidden"
-          />
-        </picture>
+        <img
+          loading="lazy"
+          decoding="async"
+          fetchpriority="high"
+          src={`${url}/blog-images/${banner}uploads/${banner}`}
+          alt=""
+          className=" w-full h-full  object-cover hover:scale-[1.15] duration-200 bg-gray-50 overflow-hidden"
+        />
       </div>
 
       <div className="mt-4">

@@ -15,7 +15,6 @@ import { capitalize } from "../../utils";
 const OurBlogSection = () => {
   const [blogs, setBlogs] = useState([]);
   const fetchBlogs = async ({ page = 1, max }) => {
-    console.log("fetching..");
     const response = await axios.post(`${url}/api/blog/list`, {
       page,
       max,
@@ -36,23 +35,23 @@ const OurBlogSection = () => {
       <div className="flex flex-col">
         <div
           id="service-section-header"
-          className="flex justify-between w-[100%] items-center phone:block"
+          className="flex justify-between w-[100%] items-center tab-s:block"
         >
-          <h2 className={`${styles.homePageSectionTitle} phone:text-center`}>
+          <h2 className={`${styles.homePageSectionTitle} `}>
             Articles & Blogs
           </h2>
-          <Link to="/blog" className="mr-[3vw] phone:hidden">
+          <Link to="/blog" className="mr-[3vw] tab-s:hidden">
             <MoreButton>View all</MoreButton>
           </Link>
         </div>
 
         <div
           id="services-section-content"
-          className="grid grid-cols-3  phone:grid-cols-1 gap-[20px] mt-14 phone:mt-6"
+          className="grid grid-cols-3  tab-s:grid-cols-1 gap-[20px] mt-14 tab-s:mt-6"
         >
           {blogs.map((blog, index) => {
             return (
-              <div>
+              <div key={index}>
                 <BlogCard
                   blog_id={blog.blog_id}
                   banner={blog.banner}

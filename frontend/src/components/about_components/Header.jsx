@@ -32,26 +32,21 @@ const Header = () => {
           <div className="h-[2.5px] mt-1 w-full bg-primary"></div>
         </div>
         <p className="mt-10">
-          Cardinal Energies is an innovative energy company with focus in the
-          entire value chain in the oil and gas space covering the downstream,
-          midstream and upstream sector. The company will operate across the
-          entire spectrum of the oil & gas space by exploring the following key
-          areas in the sector; petroleum trading, crude sales, Gas sales, key
-          investment in marginal field or existing OML or OPL, storage solutions
-          and etc. Nevertheless, our key focus as we commence operations will be
-          in the downstream space. Cardinal energies shall expand it activity in
-          the trading space by providing services that cover the entire supply
-          value chain. The company will be involved in the large-scale export
-          and import of petroleum products with the aim of becoming a leading
-          supplier of petroleum products to Nigeria and West Africa.We will
-          trade an extensive range of refined petroleum products and crude oil
-          throughout Africa. Our product range will include Jet A1, Liquefied
-          Petroleum Gas, Gasoline, Dual Purpose Kerosene, Diesel, Low/High Pour
-          Fuel Oil, Naphtha, Base Oil and Bitumen. Cardinal energies will be
-          responsible primarily for the supply of refined petroleum products
-          into Nigeria, however the long term plan is to build the necessary
-          capacity to supply petroleum products into new and emerging markets in
-          Africa.
+          At Cardinal Energies, we are dedicated to creating a sustainable
+          future by maintaining a balanced energy portfolio. This includes oil,
+          natural gas, and renewable energy solutions. Our expertise in
+          traditional energy resources such as oil and natural gas provides a
+          dependable foundation for worldwide energy needs. Simultaneously, our
+          forward-thinking investments in renewable energy technologies drive
+          innovation and sustainability.
+          <br />
+          <br /> We envision a future where energy is plentiful and
+          environmentally responsible. By prioritizing efficiency, safety, and
+          cutting-edge technology, Cardinal Energies is committed to delivering
+          top-quality energy solutions while minimizing environmental impact. As
+          we expand, we are constantly exploring new opportunities in solar,
+          wind, and other renewable sectors to contribute to a cleaner and more
+          sustainable energy landscape.
         </p>
       </div>
     </div>

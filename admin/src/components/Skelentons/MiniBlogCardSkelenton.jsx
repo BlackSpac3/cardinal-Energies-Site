@@ -16,7 +16,7 @@ const MiniBlogCardSkelenton = ({ cards }) => {
             <Skelenton />
           </p>
         </div>
-        <div className="w-[35%] aspect-square rounded-md">
+        <div className="w-[35%] tab-m:aspect-video phone:aspect-square aspect-square rounded-md">
           <Skelenton width={"100%"} height={"100%"} />
         </div>
       </div>

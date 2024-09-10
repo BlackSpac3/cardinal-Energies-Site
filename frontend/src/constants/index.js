@@ -118,7 +118,7 @@ export const services = [
   {
     icon: icons.source_energy_icon,
     title: "Soucrce Energy",
-    desc: "We specialize in sourcing high-quality energy solutions tailored to meet the unique needs of our clients. From renewables to traditional power, we connect you with the right energy resources, ensuring reliable, efficient, and cost-effective energy supply.",
+    desc: "We utilize a balanced combination of traditional and renewable methods to source energy in order to meet global energy demands. Our extraction of oil and natural gas is carried out responsibly and efficiently using advanced technology, providing a stable foundation for our operations.",
   },
   {
     icon: icons.store_energy_icon,
@@ -128,6 +128,6 @@ export const services = [
   {
     icon: icons.sell_energy_icon,
     title: "Sell Energy",
-    desc: "Our flexible energy sales solutions provide cost-effective and reliable access to electricity, renewable energy, helping you meet your power needs while staying within budget.",
+    desc: "We are committed to offering dependable and effective energy solutions to businesses, industries, and communities around the world. Our extensive range of energy options, spanning oil, natural gas, and renewable sources, is designed to meet our clients' specific requirements, guaranteeing a consistent and sustainable supply.",
   },
 ];
